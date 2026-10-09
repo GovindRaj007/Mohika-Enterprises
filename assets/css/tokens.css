@@ -1,0 +1,156 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Mohika design tokens — warm charcoal, tangerine, steel blue.
+
+   Every component reads these; no hex value appears outside this file
+   (the one exception is <meta name="theme-color"> in partials/head.php,
+   which must be a literal and mirrors --color-ink-900).
+
+   Measured contrast (node scripts/contrast.mjs, WCAG 2.x):
+     text #1C1B1F on bg #FAF8F5 ............ 16.2 : 1
+     muted #4A4850 on bg #FAF8F5 ...........  8.5 : 1
+     subtle #5C5A62 on #FFFFFF .............  6.8 : 1
+     accent-text #A3410A on #FFFFFF ........  6.3 : 1
+     steel #2F5D8A on #FFFFFF ..............  6.9 : 1
+     cta-ink #1F0D00 on cta #F97316 ........  6.7 : 1   (white on it: 2.8 — never)
+     on-dark #C9C6CE on #151418 ............ 10.9 : 1
+     on-dark-muted #9E9AA5 on #151418 ......  6.7 : 1
+     tangerine-300 #FDBA74 on #151418 ...... 10.9 : 1
+     white on whatsapp #0F7A41 .............  5.4 : 1
+
+   SPACING SCALE — every step from 1 to 12 exists:
+     1=4  2=8  3=12  4=16  5=20  6=24  7=32  8=40  9=48  10=64  11=80  12=96 (px)
+   A var() naming a step that does not exist fails silently, so the scale
+   has no gaps.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Self-hosted variable fonts (SIL Open Font License), Latin subset only.
+   Self-hosted rather than linked from Google Fonts: the third-party
+   stylesheet took 2.3 s to arrive in testing, and render-blocking CSS also
+   holds back every deferred script until it lands. */
+@font-face {
+  font-family: "Lexend";
+  font-style: normal;
+  font-weight: 500 700;
+  font-display: swap;
+  src: url("../fonts/lexend-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Source Sans 3";
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url("../fonts/source-sans-3-latin.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* ── neutral ramp (warm charcoal) ── */
+  --ink-0:   #ffffff;
+  --ink-50:  #faf8f5;
+  --ink-100: #f3f0ec;
+  --ink-200: #e7e3de;
+  --ink-300: #d2cdc6;
+  --ink-400: #a8a3ac;
+  --ink-500: #78747e;
+  --ink-600: #5c5a62;
+  --ink-700: #4a4850;
+  --ink-800: #2a292e;
+  --ink-900: #1c1b1f;
+  --ink-950: #151418;
+
+  /* ── tangerine (CTA + accent) ── */
+  --tan-50:  #fff4eb;
+  --tan-100: #ffe6d2;
+  --tan-200: #fdcba4;
+  --tan-300: #fdba74;
+  --tan-400: #fb923c;
+  --tan-500: #f97316;
+  --tan-600: #ea580c;
+  --tan-700: #a3410a;
+  --tan-900: #1f0d00;
+
+  /* ── steel blue (structure) ── */
+  --steel-50:  #eef4fa;
+  --steel-100: #dce8f4;
+  --steel-200: #b9d0e8;
+  --steel-300: #93b4d6;
+  --steel-500: #3e6e9e;
+  --steel-600: #2f5d8a;
+  --steel-700: #254b70;
+  --steel-800: #1d3a57;
+
+  --whatsapp: #0f7a41;
+  --whatsapp-hover: #0c6636;
+  --danger: #b42318;
+  --danger-bg: #fef3f2;
+
+  /* ── semantic ── */
+  --color-bg:        var(--ink-50);
+  --color-surface:   var(--ink-0);
+  --color-tint:      var(--ink-100);
+  --color-line:      var(--ink-200);
+  --color-text:      var(--ink-900);
+  --color-muted:     var(--ink-700);
+  --color-subtle:    var(--ink-600);
+  --color-accent:    var(--tan-700);      /* accent text on light */
+  --color-steel:     var(--steel-600);
+  --color-cta:       var(--tan-500);
+  --color-cta-hover: var(--tan-400);
+  --color-cta-ink:   var(--tan-900);
+  --color-dark:      var(--ink-950);
+  --color-dark-2:    var(--ink-900);
+  --color-on-dark:   var(--ink-0);
+  --color-on-dark-2: #c9c6ce;
+  --color-on-dark-3: #9e9aa5;
+  --color-accent-on-dark: var(--tan-300);
+  --color-focus:     var(--tan-500);
+
+  /* ── type ── */
+  --font-heading: "Lexend", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-body: "Source Sans 3", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --text-xs:  0.8125rem;
+  --text-sm:  0.9375rem;
+  --text-base: 1.0625rem;   /* 17px — buyers skew older */
+  --text-lg:  1.1875rem;
+  --text-xl:  clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+  --text-2xl: clamp(1.5rem, 1.25rem + 1.1vw, 2.125rem);
+  --text-3xl: clamp(1.875rem, 1.45rem + 1.9vw, 2.875rem);
+  --text-4xl: clamp(2.125rem, 1.55rem + 2.8vw, 3.75rem);
+
+  /* ── space (see scale above) ── */
+  --space-1: 4px;  --space-2: 8px;  --space-3: 12px; --space-4: 16px;
+  --space-5: 20px; --space-6: 24px; --space-7: 32px; --space-8: 40px;
+  --space-9: 48px; --space-10: 64px; --space-11: 80px; --space-12: 96px;
+  --section-y: clamp(var(--space-10), 8vw, var(--space-12));
+  --gutter: var(--space-4);
+
+  /* ── shape & depth ── */
+  --radius-sm: 10px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-pill: 999px;
+  --shadow-sm: 0 1px 2px rgb(28 27 31 / 0.06), 0 1px 3px rgb(28 27 31 / 0.08);
+  --shadow-md: 0 6px 16px -4px rgb(28 27 31 / 0.12), 0 2px 6px rgb(28 27 31 / 0.06);
+  --shadow-lg: 0 24px 48px -16px rgb(28 27 31 / 0.24), 0 8px 16px -8px rgb(28 27 31 / 0.10);
+  --shadow-cta: 0 10px 24px -8px rgb(249 115 22 / 0.55);
+
+  /* ── layout ── */
+  --container: 1200px;
+  --container-narrow: 820px;
+  --bar-height: 68px;
+
+  /* ── motion ── */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 160ms;
+  --dur: 240ms;
+
+  /* The cable motif: fine vertical lines, like an invisible grill seen
+     from inside. Used on dark bands at low opacity. */
+  --cables: repeating-linear-gradient(90deg, rgb(255 255 255 / 0.055) 0 1px, transparent 1px 30px);
+}
+
+@media (min-width: 768px) {
+  :root { --gutter: var(--space-7); --bar-height: 76px; }
+}

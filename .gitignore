@@ -1,0 +1,13 @@
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/
+
+# Original, uncompressed media — the site uses the optimised copies in assets/
+source-images/
+source-videos/
+
+# Sample reviews for the local design preview only — never deployed
+data/testimonials-sample.php

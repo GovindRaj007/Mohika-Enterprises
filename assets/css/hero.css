@@ -1,0 +1,325 @@
+/* ══════════════════════════════════════════════════════════════════════
+   Home hero — the cinematic service slideshow (partials/hero-slider.php).
+   Loaded on the home page only. Mobile first; breakpoints 768 and 1024.
+
+   Full-bleed slides: the copy sits straight on each photo. The shade is
+   kept light so the photo stays clearly visible — a gentle darkening only
+   behind the copy column, plus soft edge fades top (behind the header)
+   and bottom (behind the controls). Text carries a soft shadow, and the
+   contrast of every text element is measured from rendered pixels.
+
+   Each photo crossfades in (1.2 s) and slowly pulls back — a zoom-out, as
+   if the camera were moving away — on its own path (10 s).
+   ══════════════════════════════════════════════════════════════════════ */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: flex;
+  min-height: clamp(640px, 100svh, 1000px);
+  padding-top: var(--bar-height);          /* the header floats over this */
+  background: var(--color-dark);
+  color: var(--color-on-dark-2);
+}
+
+/* ── background photos ── */
+.hero__bgs { position: absolute; inset: 0; z-index: -2; }
+.hero__bg { position: absolute; inset: 0; opacity: 0; transition: opacity 1200ms var(--ease-out); }
+/* Not-yet-shown photos stay undisplayed (so their lazy images are not
+   fetched) until site.js marks the hero loaded after the page's load event. */
+.hero__bg:not(.is-active) { display: none; }
+.hero.is-loaded .hero__bg { display: block; }
+.hero__bg.is-active { opacity: 1; z-index: 2; }
+.hero__bg.is-prev { opacity: 1; z-index: 1; }
+.hero__img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  object-position: var(--kb-pos, 50% 50%);
+  transform-origin: var(--kb-origin, 50% 50%);
+  backface-visibility: hidden;
+}
+.hero__bg.is-active .hero__img,
+.hero__bg.is-prev .hero__img { animation: var(--kb, kb-a) 10s cubic-bezier(0.25, 0.1, 0.25, 1) both; }
+
+/* Pull-back paths: every slide starts close and eases out to the full
+   frame, each drifting a slightly different way. */
+.hero__bg--1 { --kb: kb-a; --kb-pos: 50% 45%; --kb-origin: 55% 40%; }
+.hero__bg--2 { --kb: kb-b; --kb-pos: 50% 50%; --kb-origin: 35% 50%; }
+.hero__bg--3 { --kb: kb-c; --kb-pos: 50% 50%; --kb-origin: 50% 65%; }
+.hero__bg--4 { --kb: kb-d; --kb-pos: 50% 50%; --kb-origin: 70% 45%; }
+.hero__bg--5 { --kb: kb-e; --kb-pos: 50% 40%; --kb-origin: 50% 30%; }
+
+@keyframes kb-a { from { transform: scale(1.22) translate3d(-1.5%, 1%, 0); } to { transform: scale(1.02) translate3d(0, 0, 0); } }
+@keyframes kb-b { from { transform: scale(1.2) translate3d(2%, 0, 0); } to { transform: scale(1.02) translate3d(0, 0, 0); } }
+@keyframes kb-c { from { transform: scale(1.24) translate3d(0, -2%, 0); } to { transform: scale(1.02) translate3d(0, 0, 0); } }
+@keyframes kb-d { from { transform: scale(1.2) translate3d(-2%, -1%, 0); } to { transform: scale(1.02) translate3d(0, 0, 0); } }
+@keyframes kb-e { from { transform: scale(1.22) translate3d(1%, 2%, 0) rotate(0.6deg); } to { transform: scale(1.02) translate3d(0, 0, 0) rotate(0deg); } }
+
+/* ── shade: light, and only where text sits ── */
+.hero__shade {
+  position: absolute; inset: 0; z-index: -1;
+  pointer-events: none;
+  /* phones: the copy fills the lower part of the frame */
+  background: linear-gradient(180deg,
+    rgb(21 20 24 / 0.45) 0%,
+    rgb(21 20 24 / 0.12) 18%,
+    rgb(21 20 24 / 0.3) 40%,
+    rgb(21 20 24 / 0.62) 72%,
+    rgb(21 20 24 / 0.8) 100%);
+}
+
+/* ── layout ── */
+.hero__layout {
+  position: relative;
+  display: flex; flex-direction: column;
+  gap: var(--space-5);
+  padding-block: var(--space-6) var(--space-4);
+}
+.hero__head { display: grid; gap: var(--space-2); }
+.hero__h1 {
+  margin: 0;
+  padding-left: var(--space-4);
+  border-left: 3px solid var(--color-cta);
+  font-size: clamp(1.125rem, 0.95rem + 0.9vw, 1.5rem);
+  font-weight: 600; line-height: 1.3; letter-spacing: -0.01em;
+  color: var(--color-on-dark);
+}
+.hero__places {
+  display: flex; align-items: flex-start; gap: var(--space-2);
+  margin: 0; padding-left: calc(var(--space-4) + 3px);
+  font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.02em; line-height: 1.5;
+  color: var(--ink-100);
+}
+.hero__places .icon { margin-top: 0.15em; color: var(--tan-300); }
+
+/* ── slides ── */
+.hero__stage { flex: 1; display: flex; align-items: center; }
+.hero__live { display: grid; width: 100%; }
+.slide {
+  grid-area: 1 / 1;
+  display: grid; gap: var(--space-7); align-items: center;
+  opacity: 0; visibility: hidden;
+  transition: opacity 450ms var(--ease-out), visibility 0s linear 450ms;
+}
+.slide.is-active { opacity: 1; visibility: visible; transition: opacity 650ms var(--ease-out) 120ms; }
+
+/* Every line of copy carries a soft shadow: it lifts the text off busy
+   detail in the photo without darkening the photo itself. */
+.hero__h1, .hero__places, .slide__kicker, .slide__title, .slide__tagline, .slide__text {
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.55), 0 2px 18px rgb(0 0 0 / 0.5);
+}
+
+.slide__kicker {
+  display: flex; align-items: center; gap: var(--space-3);
+  margin-bottom: var(--space-3);
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--color-on-dark);
+}
+.slide__num { font-family: var(--font-heading); font-size: var(--text-lg); letter-spacing: 0; color: var(--tan-300); }
+.slide__rule { width: 36px; height: 2px; flex: none; border-radius: 2px; background: rgb(255 255 255 / 0.5); }
+.slide__service { display: inline-flex; align-items: center; gap: var(--space-2); }
+.slide__service .icon { color: var(--tan-300); }
+.slide__title {
+  margin: 0 0 var(--space-2);
+  font-size: clamp(2.5rem, 1.55rem + 4.6vw, 5.25rem);
+  font-weight: 700; line-height: 1; letter-spacing: -0.035em;
+  color: var(--color-on-dark);
+}
+.slide__tagline {
+  margin-bottom: var(--space-3);
+  font-family: var(--font-heading); font-weight: 600;
+  font-size: clamp(1.125rem, 0.95rem + 0.9vw, 1.625rem);
+  color: var(--tan-300);
+}
+.slide__text { max-width: 52ch; margin-bottom: var(--space-4); font-size: var(--text-lg); color: var(--ink-50); }
+.slide__feats { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+.slide__feats li {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid rgb(255 255 255 / 0.2); border-radius: var(--radius-sm);
+  background: rgb(21 20 24 / 0.55);
+  backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  font-size: var(--text-sm); font-weight: 600; color: var(--color-on-dark);
+}
+.slide__feats .icon { color: var(--tan-300); }
+/* Left-aligned, as wide as its text. */
+.slide__actions { display: flex; flex-wrap: wrap; justify-content: flex-start; gap: var(--space-3); }
+.slide__actions .btn { flex: 0 0 auto; }
+
+/* "at a glance" spec card — desktop only */
+.slide__card { display: none; }
+
+/* ── controls ── */
+.hero__controls {
+  display: flex; align-items: center; gap: var(--space-4);
+  margin-right: 72px;                         /* clear the floating call/WhatsApp pair */
+  padding-top: var(--space-4);
+  border-top: 1px solid rgb(255 255 255 / 0.25);
+}
+.hero__nav { flex: 1; display: grid; grid-template-columns: repeat(5, 1fr); gap: var(--space-2); }
+.hero__tab {
+  display: flex; flex-direction: column; justify-content: flex-end; gap: var(--space-2);
+  min-height: 44px; padding-block: var(--space-2) var(--space-1);
+  color: var(--ink-100); text-decoration: none;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6), 0 1px 12px rgb(0 0 0 / 0.6);
+}
+.hero__tab:hover, .hero__tab.is-active { color: var(--ink-0); }
+.hero__tab-num { font-family: var(--font-heading); font-size: var(--text-xs); font-weight: 600; }
+.hero__tab.is-active .hero__tab-num { color: var(--tan-300); }
+/* Labels show from 768px; below that they stay for screen readers only. */
+.hero__tab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.hero__tab-bar { display: block; height: 3px; border-radius: 3px; background: rgb(255 255 255 / 0.3); overflow: hidden; }
+.hero__tab-bar span { display: block; height: 100%; background: var(--color-cta); transform: scaleX(0); transform-origin: left; }
+.hero__tab.is-active .hero__tab-bar span { animation: hero-progress var(--hero-dur, 7000ms) linear forwards; }
+.hero.is-paused .hero__tab.is-active .hero__tab-bar span { animation-play-state: paused; }
+.hero.no-autoplay .hero__tab.is-active .hero__tab-bar span,
+html:not(.js) .hero__tab.is-active .hero__tab-bar span { animation: none; transform: none; }
+@keyframes hero-progress { to { transform: none; } }
+
+.hero__buttons { display: flex; gap: var(--space-2); flex: none; }
+html:not(.js) .hero__buttons { display: none; }
+.hero__btn {
+  display: grid; place-items: center;
+  width: 44px; height: 44px;
+  border: 1px solid rgb(255 255 255 / 0.3); border-radius: var(--radius-sm);
+  background: rgb(21 20 24 / 0.5);
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  color: var(--color-on-dark); cursor: pointer;
+  transition: background var(--dur-fast), border-color var(--dur-fast);
+}
+.hero__btn:hover { background: rgb(21 20 24 / 0.75); border-color: rgb(255 255 255 / 0.55); }
+.icon--flip { transform: rotate(180deg); }
+.hero__pause-icon { position: relative; width: 12px; height: 14px; }
+.hero__pause-icon::before, .hero__pause-icon::after { content: ""; position: absolute; top: 0; width: 4px; height: 14px; border-radius: 1px; background: currentColor; }
+.hero__pause-icon::before { left: 0; }
+.hero__pause-icon::after { right: 0; }
+[aria-pressed="true"] .hero__pause-icon::before { left: 2px; width: 0; height: 0; border-radius: 0; background: none; border-style: solid; border-width: 7px 0 7px 11px; border-color: transparent transparent transparent currentColor; }
+[aria-pressed="true"] .hero__pause-icon::after { display: none; }
+
+/* Phones: swipe replaces prev/next; pause stays. */
+@media (max-width: 767px) {
+  .hero__buttons [data-hero-prev], .hero__buttons [data-hero-next] { display: none; }
+  .slide__text { font-size: var(--text-base); }
+  .slide__feats li { font-size: var(--text-xs); }
+}
+@media (max-width: 767px) and (max-height: 760px) {
+  .slide__text { display: none; }
+}
+
+@media (min-width: 768px) {
+  .hero__layout { padding-block: var(--space-8) var(--space-6); gap: var(--space-6); }
+  .hero__tab-label { position: static; width: auto; height: auto; overflow: visible; clip: auto; white-space: normal; font-size: var(--text-xs); font-weight: 600; line-height: 1.25; }
+}
+
+@media (min-width: 1024px) {
+  /* desktop: darken only the copy column on the left; the right half of
+     the photo is untouched apart from soft top and bottom edges */
+  .hero__shade {
+    background:
+      linear-gradient(90deg, rgb(21 20 24 / 0.72) 0%, rgb(21 20 24 / 0.5) 32%, rgb(21 20 24 / 0.14) 56%, rgb(21 20 24 / 0) 70%),
+      linear-gradient(0deg, rgb(21 20 24 / 0.7) 0%, rgb(21 20 24 / 0) 24%),
+      linear-gradient(180deg, rgb(21 20 24 / 0.42) 0%, rgb(21 20 24 / 0) 18%);
+  }
+  .hero__layout { gap: clamp(var(--space-4), 2.6vh, var(--space-7)); padding-block: var(--space-6) var(--space-5); }
+  .hero__h1 { font-size: clamp(1.125rem, 0.6rem + 1.6vh, 1.5rem); }
+  .slide { grid-template-columns: minmax(0, 1.45fr) minmax(0, 0.75fr); gap: var(--space-10); }
+  .slide__title { font-size: clamp(2.75rem, min(1.4rem + 3.8vw, 8.4vh), 5.25rem); }
+  .slide__kicker, .slide__tagline { margin-bottom: clamp(var(--space-2), 1.6vh, var(--space-4)); }
+  .slide__text { margin-bottom: clamp(var(--space-3), 2vh, var(--space-5)); }
+  .slide__feats { margin-bottom: clamp(var(--space-4), 2.6vh, var(--space-6)); }
+  .slide__card {
+    display: block;
+    position: relative;
+    padding: clamp(var(--space-4), 2.6vh, var(--space-6));
+    border: 1px solid rgb(255 255 255 / 0.18);
+    border-radius: var(--radius-xl);
+    background: rgb(21 20 24 / 0.55);
+    backdrop-filter: blur(14px) saturate(1.2); -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    box-shadow: 0 30px 60px -24px rgb(0 0 0 / 0.55);
+  }
+  .slide__card::before { content: ""; position: absolute; left: var(--space-6); right: var(--space-6); top: -1px; height: 3px; border-radius: 0 0 3px 3px; background: var(--color-cta); }
+  .slide__card-title { margin-bottom: var(--space-3); font-family: var(--font-heading); font-weight: 600; font-size: var(--text-lg); color: var(--color-on-dark); }
+  .slide__specs { margin: 0; display: grid; }
+  .slide__specs div { padding: clamp(var(--space-2), 1.2vh, var(--space-3)) 0; border-top: 1px solid rgb(255 255 255 / 0.15); }
+  .slide__specs dt { font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--tan-300); }
+  .slide__specs dd { margin: 0; color: var(--color-on-dark); }
+  .slide__card-foot { display: flex; align-items: center; gap: var(--space-2); margin: var(--space-3) 0 0; padding-top: var(--space-3); border-top: 1px solid rgb(255 255 255 / 0.15); font-size: var(--text-sm); color: var(--ink-100); }
+  .slide__card-foot .icon { color: var(--tan-300); }
+}
+@media (min-width: 1024px) and (max-width: 1199px) and (max-height: 820px) {
+  .slide__text { display: none; }
+}
+
+/* First paint: hold the slide text and the H1 block until motion.js rises
+   them in. Only under .motion-ready, which head.php drops after 3 s if
+   Motion never boots — the text can never stay hidden. */
+.js.motion-ready .hero:not(.is-ready) .slide.is-active [data-slide-anim],
+.js.motion-ready .hero:not(.is-ready) .hero__head { opacity: 0; }
+
+/* Reduced motion: no drift, instant swaps, no autoplay (site.js). */
+@media (prefers-reduced-motion: reduce) {
+  .hero__bg.is-active .hero__img, .hero__bg.is-prev .hero__img { animation: none; transform: scale(1.02); }
+}
+
+/* ── intro band under the hero ── */
+.intro-band { background: var(--color-surface); border-bottom: 1px solid var(--color-line); padding-block: var(--space-7); }
+.intro-band__inner { display: grid; gap: var(--space-5); align-items: center; }
+.intro-band__lead { font-size: var(--text-lg); color: var(--color-muted); max-width: 70ch; margin: 0; }
+.intro-band__lead strong { color: var(--color-text); }
+.intro-band__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+.trust { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2) var(--space-5); font-size: var(--text-sm); font-weight: 600; color: var(--color-text); }
+.trust li { display: inline-flex; align-items: center; gap: var(--space-2); }
+.trust .icon { color: var(--color-accent); }
+@media (min-width: 1024px) {
+  .intro-band__inner { grid-template-columns: 1.5fr auto; gap: var(--space-5) var(--space-9); }
+  .intro-band__lead { grid-column: 1; }
+  .trust { grid-column: 1; }
+  .intro-band__actions { grid-column: 2; grid-row: 1 / span 2; flex-direction: column; }
+}
+
+/* ── local scrim behind the copy ─────────────────────────────────────
+   Measured from rendered pixels, a light overall shade left the title and
+   tagline at under 2 : 1 over bright sky. Rather than darken the whole
+   photo, a soft, feathered glow sits directly behind the text block only
+   and fades to nothing at its edges — the rest of each photo stays clear. */
+.slide__content, .hero__head { position: relative; isolation: isolate; }
+.slide__content::before, .hero__head::before {
+  content: ""; position: absolute; z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgb(21 20 24 / 0.72), rgb(21 20 24 / 0.5) 45%, rgb(21 20 24 / 0.2) 75%, rgb(21 20 24 / 0));
+}
+.slide__content::before { inset: -18% -22% -18% -30%; }
+.hero__head::before { inset: -40% -12% -40% -20%; }
+@media (min-width: 1024px) {
+  .hero__shade {
+    background:
+      linear-gradient(90deg, rgb(21 20 24 / 0.6) 0%, rgb(21 20 24 / 0.42) 34%, rgb(21 20 24 / 0.1) 56%, rgb(21 20 24 / 0) 68%),
+      linear-gradient(0deg, rgb(21 20 24 / 0.7) 0%, rgb(21 20 24 / 0) 24%),
+      linear-gradient(180deg, rgb(21 20 24 / 0.42) 0%, rgb(21 20 24 / 0) 18%);
+  }
+}
+
+/* Measured (80th-percentile background, i.e. around the bright cable and
+   mesh strands rather than on them): the H1 block — usually over sky — and
+   the phone kicker were the weak spots. Denser glow behind the H1 block
+   only, a touch more shade where the phone kicker sits, a lighter number. */
+.hero__head::before {
+  inset: -60% -18% -60% -30%;
+  background: radial-gradient(closest-side, rgb(21 20 24 / 0.82), rgb(21 20 24 / 0.62) 45%, rgb(21 20 24 / 0.25) 78%, rgb(21 20 24 / 0));
+}
+.slide__num { color: var(--tan-200); }
+@media (max-width: 767px) {
+  .hero__shade {
+    background: linear-gradient(180deg,
+      rgb(21 20 24 / 0.55) 0%,
+      rgb(21 20 24 / 0.32) 20%,
+      rgb(21 20 24 / 0.4) 38%,
+      rgb(21 20 24 / 0.66) 70%,
+      rgb(21 20 24 / 0.82) 100%);
+  }
+  .slide__content::before { inset: -12% -30% -12% -30%; }
+}
+@media (max-width: 767px) {
+  .slide__num { color: var(--ink-0); font-size: var(--text-xl); }   /* large text: 3 : 1 */
+}
