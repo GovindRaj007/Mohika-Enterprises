@@ -416,6 +416,36 @@ html:not(.js) .nav__item--menu:focus-within .mega,
 
 
 
+/* ══ floating back-to-top (bottom left) ═══════════════════════════════
+   Appears only while the visitor scrolls up, once they are well down the
+   page (nav.js toggles .is-visible); slides away on scroll-down and near the
+   top. Hidden with visibility too, so it never takes keyboard focus unseen.
+   Needs JS to scroll smoothly and to know the direction, so it stays hidden
+   without it (the footer's "Back to top" button remains). */
+.to-top-fab {
+  position: fixed; z-index: 90;
+  left: calc(var(--space-4) + env(safe-area-inset-left));
+  bottom: calc(var(--space-4) + env(safe-area-inset-bottom));
+  display: grid; place-items: center;
+  width: 48px; height: 48px;
+  border: 1px solid rgb(255 255 255 / 0.18); border-radius: 50%;
+  background: rgb(24 23 27 / 0.92); color: var(--tan-300);
+  box-shadow: 0 10px 24px -6px rgb(0 0 0 / 0.45);
+  cursor: pointer;
+  opacity: 0; visibility: hidden; pointer-events: none;
+  transform: translateY(20px) scale(0.9);
+  transition: opacity 320ms var(--ease-out), transform 380ms var(--ease-out), visibility 0s linear 380ms, background var(--dur-fast);
+}
+.to-top-fab .icon { width: 22px; height: 22px; }
+.to-top-fab.is-visible {
+  opacity: 1; visibility: visible; pointer-events: auto; transform: none;
+  transition: opacity 320ms var(--ease-out), transform 380ms var(--ease-out), visibility 0s, background var(--dur-fast);
+}
+.to-top-fab:hover { background: var(--ink-950); color: var(--tan-200); }
+.to-top-fab:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 3px; }
+.is-scroll-locked .to-top-fab { visibility: hidden; opacity: 0; }
+@media (min-width: 1024px) { .to-top-fab { left: var(--space-6); bottom: var(--space-6); } }
+
 /* ══ header over the hero ═════════════════════════════════════════════
    Every page's first section is dark and starts at the very top, behind
    the transparent header, so the two read as one continuous band. */

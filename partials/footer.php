@@ -80,6 +80,8 @@ $footBiz = business();
     </div>
 </footer>
 
+<button class="to-top-fab" type="button" aria-label="Back to top" data-to-top data-to-top-fab><?= icon('arrow-up') ?></button>
+
 <div class="fab" aria-label="Quick contact">
     <a class="fab__btn fab__btn--call" href="<?= e(tel_href()) ?>" aria-label="Call <?= e($footBiz['phone_display']) ?>" data-track="call-fab"><?= icon('phone') ?></a>
     <a class="fab__btn fab__btn--whatsapp" href="<?= e(whatsapp_url()) ?>" target="_blank" rel="noopener" aria-label="WhatsApp us" data-track="whatsapp-fab"><?= icon('whatsapp') ?></a>

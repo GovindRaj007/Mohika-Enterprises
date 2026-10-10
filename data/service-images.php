@@ -62,10 +62,10 @@ return [
 
     'cricket-nets' => [
         'main'    => 'cricket-net-ball-stopped',
-        'hero'    => ['hero-cricket-nets', 'Cricket practice net lanes on green artificial turf under a blue sky'],
+        'hero'    => ['hero-cricket-nets', 'Covered multi-lane cricket practice nets with a roof net over green turf'],
         'gallery' => [
             ['cricket-net-ball-stopped', 'A red leather cricket ball caught in a green cricket net on a lawn'],
-            ['cricket-practice-nets-lanes', 'Multi-lane cricket practice nets on green artificial turf'],
+            ['cricket-practice-nets-lanes', 'Multi-lane cricket practice nets with a top net, on green artificial turf'],
             ['box-cricket-net-rooftop-turf', 'A rooftop box cricket net enclosure over artificial turf, floodlit at night'],
             ['cricket-practice-nets-batting', 'Batters and bowlers practising inside cricket practice nets'],
             ['cricket-net-knotted-mesh', 'Close-up of heavy knotted cricket net mesh against the sky'],

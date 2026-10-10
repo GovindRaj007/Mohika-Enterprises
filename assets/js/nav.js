@@ -3,7 +3,7 @@
    Sticky header (transparent over the hero at the top, solid once
    scrolled; hides on scroll-down, returns on scroll-up), desktop dropdowns,
    mobile drawer (focus trap, Escape, scroll lock, one-open accordions),
-   back-to-top. Animation itself lives in motion.js.
+   back-to-top (footer button + a floating arrow shown on scroll-up). Animation itself lives in motion.js.
    ══════════════════════════════════════════════════════════════════════ */
 (function ($) {
   'use strict';
@@ -15,6 +15,8 @@
     var $header = $('[data-header]');
     var $drawer = $('[data-drawer]');
     var $burger = $('[data-drawer-toggle]');
+    var $toTop = $('[data-to-top-fab]');
+    var toTopRunning = false;   // our own smooth scroll up must not re-show it
     var lastY = window.scrollY;
     var ticking = false;
     var drawerOpen = false;
@@ -46,6 +48,11 @@
       } else {
         $header.removeClass('is-hidden');
       }
+      // Floating back-to-top (bottom left): only while scrolling up, and
+      // only once the visitor is a good way down the page.
+      if (toTopRunning && y < 300) { toTopRunning = false; }
+      if (goingUp && y > 600 && !toTopRunning) { $toTop.addClass('is-visible'); }
+      else if (goingDown || y < 300) { $toTop.removeClass('is-visible'); }
       lastY = y;
       ticking = false;
     }
@@ -174,6 +181,13 @@
     }
 
     /* ── back to top ── */
-    $('[data-to-top]').on('click', function () { scroller.top(); });
+    $('[data-to-top]').on('click', function (e) {
+      toTopRunning = true;
+      $toTop.removeClass('is-visible');
+      scroller.top();
+      // Keyboard users (detail 0 = no pointer) land back at the start of the
+      // page instead of on a button that is about to hide.
+      if (this.hasAttribute('data-to-top-fab') && e.detail === 0) { $('.skip-link').trigger('focus'); }
+    });
   });
 })(window.jQuery);

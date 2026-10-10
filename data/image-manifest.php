@@ -31,7 +31,7 @@ return [
     'cricket-net-ball-stopped' => ['w' => 480, 'h' => 360, 'widths' => [480]],
     'cricket-practice-nets-batting' => ['w' => 850, 'h' => 400, 'widths' => [480, 800]],
     'cricket-net-knotted-mesh' => ['w' => 768, 'h' => 768, 'widths' => [480, 768]],
-    'cricket-practice-nets-lanes' => ['w' => 516, 'h' => 387, 'widths' => [480]],
+    'cricket-practice-nets-lanes' => ['w' => 1200, 'h' => 800, 'widths' => [480, 800, 1200]],
     'box-cricket-net-rooftop-turf' => ['w' => 500, 'h' => 500, 'widths' => [480]],
     'ceiling-cloth-hanger-utility-ceiling' => ['w' => 1071, 'h' => 1428, 'widths' => [480, 800]],
     'ceiling-cloth-hanger-balcony-ceiling' => ['w' => 447, 'h' => 560, 'widths' => [447]],
@@ -41,6 +41,6 @@ return [
     'hero-invisible-grills' => ['w' => 1280, 'h' => 960, 'widths' => [640, 1024, 1280]],
     'hero-balcony-safety-nets' => ['w' => 1280, 'h' => 960, 'widths' => [640, 1024, 1280]],
     'hero-pigeon-nets' => ['w' => 1600, 'h' => 713, 'widths' => [640, 1024, 1440]],
-    'hero-cricket-nets' => ['w' => 516, 'h' => 387, 'widths' => [516]],
+    'hero-cricket-nets' => ['w' => 1200, 'h' => 800, 'widths' => [640, 1024, 1200]],
     'hero-ceiling-cloth-hangers' => ['w' => 1071, 'h' => 1428, 'widths' => [640, 1024]],
 ];
