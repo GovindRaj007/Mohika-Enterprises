@@ -177,4 +177,12 @@ return [
         'ways_title'  => 'Talk to us',
         'cover_title' => 'We cover all six cities',
     ],
+    'sitemap' => [
+        'title'       => 'Sitemap – All Pages | Mohika Invisible Grills',
+        'description' => 'Every page on the Mohika site: invisible grills, balcony safety nets, pigeon nets, cricket nets and ceiling cloth hangers in each Andhra Pradesh city.',
+        'keywords'    => ['mohika invisible grills sitemap', 'invisible grills andhra pradesh', 'safety nets andhra pradesh'],
+        'h1'          => 'Sitemap',
+        'tag'         => 'Every page on this site, in one place',
+        'lead'        => 'All our services, every city we cover and each service-and-city page, plus our guides — one click from here.',
+    ],
 ];

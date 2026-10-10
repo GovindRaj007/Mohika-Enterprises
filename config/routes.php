@@ -28,6 +28,7 @@ return [
         '/about-us.php'      => 'about',
         '/blog.php'          => 'blog',
         '/contact-us.php'    => 'contact',
+        '/sitemap.php'       => 'sitemap',
     ],
 
     // Fixed redirects. Alias spellings of cities ("vizag",

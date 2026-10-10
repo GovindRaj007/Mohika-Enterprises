@@ -83,7 +83,8 @@ function photo(string $name, string $alt, array $opts = []): string
 
     $html = '<img';
     foreach ($attrs as $key => $value) {
-        if ($value !== '') {
+        // alt is always written: alt="" marks a decorative image.
+        if ($value !== '' || $key === 'alt') {
             $html .= ' ' . $key . '="' . e($value) . '"';
         }
     }

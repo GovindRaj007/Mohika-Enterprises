@@ -11,7 +11,7 @@ if (!defined('ROOT_DIR')) {
 
 // The live domain, https, no www, no trailing slash. Canonicals, the sitemap
 // and every og:url are built from this — it must match the domain exactly.
-define('BASE_URL', 'https://mohikainvisiblegrills.in');
+define('BASE_URL', 'https://mohikaenterprises.in');
 
 define('SITE_NAME', 'Mohika Invisible Grills & Safety Nets');
 define('SITE_SHORT_NAME', 'Mohika');

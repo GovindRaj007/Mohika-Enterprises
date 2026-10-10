@@ -20,7 +20,7 @@
 
     # Repo documentation and internal folders are never served.
     RewriteRule ^(README\.md|DEPLOY\.md|KEYWORDS\.md)$ - [F,L]
-    RewriteRule ^(config|core|data|partials|templates|tools|source-images|node_modules)(/|$) - [F,L]
+    RewriteRule ^(config|core|data|partials|templates|tools|source-images|source-videos|node_modules)(/|$) - [F,L]
 
     # Real files (assets, favicon, manifest, the form handler) are served
     # as they are; /index.php is a real file too — the router 301s it to /.

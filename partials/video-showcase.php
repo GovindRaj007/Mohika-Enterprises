@@ -9,6 +9,10 @@
  *
  * $videos (list), $kicker, $title, $note, $id, optional $link [label, href],
  * optional $tint (bool) for the tinted band.
+ *
+ * Emits a VideoObject for each clip, on whichever page shows it, so the
+ * clips can appear in Google video results with their still as thumbnail
+ * (the still is a lazy <img>, not a poster attribute — see reel.php).
  */
 
 if (!defined('ROOT_DIR')) {
@@ -41,3 +45,17 @@ if (empty($videos)) {
         </div>
     </div>
 </section>
+<?php
+foreach ($videos as $clip) {
+    json_ld([
+        '@context'     => 'https://schema.org',
+        '@type'        => 'VideoObject',
+        'name'         => $clip['title'],
+        'description'  => $clip['caption'],
+        'thumbnailUrl' => base_url('/assets/videos/' . $clip['file'] . '-poster.webp'),
+        'contentUrl'   => base_url('/assets/videos/' . $clip['file'] . '.mp4'),
+        'uploadDate'   => $clip['date'],
+        'duration'     => $clip['duration'],
+        'publisher'    => ['@id' => base_url('/#business')],
+    ]);
+}

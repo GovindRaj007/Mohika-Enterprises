@@ -23,7 +23,7 @@ $seo = [
     'keywords'    => $p['keywords'],
     'path'        => '/',
 ];
-render_partial('head', ['seo' => $seo, 'preload' => $firstHero, 'preloadSizes' => '(max-width: 767px) 160vw, 100vw', 'bodyClass' => 'page-home', 'styles' => ['hero']]);
+render_partial('head', ['seo' => $seo, 'preload' => $firstHero, 'preloadSizes' => '(max-width: 767px) 160vw, 100vw', 'preloadPhoneHigh' => false, 'bodyClass' => 'page-home', 'styles' => ['hero']]);
 render_partial('header');
 
 // Two photos per service for the work rail, interleaved so no service leads.

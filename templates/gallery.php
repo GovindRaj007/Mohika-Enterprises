@@ -38,7 +38,7 @@ $services = get_all_services();
                         <?php foreach (service_images($svc['slug'])['gallery'] as [$gName, $gAlt]): ?>
                             <li class="masonry__item" data-reveal>
                                 <a href="<?= e(asset(photo_src($gName, 1200))) ?>" data-lightbox aria-label="View larger: <?= e($gAlt) ?>">
-                                    <?= photo($gName, $gAlt, ['sizes' => '(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw', 'want' => 480]) ?>
+                                    <?= photo($gName, $gAlt, ['sizes' => '(min-width: 1024px) 30vw, (min-width: 768px) 45vw, 92vw', 'want' => 480, 'eager' => empty($gSeen), 'priority' => false]) ?><?php $gSeen = true; ?>
                                 </a>
                             </li>
                         <?php endforeach; ?>

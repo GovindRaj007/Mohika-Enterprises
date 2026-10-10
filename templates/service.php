@@ -171,19 +171,4 @@ render_partial('header');
 </main>
 <?php
 render_partial('schema/service', ['service' => $service, 'path' => $path]);
-// VideoObject for each installation clip, so the clips can appear in
-// Google's video results; same data as the visible reels.
-foreach (service_videos($service['slug']) as $clip) {
-    json_ld([
-        '@context'     => 'https://schema.org',
-        '@type'        => 'VideoObject',
-        'name'         => $clip['title'],
-        'description'  => $clip['caption'],
-        'thumbnailUrl' => base_url('/assets/videos/' . $clip['file'] . '-poster.webp'),
-        'contentUrl'   => base_url('/assets/videos/' . $clip['file'] . '.mp4'),
-        'uploadDate'   => $clip['date'],
-        'duration'     => $clip['duration'],
-        'publisher'    => ['@id' => base_url('/#business')],
-    ]);
-}
 render_partial('footer');

@@ -20,10 +20,10 @@ render_partial('header');
         <div class="container">
             <?php render_partial('section-head', ['kicker' => 'Five services', 'title' => $p['list_title'], 'id' => 'list-title']); ?>
             <div class="svc-list" data-reveal-group>
-                <?php foreach (get_all_services() as $svc): [$sp, $sa] = service_main_photo($svc['slug']); ?>
+                <?php $spFirst = true; foreach (get_all_services() as $svc): [$sp, $sa] = service_main_photo($svc['slug']); ?>
                     <article class="svc-row" data-reveal>
                         <a class="svc-row__media" href="<?= e(service_url($svc['slug'])) ?>" tabindex="-1" aria-hidden="true">
-                            <?= photo($sp, '', ['sizes' => '(min-width: 1024px) 38vw, 92vw', 'want' => 800]) ?>
+                            <?= photo($sp, '', ['sizes' => '(min-width: 1024px) 38vw, 92vw', 'want' => 800, 'eager' => $spFirst, 'priority' => false]) ?><?php $spFirst = false; ?>
                         </a>
                         <div class="svc-row__body">
                             <p class="kicker"><?= icon($svc['icon'], 'icon icon--sm') ?> <?= e($svc['tagline']) ?></p>

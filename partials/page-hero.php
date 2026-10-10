@@ -22,26 +22,26 @@ $heroMosaic = $mosaic ?? [];
 <section class="page-hero<?= ($heroPhoto || $heroMosaic) ? ' page-hero--photo' : '' ?>">
     <div class="page-hero__cables" aria-hidden="true"></div>
     <div class="container page-hero__inner">
-        <div class="page-hero__copy" data-reveal-group>
+        <div class="page-hero__copy">
             <?php render_partial('breadcrumbs', ['crumbs' => $crumbs ?? []]); ?>
             <?php if (!empty($kicker)): ?>
-                <p class="eyebrow" data-reveal><?= icon('pin', 'icon icon--sm') ?> <?= e($kicker) ?></p>
+                <p class="eyebrow" data-hero-rise style="--i:0"><?= icon('pin', 'icon icon--sm') ?> <?= e($kicker) ?></p>
             <?php endif; ?>
-            <h1 class="page-hero__title" data-reveal><?= e($h1) ?></h1>
+            <h1 class="page-hero__title" data-hero-rise style="--i:1"><?= e($h1) ?></h1>
             <?php if (!empty($tag)): ?>
-                <p class="page-hero__tag" data-reveal><?= e($tag) ?></p>
+                <p class="page-hero__tag" data-hero-rise style="--i:2"><?= e($tag) ?></p>
             <?php endif; ?>
             <?php if (!empty($lead)): ?>
-                <p class="page-hero__lead" data-reveal><?= rich($lead) ?></p>
+                <p class="page-hero__lead" data-hero-rise style="--i:2"><?= rich($lead) ?></p>
             <?php endif; ?>
             <?php if (!empty($feats)): ?>
-                <ul class="badges" data-reveal>
+                <ul class="badges" data-hero-rise style="--i:3">
                     <?php foreach ($feats as $heroFeat): ?>
                         <li><?= icon('check', 'icon icon--sm') ?><?= e($heroFeat) ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
-            <div class="page-hero__actions" data-reveal>
+            <div class="page-hero__actions" data-hero-rise style="--i:4">
                 <a class="btn btn--cta btn--lg" href="<?= e($quoteHref ?? quote_url()) ?>" data-track="quote-hero"><?= e(business()['offer_short']) ?> <?= icon('arrow', 'icon icon--sm') ?></a>
                 <?php if (!empty($secondary)): ?>
                     <a class="btn btn--ghost-light btn--lg" href="<?= e($secondary[1]) ?>"><?= e($secondary[0]) ?></a>

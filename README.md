@@ -1,6 +1,6 @@
 # Mohika Invisible Grills & Safety Nets — website
 
-A mobile-first lead-generation site for **mohikainvisiblegrills.in**. It
+A mobile-first lead-generation site for **mohikaenterprises.in**. It
 covers invisible grills, balcony safety nets, pigeon nets, cricket nets and
 ceiling cloth hangers in Visakhapatnam (Vizag), Rajahmundry, Vijayawada,
 Guntur, Kurnool and Tirupati.

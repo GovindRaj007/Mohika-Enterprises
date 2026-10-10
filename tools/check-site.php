@@ -117,6 +117,31 @@ foreach ($routes as $path => $kind) {
     if ($canon !== base_url($path)) { $fail("$path canonical is '$canon'"); }
     if (!preg_match('#\.(jpe?g|png)$#i', $og)) { $fail("$path og:image is not JPEG/PNG: $og"); }
     elseif (!is_file(ROOT_DIR . (string) parse_url($og, PHP_URL_PATH))) { $fail("$path og:image file missing: $og"); }
+    if (strpos($og, BASE_URL . '/') !== 0) { $fail("$path og:image is not an absolute " . BASE_URL . " URL: $og"); }
+    $ogFile = ROOT_DIR . (string) parse_url($og, PHP_URL_PATH);
+    if (is_file($ogFile)) {
+        [$ogW, $ogH] = getimagesize($ogFile) ?: [0, 0];
+        if ($ogW !== 1200 || $ogH !== 630) { $fail("$path og:image is {$ogW}×{$ogH}, not 1200×630"); }
+        if (filesize($ogFile) > 300 * 1024) { $warn("$path og:image is over 300 KB (WhatsApp may skip the preview)"); }
+    }
+    // Every tag a link preview (WhatsApp, Facebook, LinkedIn, X) or Google reads.
+    $meta = static fn(string $attr, string $name): string => (string) ($xp->query("//meta[@$attr=\"$name\"]/@content")->item(0)?->nodeValue ?? '');
+    foreach (['og:title', 'og:description', 'og:url', 'og:type', 'og:site_name', 'og:locale', 'og:image:width', 'og:image:height', 'og:image:alt'] as $prop) {
+        if ($meta('property', $prop) === '') { $fail("$path missing $prop"); }
+    }
+    if ($meta('property', 'og:url') !== $canon) { $fail("$path og:url differs from canonical"); }
+    if ($meta('name', 'twitter:card') !== 'summary_large_image') { $fail("$path twitter:card is not summary_large_image"); }
+    foreach (['twitter:title', 'twitter:description', 'twitter:image', 'twitter:image:alt'] as $tw) {
+        if ($meta('name', $tw) === '') { $fail("$path missing $tw"); }
+    }
+    if (!str_contains($meta('name', 'robots'), 'max-image-preview:large')) { $fail("$path robots lacks max-image-preview:large"); }
+    if ($xp->query('//html[@lang]')->length !== 1) { $fail("$path <html> has no lang"); }
+    if (str_length($title) < 30) { $warn("$path title is short (" . str_length($title) . ')'); }
+    if (str_length($desc) < 70) { $warn("$path description is short (" . str_length($desc) . ')'); }
+    foreach ($xp->query('//img[not(@alt)]') as $img) { $fail("$path image without alt: " . $img->getAttribute('src')); }
+    // LCP: the first image in <main> must not be lazy-loaded.
+    $firstImg = $xp->query('//main//img')->item(0);
+    if ($firstImg && $firstImg->getAttribute('loading') === 'lazy') { $fail("$path first image in <main> is lazy-loaded (hurts LCP)"); }
     if ($kw !== '' && count(explode(',', $kw)) > 12) { $warn("$path has more than 12 meta keywords"); }
     if ($xp->query('//meta[@name="robots" and contains(@content, "noindex")]')->length) { $fail("$path is noindex"); }
 
@@ -144,6 +169,7 @@ foreach ($routes as $path => $kind) {
         $href = $a->getAttribute('href');
         if ($href === '' || $href[0] !== '/' || strpos($href, '//') === 0) { continue; }
         $target = (string) parse_url($href, PHP_URL_PATH);
+        if (in_array($target, ['/sitemap.xml', '/robots.txt'], true)) { continue; }
         if (isset($routes[$target])) {
             if ($target !== $path && !isset($seen[$target])) { $inbound[$target] = ($inbound[$target] ?? 0) + 1; $seen[$target] = true; }
         } elseif (!is_file(ROOT_DIR . $target)) {

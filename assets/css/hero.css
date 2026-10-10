@@ -251,11 +251,16 @@ html:not(.js) .hero__buttons { display: none; }
   .slide__text { display: none; }
 }
 
-/* First paint: hold the slide text and the H1 block until motion.js rises
-   them in. Only under .motion-ready, which head.php drops after 3 s if
-   Motion never boots — the text can never stay hidden. */
-.js.motion-ready .hero:not(.is-ready) .slide.is-active [data-slide-anim],
-.js.motion-ready .hero:not(.is-ready) .hero__head { opacity: 0; }
+/* First paint: the H1 block and the first slide's lines rise in with CSS
+   (base.css → hero-rise) from the moment the page paints, not after the
+   scripts load, so the hero text — the LCP element — is never held back.
+   Later slides are animated by motion.js (siteMotion.slide). */
+.js.motion-ready .hero__head { animation: hero-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js.motion-ready .slide:first-child [data-slide-anim] { animation: hero-rise 0.75s cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js.motion-ready .slide:first-child [data-slide-anim]:nth-child(2) { animation-delay: 60ms; }
+.js.motion-ready .slide:first-child [data-slide-anim]:nth-child(3) { animation-delay: 120ms; }
+.js.motion-ready .slide:first-child [data-slide-anim]:nth-child(4) { animation-delay: 160ms; }
+.js.motion-ready .slide:first-child [data-slide-anim]:nth-child(n+5) { animation-delay: 220ms; }
 
 /* Reduced motion: no drift, instant swaps, no autoplay (site.js). */
 @media (prefers-reduced-motion: reduce) {

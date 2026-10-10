@@ -62,7 +62,7 @@ return [
     // Quote form delivery. mail_from must be a real mailbox on the site's own
     // domain (create it in the hosting panel) so SPF aligns — see DEPLOY.md.
     'contact_recipient_email' => 'mohikainvisiblegrills@gmail.com',
-    'mail_from'               => 'no-reply@mohikainvisiblegrills.in',
+    'mail_from'               => 'no-reply@mohikaenterprises.in',
 
     // One line under the logo in the footer.
     'footer_blurb' => 'Invisible grills, balcony safety nets, pigeon nets, cricket nets and ceiling cloth hangers — measured, fitted and finished by local team members in six cities of Andhra Pradesh.',

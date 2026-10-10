@@ -72,6 +72,10 @@ $footBiz = business();
 
     <div class="container site-footer__bottom">
         <p>&copy; <?= date('Y') ?> <?= e($footBiz['name']) ?>. All rights reserved.</p>
+        <nav class="site-footer__legal" aria-label="Sitemap">
+            <a href="/sitemap.php">Sitemap</a>
+            <a href="/sitemap.xml">XML sitemap</a>
+        </nav>
         <button class="to-top" type="button" data-to-top><?= icon('arrow-up', 'icon icon--sm') ?> Back to top</button>
     </div>
 </footer>

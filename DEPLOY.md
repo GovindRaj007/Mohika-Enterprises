@@ -1,4 +1,4 @@
-# Deploying mohikainvisiblegrills.in
+# Deploying mohikaenterprises.in
 
 Shared Apache hosting with PHP 8.0+ (e.g. Hostinger). Deploy by Git or file
 upload into `public_html`. The method makes no difference to speed or SEO.
@@ -33,21 +33,30 @@ upload into `public_html`. The method makes no difference to speed or SEO.
 
 ## Launch checklist
 
-- [ ] `BASE_URL` in `config/site.php` is exactly `https://mohikainvisiblegrills.in`
+- [ ] `BASE_URL` in `config/site.php` is exactly `https://mohikaenterprises.in`
       (https, no www, no trailing slash).
 - [ ] `SITE_ENV` is `'production'`.
-- [ ] Create the mailbox **no-reply@mohikainvisiblegrills.in** in the
+- [ ] Create the mailbox **no-reply@mohikaenterprises.in** in the
       hosting panel. The quote form sends from it so SPF aligns, and
       submissions go to mohikainvisiblegrills@gmail.com.
 - [ ] SSL installed and **Force HTTPS** on.
-- [ ] Upload everything **except** `source-images/` and `tools/` (both are
+- [ ] Upload everything **except** `source-images/`, `source-videos/` and `tools/` (all
       denied by `.htaccess` anyway).
-- [ ] `https://mohikainvisiblegrills.in/.git/config` → 403 (after a Git deploy).
-- [ ] `https://mohikainvisiblegrills.in/config/business.php` → 403.
-- [ ] `http://www.mohikainvisiblegrills.in/` → one 301 to `https://mohikainvisiblegrills.in/`.
+- [ ] `https://mohikaenterprises.in/.git/config` → 403 (after a Git deploy).
+- [ ] `https://mohikaenterprises.in/config/business.php` → 403.
+- [ ] `http://www.mohikaenterprises.in/` → one 301 to `https://mohikaenterprises.in/`.
 - [ ] Send a test enquiry and check that it arrives (look in spam too).
 - [ ] Share a page link in WhatsApp and check that the preview card shows the photo.
-- [ ] Submit `https://mohikainvisiblegrills.in/sitemap.xml` in Google Search Console.
+- [ ] Submit `https://mohikaenterprises.in/sitemap.xml` in Google Search
+      Console (property for **mohikaenterprises.in**). The human-readable
+      sitemap is `/sitemap.php`, linked from every footer.
+- [ ] View source on the live home page: `canonical`, `og:url` and
+      `og:image` must all start with `https://mohikaenterprises.in/`.
+- [ ] Refresh cached link previews after a domain or image change: paste a
+      page URL into the Facebook Sharing Debugger and click **Scrape Again**
+      (WhatsApp uses the same cache).
+- [ ] Run PageSpeed Insights (mobile) on `/`, one service page and one
+      service × city page: LCP under 2.5 s, CLS 0.
 - [ ] Footer and contact page NAP (name, address, phone) match the Google
       Business Profile character for character.
 

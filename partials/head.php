@@ -3,12 +3,16 @@
  * Document head and the opening <body>. Expects $seo; optional $preload
  * (photo name of the LCP image, preloaded with its srcset), $bodyClass, and
  * $styles — page-specific stylesheets (e.g. ['hero'] on the home page).
+ * $preloadPhoneHigh = false keeps the preload at normal priority on phones
+ * (home: there the hero text, not the photo, is the LCP element, and a
+ * high-priority 130 KB photo would hold back the CSS on a slow connection).
  *
  * Fonts are self-hosted (assets/fonts/) and preloaded.
  *
- * Scripts are deferred and run in order: jQuery 3.7.1 (menu, header, FAQ,
- * filters, form, lightbox), then the Motion + Lenis bundle, then our init
- * files. The page is complete and usable with JavaScript off.
+ * Scripts are deferred and run in order: the Motion + Lenis bundle and
+ * motion.js first — they need no jQuery, so on-screen reveals start without
+ * waiting for its 85 KB — then jQuery 3.7.1 and the files that use it
+ * (nav.js: menu, header; site.js: slider, FAQ, filters, form, lightbox). The page is complete and usable with JavaScript off.
  *
  * Reveal animations hide content only under html.motion-ready, which is set
  * here when the visitor has not asked for reduced motion, and removed after
@@ -46,9 +50,14 @@ $gtm = ANALYTICS_GTM_ID;
 <meta name="format-detection" content="telephone=no">
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/lexend-latin.woff2" crossorigin>
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/source-sans-3-latin.woff2" crossorigin>
-<?php if (!empty($preload) && photo_src($preload) !== ''): ?>
-<link rel="preload" as="image" href="<?= e(asset(photo_src($preload))) ?>" imagesrcset="<?= e(photo_srcset($preload)) ?>" imagesizes="<?= e($preloadSizes ?? '100vw') ?>" fetchpriority="high">
-<?php endif; ?>
+<?php if (!empty($preload) && photo_src($preload) !== ''):
+    $plAttrs = 'as="image" href="' . e(asset(photo_src($preload))) . '" imagesrcset="' . e(photo_srcset($preload)) . '" imagesizes="' . e($preloadSizes ?? '100vw') . '"';
+    if (($preloadPhoneHigh ?? true) === false): ?>
+<link rel="preload" <?= $plAttrs ?> media="(min-width: 768px)" fetchpriority="high">
+<link rel="preload" <?= $plAttrs ?> media="(max-width: 767px)">
+<?php else: ?>
+<link rel="preload" <?= $plAttrs ?> fetchpriority="high">
+<?php endif; endif; ?>
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="icon" href="<?= e(asset('/assets/images/brand/favicon-48.png')) ?>" sizes="48x48" type="image/png">
 <link rel="apple-touch-icon" href="<?= e(asset('/assets/images/brand/apple-touch-icon.png')) ?>">
@@ -60,11 +69,11 @@ $gtm = ANALYTICS_GTM_ID;
 <?php foreach ($styles ?? [] as $pageStyle): ?>
 <link rel="stylesheet" href="<?= e(asset('/assets/css/' . $pageStyle . '.css')) ?>">
 <?php endforeach; ?>
-<script src="<?= e(asset('/assets/js/vendor/jquery.min.js')) ?>" defer></script>
 <script src="<?= e(asset('/assets/js/vendor/motion-lenis.min.js')) ?>" defer></script>
+<script src="<?= e(asset('/assets/js/motion.js')) ?>" defer></script>
+<script src="<?= e(asset('/assets/js/vendor/jquery.min.js')) ?>" defer></script>
 <script src="<?= e(asset('/assets/js/nav.js')) ?>" defer></script>
 <script src="<?= e(asset('/assets/js/site.js')) ?>" defer></script>
-<script src="<?= e(asset('/assets/js/motion.js')) ?>" defer></script>
 </head>
 <body class="<?= e($bodyClass ?? '') ?>">
 <?php if ($gtm !== ''): ?>

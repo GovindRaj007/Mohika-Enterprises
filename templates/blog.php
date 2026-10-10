@@ -18,7 +18,7 @@ render_partial('header');
     <section class="section" aria-label="Articles">
         <div class="container">
             <div class="post-grid post-grid--two" data-reveal-group>
-                <?php foreach (get_all_posts() as $post) { render_partial('blog-card', ['post' => $post, 'headingLevel' => 'h2']); } ?>
+                <?php $bFirst = true; foreach (get_all_posts() as $post) { render_partial('blog-card', ['post' => $post, 'headingLevel' => 'h2', 'eager' => $bFirst]); $bFirst = false; } ?>
             </div>
         </div>
     </section>

@@ -104,20 +104,9 @@
     }
     var hero = document.querySelector('[data-hero]');
     if (hero) {
-      // The first slide's text is held hidden by CSS until this point
-      // (.motion-ready .hero:not(.is-ready)), so it rises in rather than
-      // flashing up and then animating.
-      var first = hero.querySelector('.slide.is-active');
-      if (first) {
-        first.querySelectorAll('[data-slide-anim]').forEach(function (el) { el.style.opacity = '0'; });
-      }
+      // The first slide and the H1 block already rose in with CSS at first
+      // paint (hero.css) — nothing to wait for here, which keeps LCP fast.
       hero.classList.add('is-ready');
-      slideIn(first, 0.1);
-      var head = hero.querySelector('.hero__head');
-      if (head) {
-        done(animate(head, { opacity: [0, 1], transform: ['translateY(-10px)', 'none'] }, { duration: 0.7, ease: ease }), 900)
-          .then(function () { head.style.opacity = ''; head.style.transform = ''; });
-      }
     }
 
     /* ── counters (requestAnimationFrame; mini animate has no number tweens) ── */

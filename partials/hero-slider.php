@@ -46,7 +46,7 @@ $slideCount = count($services);
             [$bgName, $bgAlt] = service_images($svc['slug'])['hero'];
             ?>
             <div class="hero__bg hero__bg--<?= $bgIndex + 1 ?><?= $bgIndex === 0 ? ' is-active' : '' ?>" data-hero-bg>
-                <?= photo($bgName, $bgAlt, ['eager' => $bgIndex === 0, 'sizes' => '(max-width: 767px) 160vw, 100vw', 'want' => 1024, 'class' => 'hero__img']) ?>
+                <?= photo($bgName, $bgAlt, ['eager' => $bgIndex === 0, 'priority' => false, 'sizes' => '(max-width: 767px) 160vw, 100vw', 'want' => 1024, 'class' => 'hero__img']) ?>
             </div>
         <?php $bgIndex++; endforeach; ?>
     </div>
