@@ -34,7 +34,7 @@ return [
             ]],
             ['heading' => 'View and light', 'paragraphs' => [
                 'This is where invisible grills win. A few feet back from the cables, the opening reads as open space; most families stop noticing the grill within a week. A safety net is see-through too, but a mesh is naturally more visible than a row of cables, especially in direct light.',
-                'If the balcony faces the sea in Vizag, the Godavari in Rajahmundry or the Tirumala hills in Tirupati, that difference usually decides it.',
+                'If the balcony faces the sea in Vizag, the Godavari in Rajahmundry, the Tirumala hills in Tirupati or the Financial District skyline from a Kokapet tower, that difference usually decides it.',
             ]],
             ['heading' => 'Safety for children, pets and elders', 'paragraphs' => [
                 'Both are safe when fitted correctly. An invisible grill with a 2-inch spacing is narrower than a toddler’s head. A safety net covers the full height, including the gap above a low parapet or a glass railing, and can be ordered in a smaller mesh for cats.',
@@ -44,52 +44,13 @@ return [
                 'Both are priced by the square foot of the opening. On a large or full-height balcony, a safety net usually costs less than an invisible grill of the same area. On a window or a narrow balcony, the difference is smaller. We measure on the site visit and quote both if you are undecided.',
             ]],
             ['heading' => 'Pigeons', 'paragraphs' => [
-                'Both keep pigeons off the balcony when the opening is closed from edge to edge. Where birds are already nesting nearby — in a duct shaft, on AC ledges or sunshades — add a dedicated <strong>pigeon net</strong> for those spaces too, so they are not simply pushed next door.',
+                'Both keep pigeons off the balcony when the opening is closed from edge to edge. Where birds are already nesting nearby — in a duct shaft, on AC ledges or sunshades — close those spaces with a safety net too, so they are not simply pushed next door.',
             ]],
             ['heading' => 'Upkeep and lifespan', 'paragraphs' => [
                 'SS 316 invisible grills need almost nothing: an occasional wipe, and a tension check if a cable ever feels loose. UV-treated nets also last for years; they may need re-tensioning after the first weeks as the mesh settles, and a rinse when dust builds up.',
             ]],
             ['heading' => 'So which should you choose?', 'paragraphs' => [
-                'Choose an <strong>invisible grill</strong> if the view matters most. Choose a <strong>balcony safety net</strong> if you want full-height cover at a lower cost on a wide balcony, or have cats. If you are still unsure, ask us to bring samples of both to the site visit.',
-            ]],
-        ],
-    ],
-
-    'how-to-stop-pigeons-on-balcony' => [
-        'slug'        => 'how-to-stop-pigeons-on-balcony',
-        'title'       => 'How to Stop Pigeons on Your Balcony for Good: A Pigeon Nets Guide',
-        'seo_title'   => 'How to Stop Pigeons on Your Balcony | Pigeon Nets Guide',
-        'description' => 'Why spikes, gels and CDs fail, why pigeons return after cheap netting, and how a sealed pigeon safety net keeps birds off balconies, ducts and AC ledges.',
-        'keywords'    => ['how to stop pigeons on balcony', 'pigeon nets', 'pigeon safety nets', 'anti bird nets', 'duct area nets'],
-        'date'        => '2026-10-06',
-        'image'       => 'pigeon-safety-net-high-rise',
-        'image_alt'   => 'A pigeon safety net sealing a high-rise balcony, apartment towers in the distance',
-        'og_image'    => '/assets/images/og/og-pigeon-nets.jpg',
-        'excerpt'     => 'Most pigeon fixes only move the birds a few feet. Here is what actually works, and the one detail that decides whether they come back.',
-        'links'       => ['pigeon-nets', 'balcony-safety-nets'],
-        'sections'    => [
-            ['heading' => 'Why pigeons choose your balcony', 'paragraphs' => [
-                'Pigeons look for three things: a sheltered ledge, a quiet corner to nest, and a reason to come back. Apartment balconies, AC ledges and duct shafts offer all three. Once a pair has nested, they return to the same spot again and again — which is why a pigeon problem gets worse, not better, if it is left alone.',
-            ]],
-            ['heading' => 'What does not work for long', 'paragraphs' => [
-                '<strong>Spikes</strong> stop birds landing on one narrow ledge, and they simply move a little further along. <strong>Gels and sprays</strong> wear off in the sun and rain. <strong>CDs, reflective tape and plastic owls</strong> work for a few days until the birds get used to them. None of these closes the space itself, so the birds always find somewhere next to it.',
-            ]],
-            ['heading' => 'What does work: a sealed pigeon net', 'paragraphs' => [
-                'A <strong>pigeon safety net</strong> is a fine, UV-treated nylon mesh fixed across the opening and sealed to the structure on every side. It is an exclusion rather than a deterrent — the birds are not scared away, they are simply unable to get in. Done properly, it is permanent.',
-                'It is also humane. Before a net is closed, any nest is cleared and the space is checked so no bird is trapped inside.',
-            ]],
-            ['heading' => 'The detail that decides everything: the edges', 'paragraphs' => [
-                'When a pigeon net fails, it is almost always at the edge. A gap at a beam, a ceiling corner or around a drain pipe is all a pigeon needs, and they will find it within weeks. A good installation fixes the net on a perimeter wire and seals it tight to every surface it meets — including around pipes, AC brackets and grills.',
-                'Near the coast, as in Visakhapatnam, that edge wire and the hooks must be stainless steel. Ordinary steel rusts in salt air, the edge loosens, and the gap reopens.',
-            ]],
-            ['heading' => 'Do not forget the duct', 'paragraphs' => [
-                'In many apartment buildings the real source is the duct shaft, where pigeons breed out of sight and spread to the balconies around it. Netting your own balcony helps you, but the birds keep coming while the shaft is open. <strong>Duct area nets</strong> — fitted floor by floor or at the top of the shaft, with openable sections for plumbers — fix it for the whole building, and are usually arranged through the association.',
-            ]],
-            ['heading' => 'Clean up safely before the net goes on', 'paragraphs' => [
-                'Pigeon droppings carry dust and germs. Wear gloves and a mask, dampen dry droppings before removing them so the dust does not lift, and wash the area down. If the build-up is heavy, ask the installer to clear it as part of the job.',
-            ]],
-            ['heading' => 'In short', 'paragraphs' => [
-                'Skip the spikes and gels. Net the space, seal every edge, and deal with the duct if there is one. That is what keeps pigeons off a balcony for good.',
+                'Choose an <strong>invisible grill</strong> if you want the view, a clean modern look and added security along with safety. Choose a <strong>balcony safety net</strong> if you want full-height cover at a lower cost on a wide balcony, or have cats. If you are still unsure, ask us to bring samples of both to the site visit.',
             ]],
         ],
     ],

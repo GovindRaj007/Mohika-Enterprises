@@ -35,6 +35,18 @@ return [
         ],
     ],
 
+    'invisible-grills-dealer' => [
+        'main'    => 'invisible-grill-wire-and-fittings-stock',
+        'hero'    => ['hero-invisible-grills-dealer', 'A stockroom of stainless steel grill wire coils, aluminium track lengths and bins of fittings'],
+        'gallery' => [
+            ['invisible-grill-wire-and-fittings-stock', 'Coils of stainless steel invisible grill wire beside racks of aluminium tracks and bins of bolts and fittings'],
+            ['invisible-grill-aluminium-tracks-ss-bolts', 'White and black aluminium invisible grill track profiles fitted with stainless steel bolts'],
+            ['invisible-grill-wire-2-5mm-3mm', 'Two lengths of nylon-coated invisible grill wire, 2.5 mm and 3 mm, laid side by side for comparison'],
+            ['invisible-grill-fittings-anchors-crimps', 'Invisible grill fittings laid out: wall anchors, long screws, crimp sleeves, an eye hook and short lengths of wire'],
+            ['invisible-grill-wire-spools-shelving', 'Spools of stainless steel grill wire stacked on warehouse shelving'],
+        ],
+    ],
+
     'balcony-safety-nets' => [
         'main'    => 'balcony-safety-net-wide-balcony',
         'hero'    => ['hero-balcony-safety-nets', 'A wide apartment balcony closed with a white balcony safety net, rooftops and the city behind the mesh'],
@@ -44,19 +56,6 @@ return [
             ['balcony-safety-net-full-height', 'A long balcony closed from floor to ceiling with a safety net, a man standing beside it'],
             ['children-safety-net-close-up', 'A child looking out through a children safety net fitted on a balcony'],
             ['children-safety-net-long-balcony', 'A narrow balcony fully enclosed with a children safety net down its whole length'],
-        ],
-    ],
-
-    'pigeon-nets' => [
-        'main'    => 'pigeon-safety-net-apartment-balcony',
-        'hero'    => ['hero-pigeon-nets', 'An open area net stretched over a courtyard between buildings to keep pigeons out'],
-        'gallery' => [
-            ['pigeon-safety-net-apartment-balcony', 'An apartment balcony sealed with a pigeon safety net, a man standing inside'],
-            ['pigeon-net-tall-balcony', 'A tall balcony closed with a pigeon net, the city visible through the mesh'],
-            ['pigeon-safety-net-high-rise', 'A pigeon safety net on a high-rise balcony, apartment towers in the distance'],
-            ['open-area-net-terrace', 'An open area net laid flat over a terrace opening to keep birds out'],
-            ['open-area-net-courtyard', 'An open area net covering an open courtyard and pool area from wall to wall'],
-            ['duct-area-nets-apartment-shafts', 'Duct area nets fitted across the service shafts of apartment buildings'],
         ],
     ],
 

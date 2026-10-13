@@ -1,6 +1,9 @@
 <?php
 /**
- * The six cities Mohika serves, in the order they appear everywhere.
+ * Every area Mohika serves, in the order it appears everywhere: the six
+ * Andhra Pradesh cities below, then the Telangana areas from
+ * config/locations-telangana.php. 'state' groups them (config/business.php
+ * → states); 'parent' marks an area of a larger city (Gachibowli → Hyderabad).
  *
  * Mohika has local team members in each of them. 'localities' are areas served, shown as plain
  * text — never links, never pages of their own, never presented as branches.
@@ -26,6 +29,8 @@ return [
         'slug'        => 'visakhapatnam',
         'name'        => 'Visakhapatnam',
         'nickname'    => 'Vizag',
+        'state'       => 'andhra-pradesh',
+        'parent'      => '',
         'alias_slugs' => ['vizag', 'vishakapatnam', 'visakhapatnam-vizag'],
         'district'    => 'Visakhapatnam district',
         'region'      => 'North coastal Andhra',
@@ -45,13 +50,15 @@ return [
         'slug'        => 'rajahmundry',
         'name'        => 'Rajahmundry',
         'nickname'    => '',
+        'state'       => 'andhra-pradesh',
+        'parent'      => '',
         'alias_slugs' => ['rajamahendravaram', 'rajamundry', 'rajahmahendravaram'],
         'district'    => 'East Godavari district',
         'region'      => 'Godavari delta',
         'zone'        => 'river',
         'kicker'      => 'On the banks of the Godavari',
         'blurb'       => 'River humidity most of the year and heavy monsoons — Rajahmundry needs treated nets and stainless hardware.',
-        'intro'       => 'Rajahmundry — officially Rajamahendravaram — spreads along the east bank of the Godavari, and the river shapes how homes here live. Flats near the ghats and along the river roads are built to catch the breeze off the water, families keep their balconies open from morning to night, and pigeons love the ledges just as much. Most of our Rajahmundry calls are for balcony safety nets, pigeon nets and invisible grills for river-facing flats.',
+        'intro'       => 'Rajahmundry — officially Rajamahendravaram — spreads along the east bank of the Godavari, and the river shapes how homes here live. Flats near the ghats and along the river roads are built to catch the breeze off the water, families keep their balconies open from morning to night, and pigeons love the ledges just as much. Most of our Rajahmundry calls are for balcony safety nets and invisible grills for river-facing flats — nets that keep the pigeons out as well as the children in.',
         'homes'       => 'The old town around Innespeta, Danavaipeta and Prakash Nagar is mostly G+2 to G+4 buildings with narrow balconies and downstand beams plastered over. Newer gated communities in Morampudi, Lalacheruvu, Diwan Cheruvu and Bommuru have wider balconies and higher floors.',
         'context'     => 'The Godavari keeps the air damp for most of the year and the monsoon here is heavy. Untreated nets go brittle and rot, and plated hooks rust at the anchor first. We use UV-treated mesh, stainless fixings and, on older buildings, anchor into the beam behind the plaster rather than the plaster itself.',
         'landmarks'   => ['Pushkar Ghat', 'Kotilingala Ghat', 'Godavari Arch Bridge', 'Dowleswaram Barrage'],
@@ -64,13 +71,15 @@ return [
         'slug'        => 'vijayawada',
         'name'        => 'Vijayawada',
         'nickname'    => '',
+        'state'       => 'andhra-pradesh',
+        'parent'      => '',
         'alias_slugs' => ['bezawada', 'vijaywada'],
         'district'    => 'NTR district',
         'region'      => 'Krishna river',
         'zone'        => 'river',
         'kicker'      => 'On the Krishna riverfront',
         'blurb'       => 'Fierce summer heat and dense apartment blocks — Vijayawada needs materials that do not go brittle in the sun.',
-        'intro'       => 'Vijayawada is one of the hottest cities in Andhra Pradesh and one of the most crowded with apartments, and both facts show up in the work we do here. Dense G+5 blocks put balconies a few feet from the neighbours’, new towers keep rising along the Eluru and Bandar roads, and with the capital region next door, families keep moving in. Safety nets, invisible grills and pigeon nets are our everyday jobs in the city.',
+        'intro'       => 'Vijayawada is one of the hottest cities in Andhra Pradesh and one of the most crowded with apartments, and both facts show up in the work we do here. Dense G+5 blocks put balconies a few feet from the neighbours’, new towers keep rising along the Eluru and Bandar roads, and with the capital region next door, families keep moving in. Safety nets, invisible grills and material supply for local contractors are our everyday jobs in the city.',
         'homes'       => 'Governorpet, Suryaraopet and Labbipet are packed with older G+4 and G+5 blocks; Benz Circle, Patamata, Gunadala, Kanuru and Poranki are where the newer high-rises are. Many flats share duct shafts and ledges that pigeons take over quickly.',
         'context'     => 'Summer afternoons regularly pass 45 °C here, and that sun destroys untreated nets and cheap plastic-coated wire within a couple of seasons. Canal and river humidity then arrives with the monsoon. We fit UV-treated mesh and nylon-coated SS 316 cable, which hold up to the heat and the damp alike.',
         'landmarks'   => ['Prakasam Barrage', 'Kanaka Durga Temple on Indrakeeladri', 'Benz Circle', 'Bhavani Island'],
@@ -83,6 +92,8 @@ return [
         'slug'        => 'guntur',
         'name'        => 'Guntur',
         'nickname'    => '',
+        'state'       => 'andhra-pradesh',
+        'parent'      => '',
         'alias_slugs' => [],
         'district'    => 'Guntur district',
         'region'      => 'Krishna delta, inland',
@@ -102,6 +113,8 @@ return [
         'slug'        => 'kurnool',
         'name'        => 'Kurnool',
         'nickname'    => '',
+        'state'       => 'andhra-pradesh',
+        'parent'      => '',
         'alias_slugs' => ['karnool'],
         'district'    => 'Kurnool district',
         'region'      => 'Rayalaseema',
@@ -121,6 +134,8 @@ return [
         'slug'        => 'tirupati',
         'name'        => 'Tirupati',
         'nickname'    => '',
+        'state'       => 'andhra-pradesh',
+        'parent'      => '',
         'alias_slugs' => ['tirupathi'],
         'district'    => 'Tirupati district',
         'region'      => 'Rayalaseema, below the Seshachalam hills',
@@ -135,4 +150,4 @@ return [
         'nearby'      => ['kurnool', 'guntur'],
         'faq'         => ['question' => 'Do you cover apartments along Air Bypass Road and Tiruchanur?', 'answer' => 'Yes. Air Bypass Road, Tiruchanur, Renigunta Road and the localities around them are all part of our Tirupati coverage. Call or WhatsApp with your apartment name and we will fix a visit.'],
     ],
-];
+] + require __DIR__ . '/locations-telangana.php';

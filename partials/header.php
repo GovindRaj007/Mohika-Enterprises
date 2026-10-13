@@ -13,7 +13,7 @@ if (!defined('ROOT_DIR')) {
 
 $navCurrent  = current_path();
 $navServices = get_all_services();
-$navCities   = get_all_locations();
+$navByState  = locations_by_state();
 $navPages = [
     '/gallery.php'    => 'Gallery',
     '/about-us.php'   => 'About',
@@ -54,15 +54,16 @@ $navIsAreas    = $navCurrent !== null && (isset(route_table()[$navCurrent]) && r
                         Areas <?= icon('chevron', 'icon icon--sm') ?>
                     </button>
                     <div class="mega mega--areas" id="menu-areas" data-dropdown>
-                        <div class="mega__grid mega__grid--areas">
-                            <?php foreach ($navCities as $navCity): ?>
-                                <a class="mega__item" href="<?= e(city_url($navCity['slug'])) ?>"<?= $navAria(city_url($navCity['slug'])) ?>>
-                                    <span class="mega__icon"><?= icon('pin') ?></span>
-                                    <span>
-                                        <span class="mega__title"><?= e(city_display_name($navCity)) ?></span>
-                                        <span class="mega__note"><?= e($navCity['region']) ?></span>
-                                    </span>
-                                </a>
+                        <div class="mega__states">
+                            <?php foreach ($navByState as $navStateKey => $navStateCities): ?>
+                                <div class="mega__state mega__state--<?= e($navStateKey) ?>">
+                                    <p class="mega__state-title"><?= icon('pin', 'icon icon--sm') ?> <?= e(get_states()[$navStateKey]['name']) ?></p>
+                                    <ul class="mega__places">
+                                        <?php foreach ($navStateCities as $navCity): ?>
+                                            <li><a class="mega__place<?= !empty($navCity['parent']) ? ' mega__place--area' : '' ?>" href="<?= e(city_url($navCity['slug'])) ?>"<?= $navAria(city_url($navCity['slug'])) ?>><?= e(city_short_name($navCity)) ?></a></li>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                </div>
                             <?php endforeach; ?>
                         </div>
                         <a class="mega__all" href="/service-areas.php">All service areas <?= icon('arrow', 'icon icon--sm') ?></a>
@@ -114,8 +115,27 @@ $navIsAreas    = $navCurrent !== null && (isset(route_table()[$navCurrent]) && r
                     Service areas <?= icon('chevron', 'icon icon--sm') ?>
                 </button>
                 <div class="drawer__sub" id="drawer-areas" hidden>
-                    <?php foreach ($navCities as $navCity): ?>
-                        <a href="<?= e(city_url($navCity['slug'])) ?>"<?= $navAria(city_url($navCity['slug'])) ?>><?= icon('pin', 'icon icon--sm') ?><?= e(city_display_name($navCity)) ?></a>
+                    <?php foreach ($navByState as $navStateKey => $navStateCities): ?>
+                        <div class="drawer__group drawer__group--state">
+                            <button class="drawer__acc drawer__acc--state" type="button" aria-expanded="false" aria-controls="drawer-state-<?= e($navStateKey) ?>">
+                                <?= e(get_states()[$navStateKey]['name']) ?> <?= icon('chevron', 'icon icon--sm') ?>
+                            </button>
+                            <div class="drawer__sub drawer__sub--state" id="drawer-state-<?= e($navStateKey) ?>" hidden>
+                                <?php foreach ($navStateCities as $navCity): ?>
+                                    <div class="drawer__group drawer__group--city">
+                                        <button class="drawer__acc drawer__acc--city" type="button" aria-expanded="false" aria-controls="drawer-city-<?= e($navCity['slug']) ?>">
+                                            <?= e(city_short_name($navCity)) ?> <?= icon('chevron', 'icon icon--sm') ?>
+                                        </button>
+                                        <div class="drawer__sub drawer__sub--city" id="drawer-city-<?= e($navCity['slug']) ?>" hidden>
+                                            <?php foreach (services_in_city($navCity['slug']) as $navSvc): ?>
+                                                <a href="<?= e(service_location_url($navSvc['slug'], $navCity['slug'])) ?>"<?= $navAria(service_location_url($navSvc['slug'], $navCity['slug'])) ?>><?= e($navSvc['nav_label']) ?></a>
+                                            <?php endforeach; ?>
+                                            <a href="<?= e(city_url($navCity['slug'])) ?>"<?= $navAria(city_url($navCity['slug'])) ?>>All services in <?= e(city_short_name($navCity)) ?></a>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
                     <?php endforeach; ?>
                     <a href="/service-areas.php"<?= $navAria('/service-areas.php') ?>>All service areas</a>
                 </div>

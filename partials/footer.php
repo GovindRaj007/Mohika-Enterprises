@@ -30,7 +30,7 @@ $footBiz = business();
                 <?php if (!empty($footBiz['address'])): ?>
                     <li><?= icon('pin', 'icon icon--sm') ?><span><?= e(implode(', ', array_filter($footBiz['address']))) ?></span></li>
                 <?php else: ?>
-                    <li><?= icon('pin', 'icon icon--sm') ?><span>Serving <?= e(location_names_sentence()) ?></span></li>
+                    <li><?= icon('pin', 'icon icon--sm') ?><span>Serving <?= e(business()['region']) ?></span></li>
                 <?php endif; ?>
                 <?php if (!empty($footBiz['opening_hours'])): ?>
                     <li><?= icon('clock', 'icon icon--sm') ?><span><?= e($footBiz['opening_hours']) ?></span></li>
@@ -48,14 +48,17 @@ $footBiz = business();
             </ul>
         </nav>
 
-        <nav class="site-footer__col" aria-label="Service areas">
+        <nav class="site-footer__col site-footer__col--areas" aria-label="Service areas">
             <h2 class="site-footer__title">Service areas</h2>
-            <ul>
-                <?php foreach (get_all_locations() as $footCity): ?>
-                    <li><a href="<?= e(city_url($footCity['slug'])) ?>">Invisible grills &amp; safety nets in <?= e($footCity['nickname'] ?: $footCity['name']) ?></a></li>
-                <?php endforeach; ?>
-                <li><a href="/service-areas.php">Near me — all areas</a></li>
-            </ul>
+            <?php foreach (locations_by_state() as $footStateKey => $footCities): ?>
+                <h3 class="site-footer__state"><?= e(get_states()[$footStateKey]['name']) ?></h3>
+                <ul class="site-footer__places site-footer__places--<?= e($footStateKey) ?>">
+                    <?php foreach ($footCities as $footCity): ?>
+                        <li><a href="<?= e(city_url($footCity['slug'])) ?>"><?= e(city_short_name($footCity)) ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endforeach; ?>
+            <ul><li><a href="/service-areas.php">Near me — all areas</a></li></ul>
         </nav>
 
         <nav class="site-footer__col" id="footer-nav" aria-label="Company">
@@ -64,6 +67,7 @@ $footBiz = business();
                 <li><a href="/">Home</a></li>
                 <li><a href="/about-us.php">About us</a></li>
                 <li><a href="/gallery.php">Gallery</a></li>
+                <li><a href="/videos.php">Videos</a></li>
                 <li><a href="/blog.php">Blog</a></li>
                 <li><a href="/contact-us.php">Contact &amp; free quote</a></li>
             </ul>

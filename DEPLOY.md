@@ -11,8 +11,13 @@ upload into `public_html`. The method makes no difference to speed or SEO.
 - [ ] **Material specs**: confirm every line in each service's `materials`
       and `specs` (`config/services.php`) matches what Mohika fits — cable
       grade and thickness, mesh types, rod lengths.
-- [ ] **Localities**: confirm the locality lists in `config/locations.php`,
-      especially Kurnool and Tirupati.
+- [ ] **Localities**: confirm the locality lists in `config/locations.php`
+      (especially Kurnool and Tirupati) and `config/locations-telangana.php`
+      (especially Mahbubnagar, Medchal and Shamshabad) — list only areas the
+      team actually travels to.
+- [ ] **Telangana address**: if the business has an office or team base in
+      Hyderabad, add it (or the main address) to `config/business.php` →
+      `address` with its `region` set to "Telangana" or "Andhra Pradesh".
 - [x] **Logo**: shield + M-shaped roofline (two house gables) + grill cables —
       "a home, kept safe" — with the MOHIKA wordmark (`partials/logo.php`,
       icons in `assets/images/brand/`).
@@ -23,7 +28,7 @@ upload into `public_html`. The method makes no difference to speed or SEO.
       delete `data/testimonials-sample.php` from the upload.
 - [x] **Photos**: the client's photo set (`source-images/`, converted to WebP
       by `tools/make-image-variants.cjs`). Nice to have: larger originals of
-      `cricket-nets-1` (480 px) and `pigeon-nets-2` (371 px) — they are the
+      `cricket-nets-1` (480 px) — it is the
       main photos and sharing cards of those services, and any cricket photo
       ≥ 1600 px wide would sharpen the cricket slide in the home hero.
 - [ ] Google Business Profile URL + review link → `gbp_url`, `gbp_review_url`.
@@ -55,8 +60,21 @@ upload into `public_html`. The method makes no difference to speed or SEO.
 - [ ] Refresh cached link previews after a domain or image change: paste a
       page URL into the Facebook Sharing Debugger and click **Scrape Again**
       (WhatsApp uses the same cache).
+- [ ] **Retired pigeon pages:** after deploying, check that
+      `/pigeon-nets.php` and any `/pigeon-nets-in-{city}.html` return a 301 to
+      the balcony safety nets page. In Search Console, request indexing for
+      `/invisible-grills-dealer.php` and its Hyderabad, Vizag and Vijayawada
+      pages so the new service is picked up quickly.
 - [ ] Run PageSpeed Insights (mobile) on `/`, one service page and one
       service × city page: LCP under 2.5 s, CLS 0.
+- [ ] **Videos:** each clip has a watch page (`/…-video.php`, listed in
+      `sitemap.xml` with video entries). After deploying, resubmit the
+      sitemap, then in URL Inspection test and **Request indexing** for each
+      watch page. Expect the home and service pages to keep saying "Video
+      isn't on a watch page" — that is Google's rule for supplementary
+      clips, not an error; the watch pages are where the clips get indexed.
+      Video files are cached for a year and never versioned, so to replace a
+      clip give the new file a new name.
 - [ ] Footer and contact page NAP (name, address, phone) match the Google
       Business Profile character for character.
 

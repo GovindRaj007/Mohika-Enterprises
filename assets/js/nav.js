@@ -141,11 +141,12 @@
     });
     $win.on('resize', function () { if (!phone.matches) { closeDrawer(false); } });
 
-    // Accordions: one open at a time.
+    // Accordions (nested: Service areas → state → city): one open at a time
+    // per level — opening a city closes the other cities, not the state.
     $drawer.on('click', '.drawer__acc', function () {
       var $btn = $(this);
       var open = $btn.attr('aria-expanded') === 'true';
-      $drawer.find('.drawer__acc').not($btn).attr('aria-expanded', 'false').each(function () {
+      $btn.closest('.drawer__group').siblings('.drawer__group').children('.drawer__acc').attr('aria-expanded', 'false').each(function () {
         $('#' + $(this).attr('aria-controls')).prop('hidden', true);
       });
       $btn.attr('aria-expanded', open ? 'false' : 'true');
@@ -158,27 +159,6 @@
         $('[aria-controls="' + this.id + '"]').attr('aria-expanded', 'true');
       }
     });
-
-    /* ── home only: floating call / WhatsApp appear after half the hero ──
-       The hero already carries the calls to action, so the pair waits
-       until half of it has scrolled away, then slides in (and slides out
-       again if the visitor scrolls back up). Other pages show it always;
-       without JS it is always visible too (layout.css). */
-    var $fab = $('.fab');
-    var heroEl = document.querySelector('.page-home [data-hero]');
-    if ($fab.length && heroEl) {
-      $html.addClass('fab-gated');
-      var fabTicking = false;
-      var updateFab = function () {
-        var shown = window.scrollY > heroEl.offsetHeight / 2;
-        $fab.toggleClass('is-visible', shown);
-        fabTicking = false;
-      };
-      $win.on('scroll resize', function () {
-        if (!fabTicking) { fabTicking = true; window.requestAnimationFrame(updateFab); }
-      });
-      updateFab();
-    }
 
     /* ── back to top ── */
     $('[data-to-top]').on('click', function (e) {

@@ -10,7 +10,7 @@ if (!defined('ROOT_DIR')) {
 
 return [
     'title_suffix'        => ' | Mohika',
-    'default_description' => 'Invisible grills, balcony safety nets, pigeon nets, cricket nets and ceiling cloth hangers in Visakhapatnam, Vijayawada, Guntur, Rajahmundry, Kurnool & Tirupati.',
+    'default_description' => 'Invisible grills, invisible grill dealers, balcony safety nets, cricket nets and cloth hangers across Andhra Pradesh & Telangana — Hyderabad, Vizag & more.',
     'og_type'             => 'website',
     'og_image'            => DEFAULT_OG_IMAGE,
     'og_image_width'      => '1200',
@@ -21,5 +21,4 @@ return [
     'robots'              => 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1',
     'twitter_card'        => 'summary_large_image',
     'locale'              => 'en_IN',
-    'geo_region'          => 'IN-AP',
 ];

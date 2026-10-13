@@ -54,11 +54,7 @@ render_partial('header');
 
                 <div class="panel" data-reveal>
                     <h3 class="panel__title"><?= icon('pin', 'icon icon--sm') ?> <?= e($p['cover_title']) ?></h3>
-                    <ul class="chips">
-                        <?php foreach (get_all_locations() as $city): ?>
-                            <li><a class="chip" href="<?= e(city_url($city['slug'])) ?>"><?= e($city['nickname'] ?: $city['name']) ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <?php render_partial('state-groups', ['locations' => get_all_locations(), 'tag' => 'h4', 'href' => static fn(array $c): string => city_url($c['slug']), 'label' => 'city_short_name']); ?>
                 </div>
             </div>
             <div data-reveal>

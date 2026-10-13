@@ -117,7 +117,7 @@ if ($recipient === '') {
 // field. trim() only strips the ends, so replace breaks everywhere.
 $clean = static fn(string $v): string => trim(str_replace(["\r", "\n"], ' ', $v));
 
-$cityLabel = $submitted['city'] === 'elsewhere' ? 'Elsewhere in Andhra Pradesh' : $locations[$submitted['city']]['name'];
+$cityLabel = $submitted['city'] === 'elsewhere' ? 'Elsewhere in AP or Telangana' : city_display_name($locations[$submitted['city']]) . ', ' . location_state($locations[$submitted['city']])['name'];
 $wants     = implode(', ', array_map(static fn(string $s): string => $services[$s]['nav_label'], $submitted['services']));
 
 $subject = 'Quote request — ' . $clean($submitted['name']) . ' (' . $cityLabel . ')';

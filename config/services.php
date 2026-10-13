@@ -13,7 +13,7 @@
  *    and the copy uses those phrases where they read naturally.
  *
  * 'h1' is the bare service name (schema, breadcrumbs). The page H1 is
- * "{h1} in Andhra Pradesh"; city pages use "{h1} in {City}".
+ * "{h1} in Andhra Pradesh & Telangana"; area pages use "{h1} in {City}".
  */
 
 if (!defined('ROOT_DIR')) {
@@ -35,18 +35,18 @@ return [
         'service_type'=> 'Invisible grill installation',
 
         'title_candidates' => [
-            'Invisible Grills in Andhra Pradesh – Balcony & Window | Mohika',
-            'Invisible Grills in Andhra Pradesh – SS 316 Cable | Mohika',
-            'Invisible Grills in Andhra Pradesh | Mohika',
+            'Invisible Grills in Andhra Pradesh & Telangana | Mohika',
+            'Invisible Grills in AP & Telangana – SS 316 Cable | Mohika',
+            'Invisible Grills in AP & Telangana | Mohika',
         ],
-        'meta_description' => 'Invisible grills for balconies and windows in Andhra Pradesh — SS 316 marine-grade cable, child-safe spacing, fitted in Vizag, Vijayawada, Guntur & more.',
+        'meta_description' => 'Invisible grills for balconies & windows in Andhra Pradesh & Telangana — SS 316 cable, child-safe spacing, fitted in Hyderabad, Vizag, Vijayawada & more.',
         'meta_keywords'    => ['invisible grills', 'invisible grills in andhra pradesh', 'invisible grill for balcony', 'window invisible grills', 'invisible grill installation', 'invisible grills near me', 'SS 316 invisible grills', 'invisible grill price per sq ft'],
 
-        'card_summary' => 'Thin SS 316 cables run across a balcony or window, tensioned into the structure — fall protection that keeps the view and the breeze.',
+        'card_summary' => 'Thin SS 316 cables tensioned across a balcony or window — safety and added security with a clean, modern look, and the view and breeze kept.',
         'card_note'    => 'SS 316 cable · child-safe gap',
         'feats'        => ['SS 316 marine-grade cable', 'Child-safe 2-inch spacing', 'No welded frame, no rust stains'],
 
-        'intro' => 'Invisible grills are for the balcony you bought for its view and do not want to cage. Instead of welded bars, the opening is crossed by slim stainless steel cables, each one tensioned between anchors set into the parapet and the slab above. A child cannot squeeze between them, a pet cannot jump through, and from the sofa you mostly forget they are there. We fit invisible grills on apartment balconies, bedroom and kitchen windows, sit-outs, staircase openings and terrace edges across Andhra Pradesh.',
+        'intro' => 'Invisible grills are for homes that want safety and security without living behind a cage. Instead of welded bars, the opening is crossed by slim stainless steel cables, each one tensioned between anchors set into the parapet and the slab above. A child cannot squeeze between them, a pet cannot jump through, the tensioned steel adds a layer of security across the opening, and the clean lines give the balcony a modern look that bars never will — while from the sofa you mostly forget they are there. We fit invisible grills on apartment balconies, bedroom and kitchen windows, sit-outs, staircase openings and terrace edges across Andhra Pradesh and Telangana.',
         'what_is' => 'An invisible grill is a set of high-tensile stainless steel cables fixed at a set spacing across an opening and held under tension by anchors in the surrounding concrete. There is no frame across the middle and no pattern of bars, which is why it reads as open space rather than a cage. Its strength comes from the cable grade, the spacing and the tension — not from bulk — so all three are what we measure, specify and check.',
 
         'keyword_families' => [
@@ -56,8 +56,8 @@ return [
         ],
 
         'benefits' => [
-            ['heading' => 'The view stays open', 'text' => 'Fine cable at even spacing nearly disappears from a few feet back — no bars cutting up the sky.'],
-            ['heading' => 'Child and pet safe', 'text' => 'Spacing set narrower than a small child’s head, under tension so it holds its gap.'],
+            ['heading' => 'Modern look, open view', 'text' => 'Fine cable at even spacing gives a clean, modern facade and nearly disappears from a few feet back — no bars cutting up the sky.'],
+            ['heading' => 'Safety and added security', 'text' => 'Spacing narrower than a small child’s head, and tensioned stainless cable that cannot simply be pushed apart — safety for the family and a layer of security for the home.'],
             ['heading' => 'Rust-free for years', 'text' => 'SS 316 marine-grade cable and stainless fittings — no repainting, no rust streaks down the wall.'],
             ['heading' => 'Fits any opening', 'text' => 'Curved balconies, L-shaped corners, half-height parapets and odd window bays are measured and cut on site.'],
             ['heading' => 'Approved by most associations', 'text' => 'No change to the building’s face from the street, which is why apartment committees usually allow them.'],
@@ -71,10 +71,10 @@ return [
             'Duplex staircases, sit-outs and open terrace edges',
         ],
 
-        'materials' => 'We fit SS 316 marine-grade stainless steel cable, typically 2 mm to 2.5 mm thick with a nylon coating, run vertically at a 2-inch spacing. The cables sit in aluminium tracks fixed top and bottom with stainless anchor bolts into the slab and parapet concrete — never into tiles or plaster — and each run is tensioned individually so the spacing holds across the full width.',
+        'materials' => 'We fit SS 316 marine-grade stainless steel cable in 2 mm, 2.5 mm and 3 mm thicknesses with a nylon coating, run vertically at a 2-inch spacing — the thickness chosen for the height, the span and the wind on your opening. The cables sit in aluminium tracks fixed top and bottom with stainless anchor bolts into the slab and parapet concrete — never into tiles or plaster — and each run is tensioned individually so the spacing holds across the full width.',
         'specs' => [
             ['label' => 'Cable', 'value' => 'SS 316 marine-grade stainless steel, nylon-coated'],
-            ['label' => 'Thickness', 'value' => 'Typically 2 mm to 2.5 mm'],
+            ['label' => 'Thickness', 'value' => '2 mm to 3 mm (2, 2.5 or 3 mm)'],
             ['label' => 'Spacing', 'value' => '2 inches, held across the full width'],
             ['label' => 'Tracks', 'value' => 'Aluminium, fixed top and bottom'],
             ['label' => 'Anchoring', 'value' => 'Stainless anchor bolts into slab and parapet concrete'],
@@ -103,7 +103,110 @@ return [
             ['question' => 'How is the invisible grill price worked out?', 'answer' => 'Invisible grills are priced per square foot of the opening, and the rate depends on the cable thickness and the fixing conditions. We measure on the site visit and give you a written quote before any work starts.'],
         ],
 
-        'related' => ['balcony-safety-nets', 'pigeon-nets'],
+        'related' => ['invisible-grills-dealer', 'balcony-safety-nets'],
+    ],
+
+    'invisible-grills-dealer' => [
+        'slug'        => 'invisible-grills-dealer',
+        'kind'        => 'supply',   // a product-supply service: pages show ordering, not installation (templates/service*.php)
+        'nav_label'   => 'Invisible Grills Dealer',
+        'h1'          => 'Invisible Grills Dealer',
+        'singular'    => 'invisible grills dealer',
+        'h1_tag'      => 'Invisible grill material supply — wire, tracks & fittings',
+        'tagline'     => 'Material for every job, from one roll to a tower',
+        'icon'        => 'store',
+        'og_image'    => '/assets/images/og/og-invisible-grills-dealer.jpg',
+        'service_type'=> 'Invisible grill material supply',
+
+        'title_candidates' => [
+            'Invisible Grills Dealer in AP & Telangana – Wire & Tracks | Mohika',
+            'Invisible Grills Dealer in Andhra Pradesh & Telangana | Mohika',
+            'Invisible Grills Dealer in AP & Telangana | Mohika',
+        ],
+        'meta_description' => 'Invisible grills dealer & material supplier in AP & Telangana — SS 316 wire in 2, 2.5 & 3 mm, aluminium tracks and fittings for contractors and builders.',
+        'meta_keywords'    => ['invisible grills dealer', 'invisible grill dealers near me', 'invisible grill dealers in hyderabad', 'invisible grill material suppliers', 'invisible grill raw material suppliers', 'invisible grill supplier', 'invisible grill wholesale', 'invisible grill wire price', '3mm invisible grill wire', 'invisible grill material price'],
+
+        'card_summary' => 'SS 316 invisible grill wire, aluminium tracks and fittings supplied to contractors, builders and associations — or supplied and installed by our team.',
+        'card_note'    => 'Wire, tracks & fittings · bulk supply',
+        'feats'        => ['SS 316 wire in 2, 2.5 & 3 mm', 'Tracks, anchors & fittings', 'Supply only or supply & install'],
+
+        'intro' => 'As an invisible grills dealer, Mohika supplies the material behind every job we fit — SS 316 marine-grade wire in 2 mm, 2.5 mm and 3 mm, aluminium tracks, stainless anchors, end fittings and tensioners — to contractors, builders, interior designers and apartment associations across Andhra Pradesh and Telangana. Buy the material and fit it with your own team, or have it supplied and installed by ours; either way you get the same grade we stand behind on our own installations.',
+        'what_is' => 'An invisible grills dealer supplies the components an invisible grill is built from: the stainless steel wire itself, the aluminium tracks it runs through at the top and bottom of the opening, the anchors that fix those tracks into concrete, and the end fittings and tensioners that hold each run tight. The quality of a finished grill depends on those parts — the wire grade above all — which is why buying from a dealer who installs the same material matters.',
+
+        'keyword_families' => [
+            ['heading' => 'Invisible grill material suppliers', 'text' => 'Everything a job needs from one source: SS 316 wire, aluminium tracks, anchors, crimp sleeves, end caps and tensioners, matched so the parts fit together on site.'],
+            ['heading' => 'Invisible grill wire in 2, 2.5 and 3 mm', 'text' => 'Nylon-coated SS 316 marine-grade wire in three thicknesses — 2 mm for most balconies and windows, 2.5 mm and 3 mm for high floors, wide spans and windy sites.'],
+            ['heading' => 'Bulk supply for builders and contractors', 'text' => 'Project quantities for apartment blocks, gated communities and contractors, with a written specification and pricing for the whole order.'],
+        ],
+
+        'benefits' => [
+            ['heading' => 'One grade, every order', 'text' => 'The same SS 316 marine-grade wire we fit on our own jobs — not a cheaper grade for supply-only orders.'],
+            ['heading' => 'Three wire thicknesses', 'text' => '2 mm, 2.5 mm and 3 mm, so the wire can be matched to the height, span and wind on each opening.'],
+            ['heading' => 'Complete kits', 'text' => 'Wire, tracks, anchors and fittings that are made to work together, so nothing is improvised on site.'],
+            ['heading' => 'Supply or supply & install', 'text' => 'Fit it with your own team, or have our installers fit it — useful when your crew is stretched across sites.'],
+            ['heading' => 'Project quantities', 'text' => 'From a few flats to a whole tower, priced for the order and specified in writing.'],
+            ['heading' => 'Advice from installers', 'text' => 'We fit invisible grills every day, so we can tell you which thickness, spacing and fixing suits the job before you order.'],
+        ],
+
+        'applications' => [
+            'Contractors and fabricators fitting invisible grills with their own crews',
+            'Builders specifying invisible grills across a new apartment project',
+            'Interior designers adding invisible grills to a home or villa fit-out',
+            'Apartment associations replacing or standardising grills block-wide',
+        ],
+
+        'materials' => 'We supply nylon-coated SS 316 marine-grade stainless steel wire in 2 mm, 2.5 mm and 3 mm, in rolls or cut lengths; aluminium tracks for the top and bottom of the opening; stainless anchor bolts for fixing into concrete; and the crimp sleeves, end caps and tensioners that hold each run. Every component is the same as we use on our own installations, and the wire grade and thickness are written on every quotation and invoice.',
+        'specs' => [
+            ['label' => 'Wire', 'value' => 'SS 316 marine-grade stainless steel, nylon-coated'],
+            ['label' => 'Thickness', 'value' => '2 mm, 2.5 mm and 3 mm'],
+            ['label' => 'Supplied as', 'value' => 'Rolls or cut lengths, with matching fittings'],
+            ['label' => 'Tracks', 'value' => 'Aluminium, for top and bottom fixing'],
+            ['label' => 'Fixings', 'value' => 'Stainless anchors, crimps, end caps, tensioners'],
+            ['label' => 'Orders', 'value' => 'Supply only, or supply & installation'],
+        ],
+
+        'why_choose' => 'Most invisible grill problems start with the material, not the fitting: a wire sold as SS 316 that is really a lower grade, tracks that do not suit the anchors, fittings that slip. We sell only what we install ourselves, write the grade and thickness on every quotation and invoice, and can show samples before you order — so what arrives on site is exactly what was specified.',
+        'install_step_text' => 'For supply orders, the material is checked against the specification and packed by opening; for supply and installation, our team fixes the tracks into concrete, threads and tensions each wire and checks the spacing before handover.',
+
+        // Supply pages: how an order works, and why buy the material from us.
+        'cta_label'    => 'Get a material quote',
+        'cta_title'    => 'Need invisible grill material? Get a written quote',
+        'cta_text'     => 'WhatsApp your opening sizes or bill of quantities and tell us the wire thickness you want. We reply with a written quote stating the grade, thickness and fittings.',
+        'process_steps' => [
+            ['heading' => 'Send your openings', 'text' => 'WhatsApp or call with the opening sizes, a bill of quantities or the drawings — and the wire thickness, if you already know it.'],
+            ['heading' => 'Written quote', 'text' => 'You get a quotation listing the wire grade and thickness, the track lengths, anchors and fittings, and the price for the order.'],
+            ['heading' => 'Samples & approval', 'text' => 'Ask for samples of the wire and track profile to check, or to show your client or association before you confirm.'],
+            ['heading' => 'Packed & ready', 'text' => 'The order is checked against the quote and packed by opening, flat or floor, ready for collection or delivery as agreed.'],
+        ],
+        'why_points' => [
+            ['icon' => 'doc', 'heading' => 'Grade on every invoice', 'text' => 'The wire grade and thickness are written on the quotation and the invoice, so the site team can check what arrives.'],
+            ['icon' => 'ruler', 'heading' => '2, 2.5 and 3 mm wire', 'text' => 'Three thicknesses, by the roll or cut to length, so each opening gets the wire its height and span need.'],
+            ['icon' => 'anchor', 'heading' => 'Matched fittings', 'text' => 'Tracks, anchors, crimps, end caps and tensioners that are made to work together — nothing improvised on site.'],
+            ['icon' => 'users', 'heading' => 'Advice before you buy', 'text' => 'Talk to people who work with this material every day about thickness, spacing and fixing before you order.'],
+            ['icon' => 'shield', 'heading' => 'Project quantities', 'text' => 'From one flat to a whole tower, one specification across the order and kept on record for repeat orders.'],
+            ['icon' => 'camera', 'heading' => 'Samples on request', 'text' => 'Wire and track samples to compare, or to show your client or association for approval.'],
+        ],
+
+        'comparison' => [
+            'title' => 'Buying from an installing dealer vs a material-only seller',
+            'rows'  => [
+                ['label' => 'Wire grade', 'a' => 'SS 316, written on the invoice', 'b' => 'Often unstated'],
+                ['label' => 'Thickness choice', 'a' => '2, 2.5 and 3 mm', 'b' => 'Whatever is in stock'],
+                ['label' => 'Advice on the job', 'a' => 'From people who fit it daily', 'b' => 'Counter sale only'],
+                ['label' => 'Installation', 'a' => 'Available from our team', 'b' => 'Not offered'],
+            ],
+            'a' => 'Mohika (dealer + installer)', 'b' => 'Material-only seller',
+        ],
+
+        'faqs' => [
+            ['question' => 'Do you sell invisible grill material without installation?', 'answer' => 'Yes. As invisible grill dealers we supply wire, tracks, anchors and fittings to contractors, builders and designers who fit with their own teams. We can also supply and install if you prefer.'],
+            ['question' => 'Which invisible grill wire thickness should I buy?', 'answer' => '2 mm suits most balconies and windows. Choose 2.5 mm or 3 mm for high floors, wide spans and windy, exposed sites. Tell us the openings and we will recommend the thickness for each.'],
+            ['question' => 'Is your invisible grill wire really SS 316?', 'answer' => 'Yes — it is the same marine-grade SS 316 wire we fit on our own installations, and the grade and thickness are written on the quotation and invoice.'],
+            ['question' => 'Do you supply bulk quantities for apartment projects?', 'answer' => 'Yes. We supply project quantities for builders and associations, with a written specification and pricing for the whole order.'],
+            ['question' => 'How is the price of invisible grill material worked out?', 'answer' => 'It depends on the wire thickness and length, the number of track runs and fittings, and the order size. Send us the openings or a bill of quantities and we will give you a written quote.'],
+        ],
+
+        'related' => ['invisible-grills', 'balcony-safety-nets'],
     ],
 
     'balcony-safety-nets' => [
@@ -118,11 +221,11 @@ return [
         'service_type'=> 'Balcony safety net installation',
 
         'title_candidates' => [
-            'Balcony Safety Nets in Andhra Pradesh – Child & Pet Safe | Mohika',
-            'Balcony Safety Nets in Andhra Pradesh | Children Safety Nets',
-            'Balcony Safety Nets in Andhra Pradesh | Mohika',
+            'Balcony Safety Nets in Andhra Pradesh & Telangana | Mohika',
+            'Balcony Safety Nets in AP & Telangana – Child Safe | Mohika',
+            'Balcony Safety Nets in AP & Telangana | Mohika',
         ],
-        'meta_description' => 'Balcony safety nets and children safety nets in Andhra Pradesh — UV-treated HDPE mesh fitted floor to ceiling for kids, pets and elders. Free site visit.',
+        'meta_description' => 'Balcony safety nets & children safety nets in Andhra Pradesh & Telangana — UV-treated mesh, floor to ceiling, for kids, pets and elders. Free site visit.',
         'meta_keywords'    => ['balcony safety nets', 'balcony safety nets in andhra pradesh', 'children safety nets', 'safety nets for balcony', 'balcony safety nets near me', 'balcony safety net installation', 'pet safety nets', 'balcony safety nets price'],
 
         'card_summary' => 'UV-treated HDPE mesh tensioned across the full balcony opening — nothing to open, close or remember, and the balcony stays usable.',
@@ -186,93 +289,7 @@ return [
             ['question' => 'How is the balcony safety net price calculated?', 'answer' => 'By the square foot of the opening, and the rate depends on the mesh you choose. We measure on the site visit and give you a written quote first.'],
         ],
 
-        'related' => ['invisible-grills', 'pigeon-nets'],
-    ],
-
-    'pigeon-nets' => [
-        'slug'        => 'pigeon-nets',
-        'nav_label'   => 'Pigeon Nets',
-        'h1'          => 'Pigeon Nets',
-        'singular'    => 'pigeon net',
-        'h1_tag'      => 'Pigeon safety nets, open area nets & duct area nets',
-        'tagline'     => 'Birds out, balcony back',
-        'icon'        => 'bird',
-        'og_image'    => '/assets/images/og/og-pigeon-nets.jpg',
-        'service_type'=> 'Pigeon net installation',
-
-        'title_candidates' => [
-            'Pigeon Nets in Andhra Pradesh – Pigeon Safety Nets | Mohika',
-            'Pigeon Safety Nets in Andhra Pradesh | Mohika',
-            'Pigeon Nets in Andhra Pradesh | Mohika',
-        ],
-        'meta_description' => 'Pigeon nets in Andhra Pradesh — pigeon safety nets for balconies, open area nets for courtyards and duct area nets for shafts, sealed edge to edge.',
-        'meta_keywords'    => ['pigeon nets', 'pigeon safety nets', 'pigeon nets in andhra pradesh', 'pigeon nets for balconies', 'open area nets', 'duct area nets', 'duct area safety nets', 'pigeon net installation', 'anti bird nets', 'bird nets for balcony'],
-
-        'card_summary' => 'Anti-bird nylon mesh sealed edge to edge across balconies, open areas and duct shafts, so pigeons have no gap to come back through.',
-        'card_note'    => 'Anti-bird nylon mesh',
-        'feats'        => ['Sealed edge to edge', 'Balconies, open areas & ducts', 'Humane — no spikes or gel'],
-
-        'intro' => 'Pigeon nets are the permanent answer to droppings on the balcony, nests behind the AC unit and the cooing at dawn. Spikes, gels and shiny tape only move pigeons a few feet along; a pigeon net closes the space itself, so there is nowhere left to land or nest. We fit pigeon safety nets across balconies, utility areas, duct shafts, AC ledges, sunshades and whole building facades — and we do it without harming the birds.',
-        'what_is' => 'A pigeon net is a fine UV-treated nylon mesh stretched across an opening and fixed to the structure all the way round, with no gaps at the corners or around pipes. It is an exclusion, not a deterrent: the birds are not scared away, they are simply unable to get in. That is why it works permanently where other methods fade after a few weeks.',
-
-        'keyword_families' => [
-            ['heading' => 'Pigeon nets for balconies', 'text' => 'Mesh across the balcony opening, sealed against the ceiling, walls and parapet so the balcony stays open to light and air but closed to birds.'],
-            ['heading' => 'Open area nets', 'text' => 'Open courtyards, terrace openings, sky-lit atriums and the open space between buildings, closed with a flat, tensioned net so birds cannot drop in.'],
-            ['heading' => 'Duct area nets', 'text' => 'Duct shafts are where pigeons breed out of sight. Duct area nets close them floor by floor or at the top, with openable sections where plumbers need access.'],
-            ['heading' => 'Anti-bird nets for AC ledges & facades', 'text' => 'AC platforms, sunshades, open corridors and elevation gaps — anywhere birds perch — closed with the same mesh for whole apartment blocks.'],
-        ],
-
-        'benefits' => [
-            ['heading' => 'Stops the mess for good', 'text' => 'No more droppings, feathers or nests to clean every morning.'],
-            ['heading' => 'Humane', 'text' => 'The birds are kept out, never trapped or hurt.'],
-            ['heading' => 'Healthier home', 'text' => 'Pigeon droppings carry dust and germs — a net keeps them outside.'],
-            ['heading' => 'Protects the building', 'text' => 'Acidic droppings stain paint and choke drain outlets.'],
-            ['heading' => 'Nearly invisible', 'text' => 'Fine mesh in a neutral colour that hardly shows from the street.'],
-            ['heading' => 'Block-wide work', 'text' => 'We net single flats or whole apartment facades and ducts.'],
-        ],
-
-        'applications' => [
-            'Apartment balconies and utility areas where pigeons land',
-            'Open area nets over courtyards, atriums and terrace openings',
-            'Duct area nets across the service shafts of apartment blocks',
-            'AC outdoor-unit ledges, sunshades and window chajjas',
-            'Building facades, open corridors and parking-level openings',
-        ],
-
-        'materials' => 'We fit UV-treated nylon pigeon nets with a small mesh size that pigeons cannot push through. The edges are fixed on a stainless steel perimeter wire held by stainless hooks and anchors, and the net is sealed tight to the ceiling, walls, beams and around pipes so no corner is left open. Where a duct or ledge needs maintenance access, we leave an openable section.',
-        'specs' => [
-            ['label' => 'Mesh', 'value' => 'Nylon, UV-treated'],
-            ['label' => 'Mesh size', 'value' => 'Small enough that pigeons cannot push through'],
-            ['label' => 'Edge', 'value' => 'Stainless steel perimeter wire'],
-            ['label' => 'Fixings', 'value' => 'Stainless hooks and anchors'],
-            ['label' => 'Sealing', 'value' => 'Tight to ceiling, walls, beams and pipes'],
-            ['label' => 'Access', 'value' => 'Openable section where maintenance is needed'],
-        ],
-
-        'why_choose' => 'Most pigeon nets fail at the edges. Pigeons are patient, and a gap at a beam, a pipe or a ceiling corner is all they need to be back within a month. We seal every edge to the structure, work around pipes and AC brackets rather than leaving them as gaps, and look over the whole opening once more before we call it finished.',
-        'install_step_text' => 'Nests and droppings are cleared first, the perimeter wire is fixed around the opening, and the mesh is laced on and sealed at every corner, beam and pipe.',
-
-        'comparison' => [
-            'title' => 'Pigeon nets vs spikes and gels',
-            'rows'  => [
-                ['label' => 'How it works', 'a' => 'Physically closes the space', 'b' => 'Makes one spot uncomfortable'],
-                ['label' => 'Lasts', 'a' => 'Permanent when sealed', 'b' => 'Birds move a few feet over'],
-                ['label' => 'Harm to birds', 'a' => 'None', 'b' => 'Spikes can injure'],
-                ['label' => 'Covers', 'a' => 'Whole balconies and ducts', 'b' => 'Ledges only'],
-            ],
-            'a' => 'Pigeon nets', 'b' => 'Spikes & gels',
-        ],
-
-        'faqs' => [
-            ['question' => 'Do pigeon nets harm the birds?', 'answer' => 'No. A pigeon net is an exclusion — it stops birds getting in and nothing more. Before we fit it we clear out any nest and make sure no bird is trapped inside.'],
-            ['question' => 'Why do pigeons come back after some nets are fitted?', 'answer' => 'Because a corner, beam or pipe was left open. Pigeons find the smallest gap. We seal the net to every edge so there is no way back in.'],
-            ['question' => 'Can you net a duct shaft in an apartment block?', 'answer' => 'Yes. Duct area nets are fitted floor by floor or at the top of the shaft, with openable sections where plumbing access is needed. We usually quote these to the association.'],
-            ['question' => 'What are open area nets?', 'answer' => 'Open area nets cover large open spaces — courtyards, terrace openings, atriums and the gap between buildings — with a flat, tensioned net so pigeons cannot drop in to roost, while light and rain still pass through.'],
-            ['question' => 'Will the pigeon net block light and air?', 'answer' => 'No. The mesh is open and fine, so light and breeze pass through and from a distance it is hard to see.'],
-            ['question' => 'What decides the pigeon net cost?', 'answer' => 'The area to be netted and how much sealing work the edges need — a plain balcony is quicker than a duct full of pipes. We measure and quote on the site visit.'],
-        ],
-
-        'related' => ['balcony-safety-nets', 'invisible-grills'],
+        'related' => ['invisible-grills', 'ceiling-cloth-hangers'],
     ],
 
     'cricket-nets' => [
@@ -287,11 +304,11 @@ return [
         'service_type'=> 'Cricket net installation',
 
         'title_candidates' => [
-            'Cricket Nets in Andhra Pradesh – Practice & Box Cricket | Mohika',
-            'Cricket Practice Nets in Andhra Pradesh | Mohika',
-            'Cricket Nets in Andhra Pradesh | Mohika',
+            'Cricket Nets in Andhra Pradesh & Telangana | Mohika',
+            'Cricket Practice Nets in AP & Telangana | Mohika',
+            'Cricket Nets in AP & Telangana | Mohika',
         ],
-        'meta_description' => 'Cricket nets installation in Andhra Pradesh — cricket practice nets, box cricket enclosures and terrace nets for homes, schools, academies and turfs.',
+        'meta_description' => 'Cricket nets in Andhra Pradesh & Telangana — cricket practice nets, box cricket enclosures and terrace nets for homes, schools, academies and turfs.',
         'meta_keywords'    => ['cricket nets', 'cricket practice nets', 'cricket nets in andhra pradesh', 'box cricket nets', 'cricket nets installation', 'terrace cricket nets', 'cricket nets for home', 'sports nets'],
 
         'card_summary' => 'Practice lanes, box cricket enclosures and terrace nets in heavy knotted HDPE on a pole-and-cable frame, sized to your ground.',
@@ -355,7 +372,7 @@ return [
             ['question' => 'How are cricket nets priced?', 'answer' => 'By the net area plus the framing — the number of poles, the cable work and the footings. We plan the layout on the site visit and give a written quote.'],
         ],
 
-        'related' => ['balcony-safety-nets', 'pigeon-nets'],
+        'related' => ['balcony-safety-nets', 'invisible-grills'],
     ],
 
     'ceiling-cloth-hangers' => [
@@ -370,11 +387,11 @@ return [
         'service_type'=> 'Ceiling cloth hanger installation',
 
         'title_candidates' => [
-            'Ceiling Cloth Hangers in Andhra Pradesh – Installation | Mohika',
-            'Ceiling Cloth Hangers in Andhra Pradesh | Mohika',
+            'Ceiling Cloth Hangers in Andhra Pradesh & Telangana | Mohika',
+            'Ceiling Cloth Hangers in AP & Telangana | Mohika',
             'Ceiling Cloth Hangers | Mohika',
         ],
-        'meta_description' => 'Ceiling cloth hangers and wall mount cloth hangers in Andhra Pradesh — stainless steel cloth drying hangers for balconies and utility areas, installed.',
+        'meta_description' => 'Ceiling cloth hangers & wall mount cloth hangers in Andhra Pradesh & Telangana — stainless cloth drying hangers for balconies and utility areas.',
         'meta_keywords'    => ['ceiling cloth hangers', 'wall mount cloth hangers', 'ceiling cloth hanger installation', 'cloth drying ceiling hangers', 'wall mounted cloth drying hanger', 'cloth drying hanger for balcony', 'pulley cloth hanger', 'ceiling cloth hangers in andhra pradesh'],
 
         'card_summary' => 'Stainless steel drying rods on a ceiling pulley or a fold-out wall mount — clothes dry up and out of the way, and the floor stays free.',

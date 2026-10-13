@@ -21,6 +21,7 @@ if (!defined('ROOT_DIR')) {
 }
 
 $name     = $service['h1'];
+$isSupply = ($service['kind'] ?? '') === 'supply';   // dealer: ordering, not installation
 $lower    = str_lower($name);
 $city     = $location['name'];
 $cityFull = city_display_name($location);
@@ -42,7 +43,8 @@ $seo = [
     'path'         => $path,
     'og_image'     => $service['og_image'],
     'og_image_alt' => $heroAlt,
-    'placename'    => $city,
+    'placename'    => $cityFull,
+    'geo_region'   => location_state($location)['code'],
 ];
 
 // FAQs: the two questions from this city first, then the service's pricing
@@ -67,7 +69,7 @@ render_partial('header');
 <main id="main">
     <?php render_partial('page-hero', [
         'crumbs'    => [[$service['nav_label'], service_url($service['slug'])], [$cityFull, city_url($location['slug'])], [$name . ' in ' . $city, $path]],
-        'kicker'    => $location['kicker'] . ' · ' . $location['district'],
+        'kicker'    => $location['kicker'] . ' · ' . $location['district'] . ', ' . location_state($location)['name'],
         'h1'        => $name . ' in ' . $cityFull,
         'tag'       => $service['h1_tag'],
         'lead'      => $content['intro'],
@@ -76,6 +78,8 @@ render_partial('header');
         'photoLink' => '#photos',
         'quoteHref' => quote_url($service['slug'], $location['slug']),
         'waAbout'   => $lower . ' in ' . $city,
+        'installs'  => !$isSupply,
+        'ctaLabel'  => $isSupply ? $service['cta_label'] : null,
     ]); ?>
 
     <section class="section" aria-labelledby="local-title">
@@ -105,11 +109,11 @@ render_partial('header');
                 </ul>
                 <?php if ($nearby): ?>
                     <p class="also-near" data-reveal>Also near <?= e($city) ?>:
-                        <?php foreach (array_values($nearby) as $ni => $near): ?><?= $ni > 0 ? ' · ' : '' ?><a href="<?= e(service_location_url($service['slug'], $near['slug'])) ?>"><?= e($name) ?> in <?= e($near['nickname'] ?: $near['name']) ?></a><?php endforeach; ?>
+                        <?php foreach (array_values($nearby) as $ni => $near): ?><?= $ni > 0 ? ' · ' : '' ?><a href="<?= e(service_location_url($service['slug'], $near['slug'])) ?>"><?= e($name) ?> in <?= e(city_short_name($near)) ?></a><?php endforeach; ?>
                     </p>
                 <?php endif; ?>
             </div>
-            <?php render_partial('spec-card', ['specs' => $service['specs'], 'title' => 'Technical specifications in ' . $city, 'note' => 'Confirmed for your opening on the site visit.']); ?>
+            <?php render_partial('spec-card', ['specs' => $service['specs'], 'title' => 'Technical specifications in ' . $city, 'note' => $isSupply ? 'Grade and thickness are written on every quotation and invoice.' : 'Confirmed for your opening on the site visit.']); ?>
         </div>
     </section>
 
@@ -130,14 +134,14 @@ render_partial('header');
 
     <section class="section section--dark" aria-labelledby="process-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'How it works', 'title' => $name . ' installation process in ' . $city, 'id' => 'process-title']); ?>
-            <?php render_partial('process', ['installText' => $service['install_step_text'], 'compact' => true]); ?>
+            <?php render_partial('section-head', ['kicker' => 'How it works', 'title' => $isSupply ? 'How to order invisible grill material in ' . $city : $name . ' installation process in ' . $city, 'id' => 'process-title']); ?>
+            <?php render_partial('process', $isSupply ? ['steps' => $service['process_steps'], 'compact' => true] : ['installText' => $service['install_step_text'], 'compact' => true]); ?>
         </div>
     </section>
 
     <section class="section" id="photos" aria-labelledby="photos-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'Our work', 'title' => $name . ' we have fitted', 'id' => 'photos-title']); ?>
+            <?php render_partial('section-head', ['kicker' => 'Our work', 'title' => $isSupply ? 'Invisible grill material we supply in ' . $city : $name . ' we have fitted', 'id' => 'photos-title']); ?>
         </div>
         <?php render_partial('gallery-rail', ['items' => array_slice(service_images($service['slug'])['gallery'], 0, 6), 'allHref' => '/gallery.php#' . $service['slug']]); ?>
     </section>
@@ -162,19 +166,27 @@ render_partial('header');
                     </ul>
                 </div>
                 <div>
-                    <h2 class="h3"><?= e($name) ?> in other cities</h2>
-                    <ul class="chips chips--lg" data-reveal>
-                        <?php foreach ($otherCities as $oc): ?>
-                            <li><a class="chip" href="<?= e(service_location_url($service['slug'], $oc['slug'])) ?>"><?= e($oc['nickname'] ?: $oc['name']) ?></a></li>
-                        <?php endforeach; ?>
-                        <li><a class="chip chip--outline" href="<?= e(service_url($service['slug'])) ?>">All of Andhra Pradesh</a></li>
-                    </ul>
+                    <h2 class="h3"><?= e($name) ?> in other areas</h2>
+                    <?php render_partial('state-groups', [
+                        'locations' => $otherCities,
+                        'tag'       => 'h3',
+                        'href'      => static fn(array $c): string => service_location_url($service['slug'], $c['slug']),
+                        'label'     => 'city_short_name',
+                        'extra'     => [$name . ' across ' . business()['region_short'], service_url($service['slug'])],
+                    ]); ?>
                 </div>
             </div>
         </div>
     </section>
 
-    <?php render_partial('cta-band', [
+    <?php render_partial('cta-band', $isSupply ? [
+        'title'     => 'Invisible grill material in ' . $city . '? Get a written quote',
+        'text'      => 'WhatsApp your opening sizes or bill of quantities with your locality in ' . $city . '. We reply with a written quote stating the wire grade, thickness and fittings.',
+        'kicker'    => 'Invisible grill material supply',
+        'button'    => $service['cta_label'],
+        'quoteHref' => quote_url($service['slug'], $location['slug']),
+        'waAbout'   => $lower . ' in ' . $city,
+    ] : [
         'title'     => 'Book your free site visit in ' . $city,
         'text'      => 'WhatsApp a photo of the opening with your locality in ' . $city . '. We will fix a time to measure and give you a written quote for ' . $lower . '.',
         'quoteHref' => quote_url($service['slug'], $location['slug']),

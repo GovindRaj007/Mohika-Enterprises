@@ -14,5 +14,5 @@ return [
     ['icon' => 'ruler', 'heading' => 'Measured before quoted', 'text' => 'Every opening is measured on site, so the quote is for your balcony — not a guess from a photo.'],
     ['icon' => 'doc', 'heading' => 'Material named in writing', 'text' => 'Cable grade, mesh type and fixings are written on the quote, so you know exactly what goes up.'],
     ['icon' => 'anchor', 'heading' => 'Fixed into concrete', 'text' => 'Anchors go into the slab, beam or parapet — never into tiles, grout or loose plaster.'],
-    ['icon' => 'sun', 'heading' => 'Chosen for the weather', 'text' => 'Sea air in Vizag, river damp in Rajahmundry, summer heat in Vijayawada and Kurnool — the material is matched to it.'],
+    ['icon' => 'sun', 'heading' => 'Chosen for the weather', 'text' => 'Sea air in Vizag, river damp in Rajahmundry, 40 °C summers in Vijayawada and Hyderabad, wind on Kokapet’s high floors — the material is matched to it.'],
 ];

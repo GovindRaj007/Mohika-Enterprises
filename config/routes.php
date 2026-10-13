@@ -12,6 +12,7 @@
  *   /{service}-in-{city}.html                      service × city pages
  *   /invisible-grills-and-safety-nets-in-{city}.html   city hubs
  *   /{post}.php                                    blog posts
+ *   /{video-slug}.php                              video watch pages
  */
 
 if (!defined('ROOT_DIR')) {
@@ -28,6 +29,7 @@ return [
         '/about-us.php'      => 'about',
         '/blog.php'          => 'blog',
         '/contact-us.php'    => 'contact',
+        '/videos.php'        => 'videos',
         '/sitemap.php'       => 'sitemap',
     ],
 
@@ -40,5 +42,13 @@ return [
         '/home.php'   => '/',
         '/about.php'  => '/about-us.php',
         '/contact.php' => '/contact-us.php',
+        // Pigeon nets was retired in October 2026; its guide goes to the
+        // balcony safety nets page, which also keeps pigeons out.
+        '/how-to-stop-pigeons-on-balcony.php' => '/balcony-safety-nets.php',
+    ],
+
+    // Retired service slug => the service its pages now 301 to (core/router.php).
+    'retired' => [
+        'pigeon-nets' => 'balcony-safety-nets',
     ],
 ];

@@ -1,7 +1,7 @@
 <?php
 /**
  * Gallery — /gallery.php. Every service photo, grouped by service with an
- * anchor per group (/gallery.php#pigeon-nets) and filter buttons (jQuery).
+ * anchor per group (/gallery.php#cricket-nets) and filter buttons (jQuery).
  * Without JS all groups show. Photos open in the lightbox.
  */
 

@@ -10,14 +10,18 @@
   border: 2px solid transparent;
   border-radius: var(--radius-sm);   /* rectangular with rounded corners, site-wide */
   font-family: var(--font-heading); font-weight: 600; font-size: var(--text-sm);
-  line-height: 1.2; text-align: center; text-decoration: none; white-space: nowrap;
+  line-height: 1.2; text-align: center; text-decoration: none;
+  /* Labels stay on one line wherever they fit (every layout at normal text
+     size); with a large system text size a long label wraps inside the
+     button instead of pushing the page wider than the screen. */
+  max-width: 100%; text-wrap: balance;
   cursor: pointer;
   transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast), box-shadow var(--dur), color var(--dur-fast), border-color var(--dur-fast);
 }
 .btn:active { transform: translateY(1px); }
 .btn--sm { min-height: 44px; padding: var(--space-2) var(--space-4); }
 .btn--lg { min-height: 54px; padding: var(--space-3) var(--space-7); font-size: var(--text-base); }
-.btn--block { width: 100%; white-space: normal; }
+.btn--block { width: 100%; }
 .btn--cta { background: var(--color-cta); color: var(--color-cta-ink); box-shadow: var(--shadow-cta); }
 .btn--cta:hover { background: var(--color-cta-hover); color: var(--color-cta-ink); transform: translateY(-1px); }
 .btn--whatsapp { background: var(--whatsapp); color: var(--ink-0); }
@@ -218,7 +222,7 @@
 }
 
 /* ── comparison table ── */
-.compare { overflow-x: auto; border-radius: var(--radius-lg); border: 1px solid var(--color-line); background: var(--color-surface); box-shadow: var(--shadow-sm); }
+.compare { overflow-x: auto; contain: inline-size; /* scrolls inside; never widens its column */ border-radius: var(--radius-lg); border: 1px solid var(--color-line); background: var(--color-surface); box-shadow: var(--shadow-sm); }
 .compare__table { width: 100%; border-collapse: collapse; font-size: var(--text-sm); min-width: 420px; }
 .compare--three .compare__table { min-width: 560px; }
 .compare__table th, .compare__table td { padding: var(--space-3) var(--space-4); text-align: left; vertical-align: top; border-bottom: 1px solid var(--color-line); }
@@ -323,14 +327,14 @@
 @media (min-width: 1024px) { .benefits { grid-template-columns: repeat(3, 1fr); } }
 
 /* ── area links, localities, link lists ── */
-.area-links { list-style: none; display: grid; gap: var(--space-3); }
-.area-link { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: var(--space-1) var(--space-4); min-height: 64px; padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); background: var(--color-surface); border: 1px solid var(--color-line); text-decoration: none; color: var(--color-text); transition: border-color var(--dur-fast), transform var(--dur); }
+.area-links { list-style: none; display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
+.area-link { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: var(--space-1) var(--space-4); min-height: 64px; padding: var(--space-4) var(--space-5); border-radius: var(--radius-md); background: var(--color-surface); border: 1px solid var(--color-line); text-decoration: none; color: var(--color-text); transition: border-color var(--dur-fast), transform var(--dur); }
 .area-link:hover { border-color: var(--color-cta); color: var(--color-text); transform: translateY(-2px); }
-.area-link__name { font-family: var(--font-heading); font-weight: 600; }
+.area-link__name { font-family: var(--font-heading); font-weight: 600; overflow-wrap: anywhere; }
 .area-link__meta { grid-column: 1; font-size: var(--text-xs); color: var(--color-subtle); }
 .area-link__arrow { grid-row: 1 / span 2; grid-column: 2; color: var(--color-accent); }
-@media (min-width: 768px) { .area-links { grid-template-columns: repeat(2, 1fr); } }
-@media (min-width: 1024px) { .area-links { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 768px) { .area-links { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { .area-links { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 
 .localities { list-style: none; display: flex; flex-wrap: wrap; gap: var(--space-2); margin: var(--space-3) 0; }
 .localities li { padding: var(--space-1) var(--space-3); border-radius: var(--radius-pill); background: var(--color-surface); border: 1px solid var(--color-line); font-size: var(--text-sm); }
@@ -454,6 +458,7 @@ a.way:hover { border-color: var(--color-cta); transform: translateY(-2px); color
    prev/next buttons by one card. */
 .area-rail { position: relative; }
 .area-rail__track {
+  position: relative;   /* contains absolutely positioned bits (sr-only labels) so they scroll and clip with the track */
   display: flex; gap: var(--space-4);
   overflow-x: auto; overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
@@ -579,7 +584,7 @@ html:not(.js) .area-rail__controls { display: none; }
    tablets, beside a narrow copy column from 1024px. Each clip takes most of
    the row so the next one peeks in at the edge, but never grows taller
    than about four-fifths of the screen: width = min(share, 82svh × 9/16). */
-.video-band__inner { display: grid; gap: var(--space-7); }
+.video-band__inner { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-7); }   /* the clip row scrolls inside; never widens the page */
 .video-band__copy { max-width: 720px; }
 .video-band__copy .lead { margin-bottom: var(--space-4); }
 /* A small inset on both sides so the first and peeking clips never sit flush
@@ -627,6 +632,7 @@ html:not(.js) .area-rail__controls { display: none; }
 /* pause bars while playing */
 .reel__toggle[aria-pressed="true"] .reel__icon::before { left: 1px; width: 4px; height: 16px; border: 0; background: currentColor; box-shadow: 8px 0 0 currentColor; border-radius: 1px; }
 .reel__caption { margin-top: var(--space-3); font-size: var(--text-sm); color: var(--color-muted); line-height: 1.5; }
+.reel__link { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 44px; font-weight: 600; color: var(--color-accent); }
 .reel.is-playing .reel__frame { box-shadow: 0 0 0 2px var(--tan-300), var(--shadow-lg); }
 
 
@@ -634,8 +640,83 @@ html:not(.js) .area-rail__controls { display: none; }
 .sitemap-grid { display: grid; gap: var(--space-8) var(--space-7); }
 .sitemap-group__title { font-size: var(--text-lg); margin-bottom: var(--space-3); padding-bottom: var(--space-2); border-bottom: 2px solid var(--color-cta); display: inline-block; }
 .sitemap-list { list-style: none; display: grid; gap: var(--space-1); }
+.sitemap-state { margin: var(--space-4) 0 var(--space-1); font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
 .sitemap-list a { display: inline-flex; align-items: center; min-height: 40px; color: var(--color-text); text-decoration: underline; text-decoration-color: var(--color-line); text-underline-offset: 4px; }
 .sitemap-list a:hover { color: var(--color-accent); text-decoration-color: currentColor; }
 @media (min-width: 768px) { .sitemap-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .sitemap-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
 @media (max-width: 359px) { .panel { padding: var(--space-5) var(--space-4); } }
+
+/* ── video watch page (templates/video.php) ──────────────────────────
+   Phones: crumbs + H1, then the player straight away (it must sit in the
+   first screen — that is what makes this a watch page), then the text.
+   Wide screens: text on the left, the upright player on the right. */
+.watch-hero { padding-bottom: var(--space-9); }
+.watch-hero__inner { position: relative; z-index: 1; display: grid; gap: var(--space-5); grid-template-areas: "head" "player" "body"; }
+.watch-hero__head { grid-area: head; min-width: 0; }
+.watch-hero__head .page-hero__title { margin-bottom: 0; }
+.watch-hero__body { grid-area: body; min-width: 0; }
+.watch__player { grid-area: player; margin: 0; justify-self: center; width: min(100%, calc(68svh * 9 / 16)); }
+.watch__video { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; object-fit: cover; border-radius: var(--radius-lg); background: var(--ink-900); box-shadow: 0 30px 60px -20px rgb(0 0 0 / 0.6); }
+.watch__caption { margin-top: var(--space-3); font-size: var(--text-sm); color: var(--color-on-dark-2); }
+.watch__facts { display: flex; flex-wrap: wrap; gap: var(--space-3) var(--space-7); margin: var(--space-5) 0 0; }
+.watch__facts dt { font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--tan-300); }
+.watch__facts dd { margin: 0; color: var(--color-on-dark); font-weight: 600; }
+.watch__facts a { color: var(--color-on-dark); }
+@media (min-width: 1024px) {
+  .watch-hero__inner { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "head player" "body player"; column-gap: var(--space-10); align-content: start; }
+  .watch-hero__head { align-self: end; }
+  .watch__player { width: calc(74svh * 9 / 16); max-width: 420px; align-self: start; }
+}
+
+/* ── video cards (partials/video-cards.php) ── */
+.video-cards { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-5) var(--space-4); }
+.video-card__link { display: grid; gap: var(--space-2); text-decoration: none; color: var(--color-text); }
+.video-card__media { position: relative; display: block; aspect-ratio: 9 / 16; border-radius: var(--radius-lg); overflow: hidden; background: var(--ink-900); box-shadow: var(--shadow-sm); }
+.video-card__media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform 600ms var(--ease-out); }
+.video-card__link:hover .video-card__media img { transform: scale(1.04); }
+.video-card__play { position: absolute; left: 50%; top: 50%; width: 56px; height: 56px; margin: -28px 0 0 -28px; border-radius: 50%; background: rgb(24 23 27 / 0.72); box-shadow: 0 0 0 2px rgb(255 255 255 / 0.5); }
+.video-card__play::after { content: ""; position: absolute; left: 22px; top: 18px; border-style: solid; border-width: 10px 0 10px 16px; border-color: transparent transparent transparent var(--ink-0); }
+.video-card__time { position: absolute; right: var(--space-2); bottom: var(--space-2); padding: 2px 8px; border-radius: var(--radius-sm); background: rgb(24 23 27 / 0.8); color: var(--ink-0); font-size: var(--text-xs); font-weight: 700; }
+.video-card__service { font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-accent); }
+.video-card__title { font-family: var(--font-heading); font-weight: 600; line-height: 1.3; }
+.video-card__link:hover .video-card__title { color: var(--color-accent); }
+.video-hub__more { margin-top: var(--space-6); }
+@media (min-width: 768px) { .video-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-6); } }
+@media (min-width: 1024px) { .video-cards { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
+
+/* ── state tabs (home service areas) ──────────────────────────────────
+   Tabs only with JS; without it both panels show under their headings. */
+.state-tabs__list { display: inline-flex; gap: var(--space-1); padding: var(--space-1); margin-bottom: var(--space-6); border-radius: var(--radius-md); background: var(--color-surface); border: 1px solid var(--color-line); max-width: 100%; }
+.state-tabs__tab { display: inline-flex; align-items: center; gap: var(--space-2); min-height: 44px; padding: var(--space-2) var(--space-5); border: 0; border-radius: var(--radius-sm); background: none; color: var(--color-muted); font-family: var(--font-heading); font-size: var(--text-base); font-weight: 600; cursor: pointer; transition: background var(--dur-fast), color var(--dur-fast); }
+.state-tabs__tab:hover { color: var(--color-text); }
+.state-tabs__tab.is-active { background: var(--color-dark); color: var(--color-on-dark); }
+.state-tabs__tab:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 2px; }
+.state-tabs__count { display: inline-grid; place-items: center; min-width: 26px; height: 22px; padding: 0 6px; border-radius: 11px; background: var(--color-tint); color: var(--color-text); font-size: var(--text-xs); font-weight: 700; }
+.state-tabs__tab.is-active .state-tabs__count { background: var(--color-cta); color: var(--color-cta-ink); }
+.state-tabs__panel:focus-visible { outline: 3px solid var(--color-focus); outline-offset: 6px; border-radius: var(--radius-md); }
+.js .state-tabs__panel:not(.is-active) { display: none; }
+.js .state-tabs__nojs-title { display: none; }
+html:not(.js) .state-tabs__list { display: none; }
+html:not(.js) .state-tabs__panel + .state-tabs__panel { margin-top: var(--space-8); }
+
+/* ── lists grouped by state (partials/state-groups.php) ── */
+.state-groups { display: grid; gap: var(--space-6); }
+.state-group__title { display: flex; align-items: center; gap: var(--space-2); margin-bottom: var(--space-3); font-size: var(--text-base); text-transform: uppercase; letter-spacing: 0.08em; color: var(--color-accent); }
+.section--dark .state-group__title, .panel .state-group__title { color: inherit; }
+.state-groups--chips .state-group__title { font-size: var(--text-sm); }
+.state-groups__extra { margin: 0; }
+
+/* service-areas page: a block per state, zones inside it */
+.state-block + .state-block { margin-top: var(--space-10); }
+.state-block__title { display: flex; align-items: center; gap: var(--space-3); padding-bottom: var(--space-3); margin-bottom: var(--space-6); border-bottom: 2px solid var(--color-cta); }
+.state-block__title .icon { color: var(--color-accent); }
+.loc-columns + .state-group__title { margin-top: var(--space-8); }
+@media (max-width: 767px) {
+  .state-tabs__list { display: flex; width: 100%; }
+  .state-tabs__tab { flex: 1 1 0; justify-content: center; padding-inline: var(--space-3); white-space: nowrap; font-size: var(--text-sm); }
+}
+.state-tabs__tab { min-width: 0; }
+@media (max-width: 359px) {
+  .state-tabs__tab { white-space: normal; padding-inline: var(--space-2); line-height: 1.2; }
+}

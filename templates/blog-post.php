@@ -47,12 +47,13 @@ $linked = array_filter(array_map('get_service', $post['links']));
             <aside class="post-links">
                 <h2 class="h3">Related services</h2>
                 <?php foreach ($linked as $svc): ?>
-                    <p><a class="link-arrow" href="<?= e(service_url($svc['slug'])) ?>"><?= e($svc['h1']) ?> in <?= e(business()['state']) ?> <?= icon('arrow', 'icon icon--sm') ?></a></p>
-                    <ul class="chips">
-                        <?php foreach (cities_for_service($svc['slug']) as $city): ?>
-                            <li><a class="chip" href="<?= e(service_location_url($svc['slug'], $city['slug'])) ?>"><?= e($svc['nav_label']) ?> in <?= e($city['nickname'] ?: $city['name']) ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <p><a class="link-arrow" href="<?= e(service_url($svc['slug'])) ?>"><?= e($svc['h1']) ?> in <?= e(business()['region']) ?> <?= icon('arrow', 'icon icon--sm') ?></a></p>
+                    <?php render_partial('state-groups', [
+                        'locations' => cities_for_service($svc['slug']),
+                        'tag'       => 'h3',
+                        'href'      => static fn(array $c): string => service_location_url($svc['slug'], $c['slug']),
+                        'label'     => static fn(array $c): string => $svc['nav_label'] . ' in ' . city_short_name($c),
+                    ]); ?>
                 <?php endforeach; ?>
             </aside>
         </div>

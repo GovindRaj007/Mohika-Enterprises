@@ -1,9 +1,11 @@
 # Mohika Invisible Grills & Safety Nets — website
 
 A mobile-first lead-generation site for **mohikaenterprises.in**. It
-covers invisible grills, balcony safety nets, pigeon nets, cricket nets and
-ceiling cloth hangers in Visakhapatnam (Vizag), Rajahmundry, Vijayawada,
-Guntur, Kurnool and Tirupati.
+covers invisible grills, invisible grill material supply (dealer), balcony
+safety nets, cricket nets and ceiling cloth hangers in six Andhra Pradesh
+cities and fourteen Telangana areas (Hyderabad and its suburbs, Secunderabad,
+Mahbubnagar, Warangal). Pigeon nets was retired in October 2026; its URLs
+301 to the balcony safety nets pages (`config/routes.php` → `retired`).
 
 Plain **PHP 8 + HTML + CSS + JS**. No framework, no database, no build step
 on the server. Deploy by copying files.
@@ -27,8 +29,10 @@ config/                ALL content and business facts
   site.php             BASE_URL, SITE_ENV, GTM id, ads landing map
   business.php         phone, email, address (null until supplied), offer
   services.php         the five services: copy, specs, FAQs, SEO
-  locations.php        the six cities: local copy, localities, FAQ
-  service-locations/   unique copy per service × city (one file per service)
+  locations.php        the six Andhra Pradesh cities (+ locations-telangana.php:
+                       the 14 Telangana areas): local copy, localities, FAQ
+  service-locations/   unique copy per service × area — {service}.php for
+                       Andhra Pradesh, {service}-telangana.php for Telangana
   pages.php            copy for home, services, areas, about, gallery, blog, contact
   posts.php            blog posts
 core/                  router, helpers, images, SEO head, CSRF, icons
@@ -51,13 +55,16 @@ tools/                 check-site.php, image + motion build recipes
 | `/` | Home |
 | `/services.php`, `/service-areas.php`, `/gallery.php`, `/about-us.php`, `/blog.php`, `/contact-us.php` | Static pages |
 | `/{service}.php` | 5 service pages |
-| `/{service}-in-{city}.html` | 30 service × city pages |
-| `/invisible-grills-and-safety-nets-in-{city}.html` | 6 city hubs |
+| `/{service}-in-{city}.html` | 100 service × area pages (30 Andhra Pradesh, 70 Telangana) |
+| `/invisible-grills-and-safety-nets-in-{city}.html` | 20 area hubs (6 + 14) |
+| `/videos.php`, `/{clip}-video.php` | Video hub + 5 watch pages |
+| `/sitemap.php` | HTML sitemap |
 | `/{post}.php` | 4 blog posts |
 | `/sitemap.xml`, `/robots.txt` | Generated |
 
 Uppercase letters, trailing slashes, missing extensions and alias spellings
-(`vizag`, `rajamahendravaram`, `bezawada`, …) all **301** to the canonical
+(`vizag`, `rajamahendravaram`, `bezawada`, `kphb`, `mahabubnagar`,
+`hanamkonda`, …) all **301** to the canonical
 URL. Unknown URLs return 404.
 
 ## Common edits
@@ -65,8 +72,12 @@ URL. Unknown URLs return 404.
 - **Phone, email, address, hours, price, Google profile:** edit
   `config/business.php`. Anything left `null` renders nothing, and the
   schema follows automatically.
-- **Add a city:** add an entry to `config/locations.php`, then a block for it
-  in each `config/service-locations/{service}.php`. A service × city page
+- **Add a city or area:** add an entry to `config/locations.php` (Andhra
+  Pradesh) or `config/locations-telangana.php` — with its `state`, and
+  `parent` if it is an area of a city — then a block for it in each
+  `config/service-locations/{service}.php` or `{service}-telangana.php`.
+  Menus, footer, home tabs, service-areas page, form, sitemap and schema all
+  pick it up from there, grouped by state. A service × city page
   exists **only** when its block exists, so an unwritten pair is a 404 rather
   than a thin page. Run the checker afterwards: each new page must be at
   least 40 % unique.

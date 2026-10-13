@@ -18,6 +18,9 @@ $cityFull = city_display_name($location);
 $nick     = $location['nickname'] ?? '';
 $services = services_in_city($location['slug']);
 $nearby   = array_filter(array_map('get_location', $location['nearby']));
+$parent   = !empty($location['parent']) ? get_location($location['parent']) : null;
+$children = child_locations($location['slug']);
+$state    = location_state($location);
 [$heroPhoto, $heroAlt] = service_main_photo(array_key_first($services) ?? 'invisible-grills');
 
 $seo = [
@@ -27,9 +30,9 @@ $seo = [
         'Invisible Grills & Safety Nets in ' . $city . ' | ' . SITE_SHORT_NAME,
     ], 60),
     'description' => first_fitting([
-        'Invisible grills, balcony safety nets, pigeon nets, cricket nets & cloth hangers in ' . $cityFull . '. ' . $location['blurb'],
-        'Invisible grills, balcony safety nets, pigeon nets, cricket nets & ceiling cloth hangers in ' . $cityFull . ' — measured, quoted and fitted by ' . SITE_SHORT_NAME . '.',
-        'Invisible grills, safety nets, pigeon nets, cricket nets & cloth hangers in ' . $cityFull . '. Free site visit.',
+        'Invisible grills, grill dealers, balcony safety nets, cricket nets & cloth hangers in ' . $cityFull . '. ' . $location['blurb'],
+        'Invisible grills, invisible grill dealers, balcony safety nets, cricket nets & ceiling cloth hangers in ' . $cityFull . ' — by ' . SITE_SHORT_NAME . '.',
+        'Invisible grills, grill material, safety nets, cricket nets & cloth hangers in ' . $cityFull . '. Free site visit.',
     ], 155),
     'keywords' => array_values(array_filter([
         'invisible grills in ' . str_lower($city),
@@ -37,14 +40,15 @@ $seo = [
         $nick !== '' ? 'invisible grills in ' . str_lower($nick) : '',
         $nick !== '' ? 'safety nets in ' . str_lower($nick) : '',
         'balcony safety nets in ' . str_lower($city),
-        'pigeon safety nets in ' . str_lower($city),
+        'invisible grill dealers in ' . str_lower($city),
         'cricket nets in ' . str_lower($city),
         'ceiling cloth hangers ' . str_lower($city),
         'invisible grills near me',
     ])),
     'path'      => $path,
     'og_image_alt' => $heroAlt,
-    'placename' => $city,
+    'placename' => $cityFull,
+    'geo_region'=> $state['code'],
 ];
 
 $faqs = [
@@ -58,10 +62,12 @@ render_partial('header');
 ?>
 <main id="main">
     <?php render_partial('page-hero', [
-        'crumbs'    => [['Service areas', '/service-areas.php'], [$cityFull, $path]],
-        'kicker'    => $location['kicker'] . ' · ' . $location['district'],
+        'crumbs'    => $parent
+            ? [['Service areas', '/service-areas.php'], [$parent['name'], city_url($parent['slug'])], [$city, $path]]
+            : [['Service areas', '/service-areas.php'], [$cityFull, $path]],
+        'kicker'    => $location['kicker'] . ' · ' . $location['district'] . ', ' . $state['name'],
         'h1'        => 'Invisible Grills & Safety Nets in ' . $cityFull,
-        'tag'       => 'Balcony safety, pigeon nets, cricket nets & cloth hangers in ' . ($nick !== '' ? $nick : $city),
+        'tag'       => 'Invisible grills, grill material, safety nets & more in ' . ($nick !== '' ? $nick : $city),
         'lead'      => $location['intro'],
         'mosaic'    => array_values(array_map(static function (array $svc) use ($location): array {
             [$mp, $ma] = service_main_photo($svc['slug']);
@@ -105,9 +111,20 @@ render_partial('header');
                 <?php foreach ($location['localities'] as $locality): ?><li><?= e($locality) ?></li><?php endforeach; ?>
                 <li class="localities__more">and nearby areas</li>
             </ul>
+            <?php if ($children): ?>
+                <h3 class="sub-title">Areas of <?= e($city) ?> with their own page</h3>
+                <ul class="chips chips--lg">
+                    <?php foreach ($children as $child): ?>
+                        <li><a class="chip" href="<?= e(city_url($child['slug'])) ?>">Invisible grills &amp; safety nets in <?= e($child['name']) ?></a></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
+            <?php if ($parent): ?>
+                <p class="also-near">Part of <a href="<?= e(city_url($parent['slug'])) ?>">invisible grills &amp; safety nets in <?= e($parent['name']) ?></a>.</p>
+            <?php endif; ?>
             <?php if ($nearby): ?>
                 <p class="also-near">Also nearby:
-                    <?php foreach (array_values($nearby) as $ni => $near): ?><?= $ni > 0 ? ' · ' : '' ?><a href="<?= e(city_url($near['slug'])) ?>">Invisible grills &amp; safety nets in <?= e($near['nickname'] ?: $near['name']) ?></a><?php endforeach; ?>
+                    <?php foreach (array_values($nearby) as $ni => $near): ?><?= $ni > 0 ? ' · ' : '' ?><a href="<?= e(city_url($near['slug'])) ?>">Invisible grills &amp; safety nets in <?= e(city_short_name($near)) ?></a><?php endforeach; ?>
                 </p>
             <?php endif; ?>
         </div>

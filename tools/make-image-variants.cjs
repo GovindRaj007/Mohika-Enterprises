@@ -36,18 +36,17 @@ const content = {
   'window-invisible-grills-1.webp': 'window-invisible-grills-sliding-window',
   'window-invisible-grills-4.webp': 'window-invisible-grills-living-room',
 
+  'invisible-grills-dealer-2.png': 'invisible-grill-wire-and-fittings-stock',
+  'invisible-grills-dealer-1.png': 'invisible-grill-wire-spools-shelving',
+  'invisible-grills-dealer-3.png': 'invisible-grill-wire-2-5mm-3mm',
+  'invisible-grills-dealer-4.png': 'invisible-grill-fittings-anchors-crimps',
+  'invisible-grills-dealer-5.png': 'invisible-grill-aluminium-tracks-ss-bolts',
+
   'balcony-safety-nets-3.png': 'balcony-safety-net-wide-balcony',
   'balcony-safety-nets-1.png': 'balcony-safety-net-high-rise-family',
   'balcony-safety-nets-2.png': 'balcony-safety-net-full-height',
   'balcony-safety-nets-4.png': 'children-safety-net-close-up',
   'children-safety-nets-4.webp': 'children-safety-net-long-balcony',
-
-  'pigeon-nets-2.png': 'pigeon-safety-net-apartment-balcony',
-  'pigeon-nets-1.png': 'pigeon-net-tall-balcony',
-  'pigeon-nets-4.webp': 'pigeon-safety-net-high-rise',
-  'open-area-nets-1.png': 'open-area-net-terrace',
-  'open-area-nets-2.png': 'open-area-net-courtyard',
-  'duct-area-nets-3.webp': 'duct-area-nets-apartment-shafts',
 
   'cricket-nets-1.webp': 'cricket-net-ball-stopped',
   'cricket-nets-2.webp': 'cricket-practice-nets-batting',
@@ -66,7 +65,7 @@ const content = {
 const hero = {
   'invisible-grills-4.png': 'hero-invisible-grills',
   'balcony-safety-nets-3.png': 'hero-balcony-safety-nets',
-  'open-area-nets-2.png': 'hero-pigeon-nets',
+  'invisible-grills-dealer-2.png': 'hero-invisible-grills-dealer',
   'cricket-nets-4.png': 'hero-cricket-nets',
   'ceiling-cloth-hangers-1.png': 'hero-ceiling-cloth-hangers',
 };
@@ -77,7 +76,7 @@ const hero = {
 const cards = {
   'invisible-grills-1.png': { name: 'og-invisible-grills', top: 0.12 },
   'balcony-safety-nets-3.png': { name: 'og-balcony-safety-nets' },
-  'pigeon-nets-2.png': { name: 'og-pigeon-nets', top: 0.62 },
+  'invisible-grills-dealer-2.png': { name: 'og-invisible-grills-dealer' },
   'cricket-nets-1.webp': { name: 'og-cricket-nets' },
   'ceiling-cloth-hangers-1.png': { name: 'og-ceiling-cloth-hangers' },
 };
@@ -98,7 +97,10 @@ async function variants(file, name, widths, isHero = false) {
     const cap = w >= 1000 ? 140000 : 80000;
     let q = 76;
     await sharp(file).resize(w).webp({ quality: q, effort: 6 }).toFile(dest);
-    while (fs.statSync(dest).size > cap && q - 6 >= 50) {
+    // Hero backgrounds sit under a dark overlay, so they may go a little
+    // lower in quality than content photos to stay inside the budget.
+    const floor = isHero ? 40 : 50;
+    while (fs.statSync(dest).size > cap && q - 6 >= floor) {
       q -= 6;
       await sharp(file).resize(w).webp({ quality: q, effort: 6 }).toFile(dest);
     }

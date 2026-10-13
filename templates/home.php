@@ -46,10 +46,11 @@ $posts = array_slice(get_all_posts(), 0, 3, true);
         <div class="container intro-band__inner" data-reveal-group>
             <p class="intro-band__lead" data-reveal><?= rich($p['lead']) ?></p>
             <ul class="trust" data-reveal>
+                <?php if (installs_label() !== ''): ?><li><?= icon('check', 'icon icon--sm') ?><?= e(installs_label()) ?> installations</li><?php endif; ?>
                 <?php if (years_label() !== ''): ?><li><?= icon('shield', 'icon icon--sm') ?><?= e(years_label()) ?> experience</li><?php endif; ?>
                 <li><?= icon('ruler', 'icon icon--sm') ?><?= e($biz['offer']) ?></li>
                 <li><?= icon('doc', 'icon icon--sm') ?>Written quote</li>
-                <li><?= icon('pin', 'icon icon--sm') ?><?= count($cities) ?> cities</li>
+                <li><?= icon('pin', 'icon icon--sm') ?><?= e($biz['region_short']) ?></li>
             </ul>
             <div class="intro-band__actions" data-reveal>
                 <a class="btn btn--whatsapp" href="<?= e(whatsapp_url()) ?>" target="_blank" rel="noopener" data-track="whatsapp-intro"><?= icon('whatsapp', 'icon icon--sm') ?> WhatsApp a photo</a>
@@ -62,7 +63,7 @@ $posts = array_slice(get_all_posts(), 0, 3, true);
         <div class="ticker__track">
             <?php for ($loop = 0; $loop < 2; $loop++): ?>
                 <?php foreach ($services as $svc): ?><span><?= e($svc['nav_label']) ?></span><?php endforeach; ?>
-                <?php foreach ($cities as $city): ?><span class="ticker__city"><?= e($city['nickname'] ?: $city['name']) ?></span><?php endforeach; ?>
+                <?php foreach ($cities as $city): ?><span class="ticker__city"><?= e(city_short_name($city)) ?></span><?php endforeach; ?>
             <?php endfor; ?>
         </div>
     </div>
@@ -114,10 +115,12 @@ $posts = array_slice(get_all_posts(), 0, 3, true);
                     <span class="stats__label"><?= e($stat['label']) ?></span>
                 </div>
             <?php endforeach; ?>
-            <div class="stats__item" data-reveal>
-                <span class="stats__value stats__value--word">Free</span>
-                <span class="stats__label"><?= e($p['stats_offer_label']) ?></span>
-            </div>
+            <?php if (!empty($biz['installs_count'])): ?>
+                <div class="stats__item" data-reveal>
+                    <span class="stats__value" data-count="<?= (int) $biz['installs_count'] ?>" data-suffix="+"><?= (int) $biz['installs_count'] ?>+</span>
+                    <span class="stats__label"><?= e($p['stats_installs_label']) ?></span>
+                </div>
+            <?php endif; ?>
         </div>
     </section>
 
@@ -173,7 +176,22 @@ $posts = array_slice(get_all_posts(), 0, 3, true);
     <section class="section section--tint" aria-labelledby="areas-title">
         <div class="container">
             <?php render_partial('section-head', ['kicker' => $p['areas_kicker'], 'title' => $p['areas_title'], 'note' => $p['areas_note'], 'id' => 'areas-title']); ?>
-            <?php render_partial('area-rail'); ?>
+            <?php $areaStates = locations_by_state(); $areaFirst = array_key_first($areaStates); ?>
+            <div class="state-tabs" data-tabs>
+                <div class="state-tabs__list" role="tablist" aria-label="Service areas by state">
+                    <?php foreach ($areaStates as $stKey => $stCities): $stOn = $stKey === $areaFirst; ?>
+                        <button class="state-tabs__tab<?= $stOn ? ' is-active' : '' ?>" type="button" role="tab" id="areas-tab-<?= e($stKey) ?>" aria-controls="areas-panel-<?= e($stKey) ?>" aria-selected="<?= $stOn ? 'true' : 'false' ?>" tabindex="<?= $stOn ? '0' : '-1' ?>" data-tab>
+                            <?= e(get_states()[$stKey]['name']) ?> <span class="state-tabs__count"><?= count($stCities) ?></span>
+                        </button>
+                    <?php endforeach; ?>
+                </div>
+                <?php foreach ($areaStates as $stKey => $stCities): $stOn = $stKey === $areaFirst; ?>
+                    <div class="state-tabs__panel<?= $stOn ? ' is-active' : '' ?>" role="tabpanel" id="areas-panel-<?= e($stKey) ?>" aria-labelledby="areas-tab-<?= e($stKey) ?>" tabindex="0" data-tab-panel>
+                        <h3 class="state-tabs__nojs-title"><?= e(get_states()[$stKey]['name']) ?></h3>
+                        <?php render_partial('area-rail', ['railCities' => $stCities, 'railLabel' => 'Service areas in ' . get_states()[$stKey]['name']]); ?>
+                    </div>
+                <?php endforeach; ?>
+            </div>
             <p class="section__more"><a class="link-arrow" href="/service-areas.php">Find your locality <?= icon('arrow', 'icon icon--sm') ?></a></p>
         </div>
     </section>

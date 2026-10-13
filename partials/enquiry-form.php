@@ -85,10 +85,14 @@ $fieldErr = static function (string $field) use ($formErrors): string {
                 <label class="form__label" for="f-city">City</label>
                 <select class="form__input" id="f-city" name="city" required<?= $fieldErr('city') ?>>
                     <option value="">Choose your city</option>
-                    <?php foreach ($formCities as $formCity): ?>
-                        <option value="<?= e($formCity['slug']) ?>"<?= $selCity === $formCity['slug'] ? ' selected' : '' ?>><?= e(city_display_name($formCity)) ?></option>
+                    <?php foreach (locations_by_state() as $formStateKey => $formStateCities): ?>
+                        <optgroup label="<?= e(get_states()[$formStateKey]['name']) ?>">
+                            <?php foreach ($formStateCities as $formCity): ?>
+                                <option value="<?= e($formCity['slug']) ?>"<?= $selCity === $formCity['slug'] ? ' selected' : '' ?>><?= e(city_display_name($formCity)) ?></option>
+                            <?php endforeach; ?>
+                        </optgroup>
                     <?php endforeach; ?>
-                    <option value="elsewhere"<?= $selCity === 'elsewhere' ? ' selected' : '' ?>>Somewhere else in Andhra Pradesh</option>
+                    <option value="elsewhere"<?= $selCity === 'elsewhere' ? ' selected' : '' ?>>Somewhere else in AP or Telangana</option>
                 </select>
                 <p class="form__error" id="err-city"<?= isset($formErrors['city']) ? '' : ' hidden' ?>><?= e($formErrors['city'] ?? 'Choose your city.') ?></p>
             </div>

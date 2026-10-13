@@ -37,7 +37,6 @@ if (!defined('ROOT_DIR')) {
     exit;
 }
 
-$heroCities = count(get_all_locations());
 $slideCount = count($services);
 ?>
 <section class="hero" aria-labelledby="hero-title" data-hero>
@@ -55,7 +54,13 @@ $slideCount = count($services);
     <div class="container hero__layout">
         <header class="hero__head">
             <h1 class="hero__h1" id="hero-title"><?= e($p['h1']) ?></h1>
-            <p class="hero__places"><?= icon('pin', 'icon icon--sm') ?> <?= e($p['eyebrow']) ?></p>
+            <?php if (proof_points()): ?>
+                <ul class="hero__proof" aria-label="<?= e(SITE_SHORT_NAME) ?> in numbers">
+                    <?php foreach (proof_points() as [$hpValue, $hpLabel]): ?>
+                        <li><strong><?= e($hpValue) ?></strong> <?= e($hpLabel) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            <?php endif; ?>
         </header>
 
         <div class="hero__stage" aria-roledescription="carousel" aria-label="Our services" data-hero-stage>
@@ -87,7 +92,7 @@ $slideCount = count($services);
                                     <div><dt><?= e($spec['label']) ?></dt><dd><?= e($spec['value']) ?></dd></div>
                                 <?php endforeach; ?>
                             </dl>
-                            <p class="slide__card-foot"><?= icon('pin', 'icon icon--sm') ?> Fitted across <?= $heroCities ?> cities in Andhra Pradesh</p>
+                            <p class="slide__card-foot"><?= icon('pin', 'icon icon--sm') ?> Fitted across <?= e(business()['region']) ?></p>
                         </aside>
                     </article>
                 <?php $slideIndex++; endforeach; ?>

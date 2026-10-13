@@ -59,10 +59,8 @@ render_partial('header');
 
     <section class="section section--tint" aria-labelledby="areas-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'Service areas', 'title' => 'Invisible grills & safety nets near me — every city', 'id' => 'areas-title']); ?>
-            <div class="city-grid" data-reveal-group>
-                <?php foreach (get_all_locations() as $city) { render_partial('city-card', ['location' => $city]); } ?>
-            </div>
+            <?php render_partial('section-head', ['kicker' => 'Service areas', 'title' => 'Invisible grills & safety nets near me — every area', 'id' => 'areas-title']); ?>
+            <?php render_partial('state-groups', ['locations' => get_all_locations(), 'variant' => 'cards']); ?>
         </div>
     </section>
 

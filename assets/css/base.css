@@ -43,6 +43,11 @@ h1, h2, h3, h4 {
   letter-spacing: -0.015em;
   margin: 0 0 var(--space-4);
   text-wrap: balance;
+  /* A single long word only breaks when it cannot fit the line at all —
+     never at normal text sizes, but on a narrow phone set to large text it
+     stops a heading from pushing the page wider than the screen. */
+  overflow-wrap: anywhere;
+  hyphens: auto;
 }
 h1 { font-size: var(--text-4xl); font-weight: 700; letter-spacing: -0.025em; }
 h2 { font-size: var(--text-3xl); }

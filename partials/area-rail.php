@@ -10,6 +10,9 @@
  * The visual band at the top of each card is drawn (city name over the
  * cable motif), not a photo — there are no photos of each city, and an
  * installation photo from elsewhere would misrepresent the place.
+ *
+ * $railCities (optional): the locations to show — the home page passes one
+ * state's list per tab; default is every location.
  */
 
 if (!defined('ROOT_DIR')) {
@@ -17,15 +20,16 @@ if (!defined('ROOT_DIR')) {
     exit;
 }
 
-$railCities = get_all_locations();
+$railCities = $railCities ?? get_all_locations();
+$railLabel  = $railLabel ?? 'Service areas';
 ?>
 <div class="area-rail" data-area-rail data-reveal-group>
-    <div class="area-rail__track" tabindex="0" role="region" aria-label="Service areas — scroll sideways for more" data-area-track>
+    <div class="area-rail__track" tabindex="0" role="region" aria-label="<?= e($railLabel) ?> — scroll sideways for more" data-area-track>
         <?php $railIndex = 0; foreach ($railCities as $railCity): $railIndex++; ?>
             <article class="area-card" data-reveal>
                 <div class="area-card__visual" aria-hidden="true">
                     <span class="area-card__num"><?= str_pad((string) $railIndex, 2, '0', STR_PAD_LEFT) ?></span>
-                    <span class="area-card__big"><?= e($railCity['nickname'] ?: $railCity['name']) ?></span>
+                    <span class="area-card__big"><?= e(city_short_name($railCity)) ?></span>
                     <span class="area-card__kicker"><?= icon('pin', 'icon icon--sm') ?> <?= e($railCity['kicker']) ?></span>
                 </div>
                 <div class="area-card__body">
@@ -37,7 +41,7 @@ $railCities = get_all_locations();
                             <li><a class="chip" href="<?= e(service_location_url($railSvc['slug'], $railCity['slug'])) ?>"><?= e($railSvc['nav_label']) ?></a></li>
                         <?php endforeach; ?>
                     </ul>
-                    <a class="link-arrow area-card__more" href="<?= e(city_url($railCity['slug'])) ?>">All work in <?= e($railCity['nickname'] ?: $railCity['name']) ?> <?= icon('arrow', 'icon icon--sm') ?></a>
+                    <a class="link-arrow area-card__more" href="<?= e(city_url($railCity['slug'])) ?>">All work in <?= e(city_short_name($railCity)) ?> <?= icon('arrow', 'icon icon--sm') ?></a>
                 </div>
             </article>
         <?php endforeach; ?>

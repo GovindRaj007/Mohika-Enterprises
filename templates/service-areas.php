@@ -14,16 +14,17 @@ if (!defined('ROOT_DIR')) {
 $p = config_get('pages')['service-areas'];
 $seo = ['title' => $p['title'], 'description' => $p['description'], 'keywords' => $p['keywords'], 'path' => $path];
 
-$byZone = [];
+// State → zone → locations, in config order.
+$byStateZone = [];
 foreach (get_all_locations() as $loc) {
-    $byZone[$loc['zone']][] = $loc;
+    $byStateZone[$loc['state']][$loc['zone']][] = $loc;
 }
 
 render_partial('head', ['seo' => $seo, 'bodyClass' => 'page-areas']);
 render_partial('header');
 ?>
 <main id="main">
-    <?php render_partial('page-hero', ['crumbs' => [['Service areas', $path]], 'kicker' => business()['state'], 'h1' => $p['h1'], 'tag' => $p['tag'], 'lead' => $p['lead']]); ?>
+    <?php render_partial('page-hero', ['crumbs' => [['Service areas', $path]], 'kicker' => business()['region'], 'h1' => $p['h1'], 'tag' => $p['tag'], 'lead' => $p['lead']]); ?>
 
     <section class="section" aria-labelledby="finder-title">
         <div class="container">
@@ -37,17 +38,22 @@ render_partial('header');
                 <p class="finder__empty" data-area-empty hidden role="status"><?= e($p['finder_empty']) ?></p>
             </div>
 
-            <?php foreach ($p['zones'] as $zoneKey => $zone): if (empty($byZone[$zoneKey])) { continue; } ?>
-                <div class="zone" data-area-group>
-                    <div class="zone__head">
-                        <h2 class="zone__title"><?= e($zone['title']) ?></h2>
-                        <p><?= e($zone['text']) ?></p>
-                    </div>
-                    <div class="city-grid" data-reveal-group>
-                        <?php foreach ($byZone[$zoneKey] as $loc): ?>
-                            <?php render_partial('city-card', ['location' => $loc]); ?>
-                        <?php endforeach; ?>
-                    </div>
+            <?php foreach (get_states() as $stateKey => $state): if (empty($byStateZone[$stateKey])) { continue; } ?>
+                <div class="state-block" data-area-group>
+                    <h2 class="state-block__title"><?= icon('pin', 'icon') ?> <?= e($state['name']) ?></h2>
+                    <?php foreach ($p['zones'] as $zoneKey => $zone): if (empty($byStateZone[$stateKey][$zoneKey])) { continue; } ?>
+                        <div class="zone" data-area-group>
+                            <div class="zone__head">
+                                <h3 class="zone__title"><?= e($zone['title']) ?></h3>
+                                <p><?= e($zone['text']) ?></p>
+                            </div>
+                            <div class="city-grid" data-reveal-group>
+                                <?php foreach ($byStateZone[$stateKey][$zoneKey] as $loc): ?>
+                                    <?php render_partial('city-card', ['location' => $loc]); ?>
+                                <?php endforeach; ?>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -56,14 +62,17 @@ render_partial('header');
     <section class="section section--tint" aria-labelledby="all-loc-title">
         <div class="container">
             <?php render_partial('section-head', ['kicker' => 'Localities', 'title' => 'Every locality we cover', 'id' => 'all-loc-title']); ?>
-            <div class="loc-columns">
-                <?php foreach (get_all_locations() as $loc): ?>
-                    <div class="loc-col">
-                        <h3 class="loc-col__title"><a href="<?= e(city_url($loc['slug'])) ?>"><?= e(city_display_name($loc)) ?></a></h3>
-                        <p class="loc-col__list"><?= e(implode(' · ', $loc['localities'])) ?></p>
-                    </div>
-                <?php endforeach; ?>
-            </div>
+            <?php foreach (locations_by_state() as $stateKey => $stateLocs): ?>
+                <h3 class="state-group__title"><?= icon('pin', 'icon icon--sm') ?> <?= e(get_states()[$stateKey]['name']) ?></h3>
+                <div class="loc-columns">
+                    <?php foreach ($stateLocs as $loc): ?>
+                        <div class="loc-col">
+                            <h4 class="loc-col__title"><a href="<?= e(city_url($loc['slug'])) ?>"><?= e(city_display_name($loc)) ?></a></h4>
+                            <p class="loc-col__list"><?= e(implode(' · ', $loc['localities'])) ?></p>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+            <?php endforeach; ?>
         </div>
     </section>
 

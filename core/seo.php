@@ -46,8 +46,12 @@ function render_seo_head(array $seo): void
         echo '<link rel="alternate" hreflang="en-IN" href="' . e($canonical) . "\">\n";
     }
 
-    echo '<meta name="geo.region" content="' . e($d['geo_region']) . "\">\n";
-    echo '<meta name="geo.placename" content="' . e($seo['placename'] ?? business()['state']) . "\">\n";
+    // A location page names its own state (IN-AP / IN-TG); pages covering
+    // both states carry no geo.region rather than claiming just one.
+    if (!empty($seo['geo_region'])) {
+        echo '<meta name="geo.region" content="' . e($seo['geo_region']) . "\">\n";
+    }
+    echo '<meta name="geo.placename" content="' . e($seo['placename'] ?? business()['region']) . "\">\n";
     $geo = business()['geo'] ?? null;
     if (!empty($geo['latitude'])) {
         echo '<meta name="geo.position" content="' . e($geo['latitude'] . ';' . $geo['longitude']) . "\">\n";
@@ -67,6 +71,15 @@ function render_seo_head(array $seo): void
     echo '<meta property="og:image:width" content="' . e($d['og_image_width']) . "\">\n";
     echo '<meta property="og:image:height" content="' . e($d['og_image_height']) . "\">\n";
     echo '<meta property="og:image:alt" content="' . e($ogAlt) . "\">\n";
+    // Video watch pages: the clip itself, for link previews that can play it.
+    if (!empty($seo['og_video'])) {
+        $ogVideo = $seo['og_video'];
+        echo '<meta property="og:video" content="' . e(base_url($ogVideo['src'])) . "\">\n";
+        echo '<meta property="og:video:secure_url" content="' . e(base_url($ogVideo['src'])) . "\">\n";
+        echo '<meta property="og:video:type" content="video/mp4">' . "\n";
+        echo '<meta property="og:video:width" content="' . (int) $ogVideo['w'] . "\">\n";
+        echo '<meta property="og:video:height" content="' . (int) $ogVideo['h'] . "\">\n";
+    }
 
     echo '<meta name="twitter:card" content="' . e($d['twitter_card']) . "\">\n";
     echo '<meta name="twitter:title" content="' . e($title) . "\">\n";
@@ -125,6 +138,13 @@ function service_location_title(array $service, array $location, array $content)
     $brand  = SITE_SHORT_NAME;
     $price  = price_label();
     $c = [];
+    // An area of a city: "Invisible Grills in Gachibowli, Hyderabad | Mohika".
+    if (!empty($location['parent']) && ($parent = get_location($location['parent'])) !== null) {
+        $full = $city . ', ' . $parent['name'];
+        $c[] = "{$name} in {$full} – {$content['hook']} | {$brand}";
+        $c[] = "{$name} in {$full} | {$brand}";
+        $c[] = "{$name} in {$full}";
+    }
     if ($nick !== '') {
         if ($price !== '') {
             $c[] = "{$name} in {$city} ({$nick}) – From {$price} | {$brand}";

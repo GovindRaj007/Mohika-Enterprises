@@ -34,15 +34,24 @@ $heroMosaic = $mosaic ?? [];
             <?php if (!empty($lead)): ?>
                 <p class="page-hero__lead" data-hero-rise style="--i:2"><?= rich($lead) ?></p>
             <?php endif; ?>
-            <?php if (!empty($feats)): ?>
+            <?php
+            // Service pages keep their own feature badges, led by the
+            // installation count; other pages show the two proof figures.
+            // $installs = false (supply pages) leaves the installation count out.
+            $heroInstalls = ($installs ?? true) && installs_label() !== '';
+            $heroBadges = !empty($feats)
+                ? array_merge($heroInstalls ? [installs_label() . ' installations'] : [], $feats)
+                : array_map(static fn(array $pp): string => $pp[0] . ' ' . $pp[1], proof_points());
+            ?>
+            <?php if ($heroBadges && ($proof ?? true)): ?>
                 <ul class="badges" data-hero-rise style="--i:3">
-                    <?php foreach ($feats as $heroFeat): ?>
+                    <?php foreach ($heroBadges as $heroFeat): ?>
                         <li><?= icon('check', 'icon icon--sm') ?><?= e($heroFeat) ?></li>
                     <?php endforeach; ?>
                 </ul>
             <?php endif; ?>
             <div class="page-hero__actions" data-hero-rise style="--i:4">
-                <a class="btn btn--cta btn--lg" href="<?= e($quoteHref ?? quote_url()) ?>" data-track="quote-hero"><?= e(business()['offer_short']) ?> <?= icon('arrow', 'icon icon--sm') ?></a>
+                <a class="btn btn--cta btn--lg" href="<?= e($quoteHref ?? quote_url()) ?>" data-track="quote-hero"><?= e($ctaLabel ?? business()['offer_short']) ?> <?= icon('arrow', 'icon icon--sm') ?></a>
                 <?php if (!empty($secondary)): ?>
                     <a class="btn btn--ghost-light btn--lg" href="<?= e($secondary[1]) ?>"><?= e($secondary[0]) ?></a>
                 <?php else: ?>

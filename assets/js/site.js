@@ -212,6 +212,35 @@
       sync();
     });
 
+    /* ── tabs (home service areas: Andhra Pradesh / Telangana) ──────────
+       WAI-ARIA tabs: click or arrow keys / Home / End move between them,
+       only the selected panel shows. Without JS every panel shows, stacked
+       under its own heading (layout.css). */
+    $('[data-tabs]').each(function () {
+      var $root = $(this);
+      var $tabs = $root.find('[data-tab]');
+      var $panels = $root.find('[data-tab-panel]');
+      function select(i, focus) {
+        $tabs.each(function (n) {
+          var on = n === i;
+          $(this).toggleClass('is-active', on).attr({ 'aria-selected': on ? 'true' : 'false', tabindex: on ? '0' : '-1' });
+          $panels.eq(n).toggleClass('is-active', on);
+        });
+        if (focus) { $tabs.eq(i).trigger('focus'); }
+        // The newly shown rail measured 0 wide while hidden: re-check arrows.
+        $(window).trigger('resize');
+      }
+      $tabs.on('click', function () { select($tabs.index(this), false); });
+      $tabs.on('keydown', function (e) {
+        var i = $tabs.index(this), last = $tabs.length - 1, to = null;
+        if (e.key === 'ArrowRight') { to = i === last ? 0 : i + 1; }
+        else if (e.key === 'ArrowLeft') { to = i === 0 ? last : i - 1; }
+        else if (e.key === 'Home') { to = 0; }
+        else if (e.key === 'End') { to = last; }
+        if (to !== null) { e.preventDefault(); select(to, true); }
+      });
+    });
+
     /* ── card carousels (service areas, reviews): prev/next step one
        card; touch and trackpad swipe are native scroll-snap ── */
     $('[data-area-rail]').each(function () {

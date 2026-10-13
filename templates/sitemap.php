@@ -19,6 +19,7 @@ $smMain = [
     ['All services', '/services.php'],
     ['Service areas', '/service-areas.php'],
     ['Gallery', '/gallery.php'],
+    ['Installation videos', '/videos.php'],
     ['About us', '/about-us.php'],
     ['Blog', '/blog.php'],
     ['Contact & free quote', '/contact-us.php'],
@@ -52,12 +53,15 @@ render_partial('header');
                 </nav>
 
                 <nav class="sitemap-group" aria-labelledby="sm-city-title">
-                    <h2 class="sitemap-group__title" id="sm-city-title">Cities we cover</h2>
-                    <ul class="sitemap-list">
-                        <?php foreach (get_all_locations() as $smLoc): ?>
-                            <li><a href="<?= e(city_url($smLoc['slug'])) ?>">Invisible grills &amp; safety nets in <?= e(city_display_name($smLoc)) ?></a></li>
-                        <?php endforeach; ?>
-                    </ul>
+                    <h2 class="sitemap-group__title" id="sm-city-title">Areas we cover</h2>
+                    <?php foreach (locations_by_state() as $smStateKey => $smStateLocs): ?>
+                        <h3 class="sitemap-state"><?= e(get_states()[$smStateKey]['name']) ?></h3>
+                        <ul class="sitemap-list">
+                            <?php foreach ($smStateLocs as $smLoc): ?>
+                                <li><a href="<?= e(city_url($smLoc['slug'])) ?>">Invisible grills &amp; safety nets in <?= e(city_display_name($smLoc)) ?></a></li>
+                            <?php endforeach; ?>
+                        </ul>
+                    <?php endforeach; ?>
                 </nav>
 
                 <?php foreach (get_all_services() as $smSvc):
@@ -65,14 +69,29 @@ render_partial('header');
                     if (!$smCities) { continue; }
                     ?>
                     <nav class="sitemap-group" aria-labelledby="sm-<?= e($smSvc['slug']) ?>">
-                        <h2 class="sitemap-group__title" id="sm-<?= e($smSvc['slug']) ?>"><?= e($smSvc['nav_label']) ?> by city</h2>
-                        <ul class="sitemap-list">
-                            <?php foreach ($smCities as $smLoc): ?>
-                                <li><a href="<?= e(service_location_url($smSvc['slug'], $smLoc['slug'])) ?>"><?= e($smSvc['nav_label']) ?> in <?= e(city_display_name($smLoc)) ?></a></li>
-                            <?php endforeach; ?>
-                        </ul>
+                        <h2 class="sitemap-group__title" id="sm-<?= e($smSvc['slug']) ?>"><?= e($smSvc['nav_label']) ?> by area</h2>
+                        <?php foreach (get_states() as $smStateKey => $smState):
+                            $smInState = array_filter($smCities, static fn(array $l): bool => $l['state'] === $smStateKey);
+                            if (!$smInState) { continue; }
+                            ?>
+                            <h3 class="sitemap-state"><?= e($smState['name']) ?></h3>
+                            <ul class="sitemap-list">
+                                <?php foreach ($smInState as $smLoc): ?>
+                                    <li><a href="<?= e(service_location_url($smSvc['slug'], $smLoc['slug'])) ?>"><?= e($smSvc['nav_label']) ?> in <?= e(city_display_name($smLoc)) ?></a></li>
+                                <?php endforeach; ?>
+                            </ul>
+                        <?php endforeach; ?>
                     </nav>
                 <?php endforeach; ?>
+
+                <nav class="sitemap-group" aria-labelledby="sm-video-title">
+                    <h2 class="sitemap-group__title" id="sm-video-title">Videos</h2>
+                    <ul class="sitemap-list">
+                        <?php foreach (all_videos() as $smVideo): ?>
+                            <li><a href="<?= e(video_url($smVideo['slug'])) ?>"><?= e($smVideo['title']) ?></a></li>
+                        <?php endforeach; ?>
+                    </ul>
+                </nav>
 
                 <?php if (get_all_posts()): ?>
                     <nav class="sitemap-group" aria-labelledby="sm-blog-title">

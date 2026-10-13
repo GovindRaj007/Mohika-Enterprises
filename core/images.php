@@ -118,6 +118,68 @@ function service_main_photo(string $slug): array
  */
 function service_videos(string $slug, bool $homeOnly = false): array
 {
-    $videos = load_data('service-videos')[$slug] ?? [];
+    $videos = array_map(static fn(array $v): array => $v + ['service' => $slug], load_data('service-videos')[$slug] ?? []);
     return $homeOnly ? array_values(array_filter($videos, static fn(array $v): bool => !empty($v['home']))) : $videos;
+}
+
+/**
+ * Every clip, keyed by its watch-page slug, each tagged with its service.
+ */
+function all_videos(): array
+{
+    $all = [];
+    foreach (load_data('service-videos') as $serviceSlug => $videos) {
+        foreach ($videos as $video) {
+            $all[$video['slug']] = $video + ['service' => $serviceSlug];
+        }
+    }
+    return $all;
+}
+
+function video_url(string $slug): string
+{
+    return '/' . $slug . '.php';
+}
+
+/**
+ * The clip's MP4 and poster. Deliberately not cache-busted: the <video>
+ * tag, VideoObject and video sitemap must name the identical URL, or
+ * Google treats them as different videos.
+ */
+function video_src(array $video): string
+{
+    return '/assets/videos/' . $video['file'] . '.mp4';
+}
+
+function video_poster(array $video): string
+{
+    return '/assets/videos/' . $video['file'] . '-poster.webp';
+}
+
+/** ISO 8601 duration (PT1M5S) → seconds, for the video sitemap. */
+function video_seconds(string $iso): int
+{
+    preg_match('/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/', $iso, $m);
+    return (int) ($m[1] ?? 0) * 3600 + (int) ($m[2] ?? 0) * 60 + (int) ($m[3] ?? 0);
+}
+
+/** schema.org VideoObject for a clip — emitted on its watch page only. */
+function video_schema(array $video): array
+{
+    return [
+        '@context'         => 'https://schema.org',
+        '@type'            => 'VideoObject',
+        'name'             => $video['title'],
+        'description'      => $video['description'],
+        'thumbnailUrl'     => [base_url(video_poster($video))],
+        'contentUrl'       => base_url(video_src($video)),
+        'uploadDate'       => $video['date'],
+        'duration'         => $video['duration'],
+        'width'            => $video['w'],
+        'height'           => $video['h'],
+        'inLanguage'       => 'en-IN',
+        'isFamilyFriendly' => true,
+        'mainEntityOfPage' => base_url(video_url($video['slug'])),
+        'publisher'        => ['@id' => base_url('/#business')],
+    ];
 }

@@ -51,9 +51,7 @@ render_partial('header');
     <section class="section" aria-labelledby="cities-title">
         <div class="container">
             <?php render_partial('section-head', ['kicker' => 'Coverage', 'title' => $p['cities_title'], 'id' => 'cities-title']); ?>
-            <div class="city-grid" data-reveal-group>
-                <?php foreach (get_all_locations() as $city) { render_partial('city-card', ['location' => $city]); } ?>
-            </div>
+            <?php render_partial('state-groups', ['locations' => get_all_locations(), 'variant' => 'cards']); ?>
         </div>
     </section>
 

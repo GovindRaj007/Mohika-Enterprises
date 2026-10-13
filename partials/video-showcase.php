@@ -10,9 +10,9 @@
  * $videos (list), $kicker, $title, $note, $id, optional $link [label, href],
  * optional $tint (bool) for the tinted band.
  *
- * Emits a VideoObject for each clip, on whichever page shows it, so the
- * clips can appear in Google video results with their still as thumbnail
- * (the still is a lazy <img>, not a poster attribute — see reel.php).
+ * No VideoObject here: on these pages the clips are supplementary, which
+ * Google will not index. Each clip has its own watch page (reel.php links
+ * to it) carrying the markup — see templates/video.php.
  */
 
 if (!defined('ROOT_DIR')) {
@@ -33,6 +33,7 @@ if (empty($videos)) {
             <?php if (!empty($link)): ?>
                 <p data-reveal><a class="link-arrow" href="<?= e($link[1]) ?>"><?= e($link[0]) ?> <?= icon('arrow', 'icon icon--sm') ?></a></p>
             <?php endif; ?>
+            <p data-reveal><a class="link-arrow" href="/videos.php">All installation videos <?= icon('arrow', 'icon icon--sm') ?></a></p>
         </div>
         <div class="area-rail video-band__rail" data-area-rail data-reveal-group>
             <div class="area-rail__track video-band__reels" tabindex="0" role="region" aria-label="Installation videos — scroll sideways for more" data-area-track>
@@ -45,17 +46,3 @@ if (empty($videos)) {
         </div>
     </div>
 </section>
-<?php
-foreach ($videos as $clip) {
-    json_ld([
-        '@context'     => 'https://schema.org',
-        '@type'        => 'VideoObject',
-        'name'         => $clip['title'],
-        'description'  => $clip['caption'],
-        'thumbnailUrl' => base_url('/assets/videos/' . $clip['file'] . '-poster.webp'),
-        'contentUrl'   => base_url('/assets/videos/' . $clip['file'] . '.mp4'),
-        'uploadDate'   => $clip['date'],
-        'duration'     => $clip['duration'],
-        'publisher'    => ['@id' => base_url('/#business')],
-    ]);
-}

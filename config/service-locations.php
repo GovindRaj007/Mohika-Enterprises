@@ -16,7 +16,8 @@
  *   'material'  the material choice this city's conditions call for
  *   'faqs'      two questions people in this city actually ask
  *
- * One file per service in config/service-locations/, to keep each readable.
+ * One file per service in config/service-locations/, to keep each readable,
+ * plus {service}-telangana.php for the Telangana areas.
  * tools/check-site.php measures every resulting page's share of text that
  * appears nowhere else on the site, and fails below 40 %.
  */
@@ -31,6 +32,11 @@ foreach (array_keys(config_get('services')) as $serviceSlug) {
     $file = __DIR__ . '/service-locations/' . $serviceSlug . '.php';
     if (is_file($file)) {
         $matrix[$serviceSlug] = require $file;
+    }
+    // Telangana areas live beside the Andhra Pradesh cities, one file each.
+    $tgFile = __DIR__ . '/service-locations/' . $serviceSlug . '-telangana.php';
+    if (is_file($tgFile)) {
+        $matrix[$serviceSlug] = ($matrix[$serviceSlug] ?? []) + require $tgFile;
     }
 }
 return $matrix;

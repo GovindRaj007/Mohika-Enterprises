@@ -26,14 +26,8 @@ $schema = [
     'description' => config_get('seo-defaults')['default_description'],
     'telephone'   => $sb['phone_e164'],
     'email'       => $sb['email'],
-    'areaServed'  => array_merge(
-        [['@type' => 'State', 'name' => $sb['state']]],
-        array_values(array_map(static fn(array $l): array => [
-            '@type' => 'City',
-            'name'  => $l['name'],
-            'containedInPlace' => ['@type' => 'State', 'name' => $sb['state']],
-        ], get_all_locations()))
-    ),
+    // Both states, then every city and area nested inside its own state.
+    'areaServed'  => array_merge(states_schema(), array_values(array_map('location_place_schema', get_all_locations()))),
     'knowsAbout'  => array_values(array_map(static fn(array $s): string => $s['nav_label'], get_all_services())),
     'hasOfferCatalog' => [
         '@type' => 'OfferCatalog',
@@ -56,7 +50,7 @@ if (!empty($sb['address'])) {
         '@type'           => 'PostalAddress',
         'streetAddress'   => $sb['address']['street'] ?? '',
         'addressLocality' => $sb['address']['locality'] ?? '',
-        'addressRegion'   => $sb['address']['region'] ?? $sb['state'],
+        'addressRegion'   => $sb['address']['region'] ?? '',
         'postalCode'      => $sb['address']['postal_code'] ?? '',
         'addressCountry'  => 'IN',
     ];

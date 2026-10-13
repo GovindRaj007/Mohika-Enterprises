@@ -154,6 +154,27 @@ function years_label(): string
     return $years ? $years . '+ years' : '';
 }
 
+/**
+ * "3100+", or '' when the figure was not supplied.
+ */
+function installs_label(): string
+{
+    $count = business()['installs_count'] ?? null;
+    return $count ? $count . '+' : '';
+}
+
+/**
+ * The two proof figures, for badges and the hero strip:
+ * [['3100+', 'installations'], ['7+', 'years experience']] — each only when supplied.
+ */
+function proof_points(): array
+{
+    $points = [];
+    if (installs_label() !== '') { $points[] = [installs_label(), 'installations']; }
+    if (!empty(business()['years_experience'])) { $points[] = [business()['years_experience'] . '+', 'years experience']; }
+    return $points;
+}
+
 /* ── URLs ────────────────────────────────────────────────────────────── */
 
 function service_url(string $slug): string
@@ -243,17 +264,84 @@ function services_in_city(string $citySlug): array
 }
 
 /**
- * "Visakhapatnam (Vizag)" where a city has a popular short name.
+ * Full name for headings and titles: "Visakhapatnam (Vizag)" where a city
+ * has a popular short name, "Gachibowli, Hyderabad" for an area of a city.
  */
 function city_display_name(array $location): string
 {
+    if (!empty($location['parent']) && ($parent = get_location($location['parent'])) !== null) {
+        return $location['name'] . ', ' . $parent['name'];
+    }
     return !empty($location['nickname']) ? $location['name'] . ' (' . $location['nickname'] . ')' : $location['name'];
 }
 
-function location_names_sentence(string $conjunction = 'and', bool $short = false): string
+/** Short name for menus, chips and cards: "Vizag", "Gachibowli". */
+function city_short_name(array $location): string
 {
-    $names = array_map(static fn(array $l): string => $short && !empty($l['nickname']) ? $l['nickname'] : $l['name'], get_all_locations());
-    return join_names($names, $conjunction);
+    return !empty($location['nickname']) ? $location['nickname'] : $location['name'];
+}
+
+/* ── states ──────────────────────────────────────────────────────────── */
+
+function get_states(): array
+{
+    return business()['states'];
+}
+
+/** The state record ['name', 'short', 'code'] a location belongs to. */
+function location_state(array $location): array
+{
+    return get_states()[$location['state']] ?? ['name' => business()['region'], 'short' => '', 'code' => ''];
+}
+
+/**
+ * Locations grouped by state, in config order:
+ * ['andhra-pradesh' => [slug => location, …], 'telangana' => […]].
+ */
+function locations_by_state(): array
+{
+    $grouped = array_fill_keys(array_keys(get_states()), []);
+    foreach (get_all_locations() as $slug => $location) {
+        $grouped[$location['state']][$slug] = $location;
+    }
+    return array_filter($grouped);
+}
+
+/**
+ * schema.org place for a location, nested in its state — a City, or for an
+ * area of a city a Place inside that City (Gachibowli → Hyderabad →
+ * Telangana).
+ */
+function location_place_schema(array $location): array
+{
+    $state = ['@type' => 'State', 'name' => location_state($location)['name']];
+    if (!empty($location['parent']) && ($parent = get_location($location['parent'])) !== null) {
+        return ['@type' => 'Place', 'name' => $location['name'], 'containedInPlace' => ['@type' => 'City', 'name' => $parent['name'], 'containedInPlace' => $state]];
+    }
+    return ['@type' => 'City', 'name' => $location['name'], 'containedInPlace' => $state];
+}
+
+/** The two states as schema.org State entities. */
+function states_schema(): array
+{
+    return array_values(array_map(static fn(array $st): array => ['@type' => 'State', 'name' => $st['name']], get_states()));
+}
+
+/** Areas of a city (Gachibowli, Kondapur … for Hyderabad). */
+function child_locations(string $parentSlug): array
+{
+    return array_filter(get_all_locations(), static fn(array $l): bool => ($l['parent'] ?? '') === $parentSlug);
+}
+
+/**
+ * The cities (not the areas within them), joined: "Visakhapatnam, …,
+ * Hyderabad, Secunderabad, Mahbubnagar and Warangal". $state limits it.
+ */
+function location_names_sentence(string $conjunction = 'and', bool $short = false, string $state = ''): string
+{
+    $cities = array_filter(get_all_locations(), static fn(array $l): bool => ($l['parent'] ?? '') === '' && ($state === '' || $l['state'] === $state));
+    $names = array_map(static fn(array $l): string => $short ? city_short_name($l) : $l['name'], $cities);
+    return join_names(array_values($names), $conjunction);
 }
 
 /* ── blog ────────────────────────────────────────────────────────────── */
@@ -276,6 +364,8 @@ function get_post(string $slug): ?array
  */
 function coverage_answer(): string
 {
-    return SITE_SHORT_NAME . ' has local team members in ' . location_names_sentence() . ', covering the localities around each city. '
+    $hydAreas = array_map(static fn(array $l): string => $l['name'], child_locations('hyderabad'));
+    return SITE_SHORT_NAME . ' has local teams across Andhra Pradesh — ' . location_names_sentence('and', false, 'andhra-pradesh') . ' — and Telangana: '
+        . location_names_sentence('and', false, 'telangana') . ', including ' . join_names(array_values($hydAreas)) . ' in the Hyderabad metro. '
         . 'Your local team comes to you for the ' . str_lower(business()['offer']) . ', so call or WhatsApp with your area and we will fix a time.';
 }

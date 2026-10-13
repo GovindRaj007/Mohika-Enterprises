@@ -60,6 +60,11 @@ function route_table(): array
         $table[post_url($slug)] = ['blog-post', ['post' => $post], 'post'];
     }
 
+    // One watch page per installation clip (data/service-videos.php).
+    foreach (all_videos() as $slug => $video) {
+        $table[video_url($slug)] = ['video', ['video' => $video], 'video'];
+    }
+
     foreach (ADS_LANDING_PAGES as $path => $serviceSlug) {
         $service = get_service($serviceSlug);
         if ($service !== null) {
@@ -81,6 +86,20 @@ function redirect_table(): array
     }
 
     $redirects = config_get('routes')['redirects'] ?? [];
+
+    // Retired services (config/routes.php → 'retired'): the service page and
+    // every one of its area pages 301 to the replacement service's pages, so
+    // links and search results that still point at them keep working.
+    foreach (config_get('routes')['retired'] ?? [] as $oldSlug => $newSlug) {
+        $redirects[service_url($oldSlug)] = service_url($newSlug);
+        foreach (get_all_locations() as $citySlug => $location) {
+            $target = get_service_location($newSlug, $citySlug) !== null ? service_location_url($newSlug, $citySlug) : service_url($newSlug);
+            $redirects[service_location_url($oldSlug, $citySlug)] = $target;
+            foreach ($location['alias_slugs'] ?? [] as $alias) {
+                $redirects[service_location_url($oldSlug, $alias)] = $target;
+            }
+        }
+    }
 
     foreach (get_all_locations() as $citySlug => $location) {
         foreach ($location['alias_slugs'] ?? [] as $alias) {

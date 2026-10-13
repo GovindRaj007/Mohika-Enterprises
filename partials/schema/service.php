@@ -1,6 +1,6 @@
 <?php
 /**
- * Service schema for a service page (areaServed = the state + every city
+ * Service schema for a service page (areaServed = both states + every area
  * with a page) or a service × city page ($location set: areaServed narrows
  * to that one city, so the pages describe distinct offerings).
  * $service, $path, optional $location.
@@ -11,13 +11,9 @@ if (!defined('ROOT_DIR')) {
     exit;
 }
 
-$ssState = business()['state'];
 $ssArea = !empty($location)
-    ? ['@type' => 'City', 'name' => $location['name'], 'containedInPlace' => ['@type' => 'State', 'name' => $ssState]]
-    : array_merge(
-        [['@type' => 'State', 'name' => $ssState]],
-        array_values(array_map(static fn(array $l): array => ['@type' => 'City', 'name' => $l['name']], cities_for_service($service['slug'])))
-    );
+    ? location_place_schema($location)
+    : array_merge(states_schema(), array_values(array_map('location_place_schema', cities_for_service($service['slug']))));
 
 [$ssPhoto] = service_main_photo($service['slug']);
 $schema = [

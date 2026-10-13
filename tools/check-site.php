@@ -140,8 +140,10 @@ foreach ($routes as $path => $kind) {
     if (str_length($desc) < 70) { $warn("$path description is short (" . str_length($desc) . ')'); }
     foreach ($xp->query('//img[not(@alt)]') as $img) { $fail("$path image without alt: " . $img->getAttribute('src')); }
     // LCP: the first image in <main> must not be lazy-loaded.
+    // (A watch page's first visual is its <video> and poster, not an <img>.)
     $firstImg = $xp->query('//main//img')->item(0);
-    if ($firstImg && $firstImg->getAttribute('loading') === 'lazy') { $fail("$path first image in <main> is lazy-loaded (hurts LCP)"); }
+    $videoFirst = $firstImg && $xp->query('//main//video[following::img]')->length > 0;
+    if ($firstImg && !$videoFirst && $firstImg->getAttribute('loading') === 'lazy') { $fail("$path first image in <main> is lazy-loaded (hurts LCP)"); }
     if ($kw !== '' && count(explode(',', $kw)) > 12) { $warn("$path has more than 12 meta keywords"); }
     if ($xp->query('//meta[@name="robots" and contains(@content, "noindex")]')->length) { $fail("$path is noindex"); }
 
@@ -205,7 +207,9 @@ $expect = [
     '/Invisible-Grills.php'                    => [301, '/invisible-grills.php'],
     '/invisible-grills-in-vizag.html'          => [301, '/invisible-grills-in-visakhapatnam.html'],
     '/invisible-grills-and-safety-nets-in-vizag.html' => [301, '/invisible-grills-and-safety-nets-in-visakhapatnam.html'],
-    '/pigeon-nets-in-rajamahendravaram.html'   => [301, '/pigeon-nets-in-rajahmundry.html'],
+    '/cricket-nets-in-rajamahendravaram.html'  => [301, '/cricket-nets-in-rajahmundry.html'],
+    '/pigeon-nets-in-guntur.html'              => [301, '/balcony-safety-nets-in-guntur.html'],
+    '/pigeon-nets.php'                         => [301, '/balcony-safety-nets.php'],
     '/services?x=1'                            => [301, '/services.php?x=1'],
     '/no-such-page.php'                        => [404, ''],
     '/invisible-grills-in-chennai.html'        => [404, ''],

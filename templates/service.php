@@ -10,7 +10,9 @@ if (!defined('ROOT_DIR')) {
     exit;
 }
 
-$state  = business()['state'];
+$state  = business()['region'];
+// A supply service (the dealer) shows ordering, not installation, and no installation count.
+$isSupply = ($service['kind'] ?? '') === 'supply';
 $name   = $service['h1'];
 $lower  = str_lower($name);
 $images = service_images($service['slug']);
@@ -40,6 +42,8 @@ render_partial('header');
         'photoLink' => '#photos',
         'quoteHref' => quote_url($service['slug']),
         'waAbout'   => $lower,
+        'installs'  => !$isSupply,
+        'ctaLabel'  => $isSupply ? $service['cta_label'] : null,
     ]); ?>
 
     <section class="section" aria-labelledby="why-svc">
@@ -70,7 +74,7 @@ render_partial('header');
 
     <section class="section section--tint" id="photos" aria-labelledby="photos-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'Our work', 'title' => $name . ' installed in ' . $state . ' homes', 'id' => 'photos-title']); ?>
+            <?php render_partial('section-head', ['kicker' => 'Our work', 'title' => $isSupply ? 'Invisible grill material we supply' : $name . ' installed in ' . $state . ' homes', 'id' => 'photos-title']); ?>
         </div>
         <?php render_partial('gallery-rail', ['items' => $images['gallery'], 'allHref' => '/gallery.php#' . $service['slug']]); ?>
     </section>
@@ -114,21 +118,21 @@ render_partial('header');
                 <h3 class="sub-title" data-reveal>Materials used</h3>
                 <p data-reveal><?= e($service['materials']) ?></p>
             </div>
-            <?php render_partial('spec-card', ['specs' => $service['specs'], 'title' => 'Technical specifications', 'note' => 'Confirmed for your opening on the site visit.']); ?>
+            <?php render_partial('spec-card', ['specs' => $service['specs'], 'title' => $isSupply ? 'Material specifications' : 'Technical specifications', 'note' => $isSupply ? 'Grade and thickness are written on every quotation and invoice.' : 'Confirmed for your opening on the site visit.']); ?>
         </div>
     </section>
 
     <section class="section" aria-labelledby="why-us-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'Why ' . SITE_SHORT_NAME, 'title' => 'Why choose ' . SITE_SHORT_NAME . ' for ' . $lower, 'id' => 'why-us-title']); ?>
-            <?php render_partial('why-us'); ?>
+            <?php render_partial('section-head', ['kicker' => 'Why ' . SITE_SHORT_NAME, 'title' => $isSupply ? 'Why buy invisible grill material from ' . SITE_SHORT_NAME : 'Why choose ' . SITE_SHORT_NAME . ' for ' . $lower, 'id' => 'why-us-title']); ?>
+            <?php render_partial('why-us', $isSupply ? ['items' => $service['why_points']] : []); ?>
         </div>
     </section>
 
     <section class="section section--dark" aria-labelledby="process-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'How it works', 'title' => $name . ' installation process', 'id' => 'process-title']); ?>
-            <?php render_partial('process', ['installText' => $service['install_step_text']]); ?>
+            <?php render_partial('section-head', ['kicker' => 'How it works', 'title' => $isSupply ? 'How to order invisible grill material' : $name . ' installation process', 'id' => 'process-title']); ?>
+            <?php render_partial('process', $isSupply ? ['steps' => $service['process_steps']] : ['installText' => $service['install_step_text']]); ?>
         </div>
     </section>
 
@@ -141,24 +145,20 @@ render_partial('header');
 
     <section class="section section--tint" aria-labelledby="near-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'Service areas', 'title' => $name . ' near me — every city we cover', 'note' => 'Each city page covers what changes about the job there — the weather, the buildings and the localities we fit in.', 'id' => 'near-title']); ?>
-            <ul class="area-links" data-reveal-group>
-                <?php foreach ($cities as $city): ?>
-                    <li data-reveal>
-                        <a class="area-link" href="<?= e(service_location_url($service['slug'], $city['slug'])) ?>">
-                            <span class="area-link__name"><?= e($name) ?> in <?= e(city_display_name($city)) ?></span>
-                            <span class="area-link__meta"><?= e($city['region']) ?></span>
-                            <?= icon('arrow', 'icon icon--sm area-link__arrow') ?>
-                        </a>
-                    </li>
-                <?php endforeach; ?>
-            </ul>
+            <?php render_partial('section-head', ['kicker' => 'Service areas', 'title' => $name . ' near me — every area we cover', 'note' => 'Each city page covers what changes about the job there — the weather, the buildings and the localities we fit in.', 'id' => 'near-title']); ?>
+            <?php render_partial('state-groups', [
+                'locations' => $cities,
+                'variant'   => 'links',
+                'href'      => static fn(array $c): string => service_location_url($service['slug'], $c['slug']),
+                'label'     => static fn(array $c): string => $name . ' in ' . city_display_name($c),
+                'meta'      => static fn(array $c): string => $c['region'],
+            ]); ?>
         </div>
     </section>
 
     <section class="section" aria-labelledby="related-title">
         <div class="container">
-            <?php render_partial('section-head', ['kicker' => 'Also fitted', 'title' => 'Often fitted with ' . $lower, 'id' => 'related-title']); ?>
+            <?php render_partial('section-head', ['kicker' => $isSupply ? 'Related' : 'Also fitted', 'title' => $isSupply ? 'Related services' : 'Often fitted with ' . $lower, 'id' => 'related-title']); ?>
             <div class="svc-grid svc-grid--two" data-reveal-group>
                 <?php foreach ($service['related'] as $relSlug) {
                     if ($rel = get_service($relSlug)) { render_partial('service-card', ['service' => $rel]); }
@@ -167,7 +167,9 @@ render_partial('header');
         </div>
     </section>
 
-    <?php render_partial('cta-band', ['title' => 'Ready for ' . $lower . '? Book a free site visit', 'quoteHref' => quote_url($service['slug']), 'waAbout' => $lower]); ?>
+    <?php render_partial('cta-band', $isSupply
+        ? ['title' => $service['cta_title'], 'text' => $service['cta_text'], 'kicker' => 'Invisible grill material supply', 'button' => $service['cta_label'], 'quoteHref' => quote_url($service['slug']), 'waAbout' => $lower]
+        : ['title' => 'Ready for ' . $lower . '? Book a free site visit', 'quoteHref' => quote_url($service['slug']), 'waAbout' => $lower]); ?>
 </main>
 <?php
 render_partial('schema/service', ['service' => $service, 'path' => $path]);
